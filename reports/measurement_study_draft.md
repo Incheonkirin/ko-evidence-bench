@@ -26,6 +26,7 @@ for steering the work, but they are blocked from headline use until the
 | The largest silver route failure is unsafe policy-clause fallback | `human_context_needed -> policy_clause` drops from 190 to 28 rows | silver diagnostic |
 | Route failures vary by private query cohort | route accuracy range 36.2% - 55.2%; context-needed policy fallback up to 54.1% | silver diagnostic |
 | Real-query substrates need separate stress slices | community contexts avg 835.5 chars with 44.3% long contexts; live-style turns median 17.0 chars with 80.6% short messages; eval queries 94.5% short | substrate diagnostic |
+| Private qrels now have silver intent/surface slices | 544 qid-only rows; top silver family `refund_termination` 47.1%; top surface `formal` 55.9% | silver metadata |
 | Human-gold public headline claim | 0 / 50 paired labels; 0 / 300 adjudicated labels complete | blocked |
 
 ## Retrieval Evidence
@@ -88,6 +89,17 @@ surface-form, normalization, and abstention slices. Long community posts,
 short live-style turns, and cleaned evaluation queries are not the same
 retrieval input distribution.
 
+## Intent/Surface Metadata Evidence
+
+| exported rows | top silver intent family | family share | top surface form | surface share | status |
+|---:|---|---:|---|---:|---|
+| 544 | `refund_termination` | 47.1% | `formal` | 55.9% | silver metadata; needs audit |
+
+The qid-only metadata export lets the same private qrels be sliced by
+intent family, surface form, and trap class without publishing raw text.
+These slices are useful for stress-test design, but still require human
+review before public frequency claims.
+
 ## Claim Control
 
 | gate | current value | required before headline use |
@@ -112,6 +124,7 @@ make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
 make reproduce-normalization-ablation
 make reproduce-intent-inventory
+make reproduce-intent-surface-export
 make reproduce-substrate-profile
 make check-study-readiness
 make verify

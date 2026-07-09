@@ -39,11 +39,11 @@ def completeness_table(counter: dict[str, int], *, total_rows: int) -> list[str]
     return lines
 
 
-def render_report(*, qrels_path: Path, qrels: list[dict], label_status: str) -> str:
+def render_report(*, qrels_path: Path, qrels: list[dict], label_status: str, title: str) -> str:
     inv = aggregate_inventory(qrels)
     n = int(inv["n"])
     lines = [
-        "# Intent-Family Inventory Fixture",
+        f"# {title}",
         "",
         "This report summarizes intent families, source-route labels, surface",
         "conditions, and trap annotations without exposing qids, raw queries,",
@@ -113,10 +113,11 @@ def main() -> None:
     parser.add_argument("--qrels", type=Path, default=ROOT / "fixtures" / "surface_qrels.jsonl")
     parser.add_argument("--out", type=Path, default=ROOT / "reports" / "intent_inventory_fixture.md")
     parser.add_argument("--label-status", default="synthetic fixture metadata")
+    parser.add_argument("--title", default="Intent-Family Inventory Fixture")
     args = parser.parse_args()
 
     qrels = load_jsonl(args.qrels)
-    report = render_report(qrels_path=args.qrels, qrels=qrels, label_status=args.label_status)
+    report = render_report(qrels_path=args.qrels, qrels=qrels, label_status=args.label_status, title=args.title)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(report, encoding="utf-8")
     print(report)

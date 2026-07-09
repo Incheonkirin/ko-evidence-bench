@@ -86,6 +86,7 @@ make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
 make reproduce-normalization-ablation
 make reproduce-intent-inventory
+make reproduce-intent-surface-export
 make reproduce-substrate-profile
 make check-study-readiness
 make build-measurement-study
@@ -128,6 +129,11 @@ regression counts by intent family, surface form, and trap class.
 `make reproduce-intent-inventory` summarizes synthetic intent families, source
 routes, surface conditions, and trap annotations without exposing qids or raw
 query text.
+
+`make reproduce-intent-surface-export` dry-runs the private qrels-to-qid-only
+metadata export on synthetic private-like fixtures. The private version joins
+private qrels with route labels and emits qid-only intent family, surface form,
+trap-class, route, and evidence-id metadata.
 
 `make reproduce-substrate-profile` compares synthetic query substrates using
 aggregate text-shape and intent-signal features. The private version profiles
@@ -214,6 +220,13 @@ turns have materially different length and stress-signal distributions. This is
 why the repo keeps cohort, surface-form, normalization, and abstention slices
 separate instead of treating every text source as one corpus.
 
+The private intent/surface qrel export is summarized at
+`reports/private_intent_surface_export_summary.md`, and the aggregate inventory
+is checked in at `reports/private_intent_inventory_silver.md`. These reports
+show that the 544-row private qrel set can now be sliced by intent family,
+surface form, and trap class without exposing raw text. The labels are still
+silver metadata and require human audit before public frequency claims.
+
 To regenerate those private qid-only route runs with a source map:
 
 ```bash
@@ -222,6 +235,16 @@ python3 scripts/export_route_runs.py \
   --out-dir /path/to/private_route_runs \
   --source-map /path/to/private_source_cohort_map.json \
   --report-out reports/private_route_run_export_summary.md
+```
+
+Private qrels can also be enriched with qid-only intent/surface metadata:
+
+```bash
+python3 scripts/export_intent_surface_qrels.py \
+  --qrels /path/to/private_qrels.jsonl \
+  --route-labels /path/to/private_route_labels.jsonl \
+  --qrels-out /path/to/private_surface_qrels.jsonl \
+  --report-out reports/private_intent_surface_export_summary.md
 ```
 
 To start the human audit gate, build a private audit pack and publish only the
@@ -290,12 +313,16 @@ Private:
 ko_evidence_bench/
   ablation.py         # Run-level rescue/regression comparisons.
   intent_inventory.py # Aggregate intent-family inventory metrics.
+  intent_surface_export.py # Qid-only intent/surface metadata export.
   metrics.py          # Scorecard metrics with bootstrap CIs.
   route_score.py      # Qid-only source-route metrics.
+  substrate_profile.py # Aggregate query-substrate profiling.
   surface.py          # Surface-form robustness metrics.
   schemas.py          # Minimal JSONL schema validators.
 scripts/
   build_intent_inventory.py
+  export_intent_surface_qrels.py
+  profile_query_substrates.py
   reproduce_normalization_ablation.py
   reproduce_table_1.py
   reproduce_route_scorecard.py

@@ -47,6 +47,17 @@ class SubstrateShapeSignal:
 
 
 @dataclass(frozen=True)
+class IntentSurfaceSignal:
+    rows: str
+    top_family: str
+    top_family_count: str
+    top_family_share: str
+    top_surface: str
+    top_surface_count: str
+    top_surface_share: str
+
+
+@dataclass(frozen=True)
 class StudyReportSignals:
     readiness: StudyReadiness
     structural_pack_clause20: MetricWithCi
@@ -66,6 +77,7 @@ class StudyReportSignals:
     community_post_context: SubstrateShapeSignal
     messenger_conversation: SubstrateShapeSignal
     search_eval_query: SubstrateShapeSignal
+    intent_surface_signal: IntentSurfaceSignal
 
 
 def metric_ci(report: str, run: str, metric: str) -> MetricWithCi:
@@ -180,6 +192,36 @@ def substrate_shape_signal(report: str, cohort: str) -> SubstrateShapeSignal:
     )
 
 
+def first_counter_row(report: str, title: str) -> tuple[str, str, str]:
+    pattern = (
+        rf"## {re.escape(title)}\n\n"
+        r"\| value \| count \| share \|\n"
+        r"\|---\|---:\|---:\|\n"
+        r"\| `([^`]+)` \| ([\d,]+) \| ([\d.]+%) \|"
+    )
+    match = re.search(pattern, report)
+    if not match:
+        raise ValueError(f"missing first counter row: {title}")
+    return match.group(1), match.group(2), match.group(3)
+
+
+def intent_surface_signal(report: str) -> IntentSurfaceSignal:
+    rows_match = re.search(r"^- exported qid-only rows: ([\d,]+)$", report, flags=re.MULTILINE)
+    if not rows_match:
+        raise ValueError("missing exported qid-only rows")
+    top_family = first_counter_row(report, "Intent Family Counts")
+    top_surface = first_counter_row(report, "Surface Form Counts")
+    return IntentSurfaceSignal(
+        rows=rows_match.group(1),
+        top_family=top_family[0],
+        top_family_count=top_family[1],
+        top_family_share=top_family[2],
+        top_surface=top_surface[0],
+        top_surface_count=top_surface[1],
+        top_surface_share=top_surface[2],
+    )
+
+
 def points(value: str) -> str:
     return f"+{value}p"
 
@@ -189,6 +231,7 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
     route_scorecard = read(root / "reports" / "private_route_scorecard_silver.md")
     route_cohort_scorecard = read(root / "reports" / "private_route_cohort_scorecard_silver.md")
     substrate_profile = read(root / "reports" / "private_query_substrate_profile.md")
+    intent_surface_export = read(root / "reports" / "private_intent_surface_export_summary.md")
     readiness = load_study_readiness(root)
 
     return StudyReportSignals(
@@ -239,6 +282,7 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
         community_post_context=substrate_shape_signal(substrate_profile, "community_post_context"),
         messenger_conversation=substrate_shape_signal(substrate_profile, "messenger_conversation"),
         search_eval_query=substrate_shape_signal(substrate_profile, "search_eval_query"),
+        intent_surface_signal=intent_surface_signal(intent_surface_export),
     )
 
 
@@ -308,6 +352,14 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"{signals.messenger_conversation.median_chars} chars with "
             f"{signals.messenger_conversation.short_messages} short messages; eval queries "
             f"{signals.search_eval_query.short_messages} short | substrate diagnostic |"
+        ),
+        (
+            "| Private qrels now have silver intent/surface slices | "
+            f"{signals.intent_surface_signal.rows} qid-only rows; top silver family "
+            f"`{signals.intent_surface_signal.top_family}` "
+            f"{signals.intent_surface_signal.top_family_share}; top surface "
+            f"`{signals.intent_surface_signal.top_surface}` "
+            f"{signals.intent_surface_signal.top_surface_share} | silver metadata |"
         ),
         (
             "| Human-gold public headline claim | "
@@ -445,6 +497,23 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "short live-style turns, and cleaned evaluation queries are not the same",
         "retrieval input distribution.",
         "",
+        "## Intent/Surface Metadata Evidence",
+        "",
+        "| exported rows | top silver intent family | family share | top surface form | surface share | status |",
+        "|---:|---|---:|---|---:|---|",
+        (
+            f"| {signals.intent_surface_signal.rows} | "
+            f"`{signals.intent_surface_signal.top_family}` | "
+            f"{signals.intent_surface_signal.top_family_share} | "
+            f"`{signals.intent_surface_signal.top_surface}` | "
+            f"{signals.intent_surface_signal.top_surface_share} | silver metadata; needs audit |"
+        ),
+        "",
+        "The qid-only metadata export lets the same private qrels be sliced by",
+        "intent family, surface form, and trap class without publishing raw text.",
+        "These slices are useful for stress-test design, but still require human",
+        "review before public frequency claims.",
+        "",
         "## Claim Control",
         "",
         "| gate | current value | required before headline use |",
@@ -469,6 +538,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "make reproduce-surface-scorecard",
         "make reproduce-normalization-ablation",
         "make reproduce-intent-inventory",
+        "make reproduce-intent-surface-export",
         "make reproduce-substrate-profile",
         "make check-study-readiness",
         "make verify",

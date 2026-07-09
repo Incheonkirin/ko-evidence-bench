@@ -15,6 +15,8 @@ Status: current private-lab inventory, summarized without raw rows.
 | source-route silver scorecard | 544 rows x 4 runs | scored through qid-only route scorecard with per-source slices |
 | source-route cohort scorecard | 544 rows x 4 runs | scored by generic private query cohort; raw source names hidden |
 | query-substrate profile | 174,434 private input rows | aggregate text-shape and stress-signal profile generated without raw rows |
+| intent/surface qid-only export | 544 rows | private qrels joined with route labels; aggregate summary available |
+| private intent-family inventory | 544 rows | silver intent family, surface form, and trap-class slices generated |
 | source-route human-audit seed | 50 rows | private audit pack generated; not yet labeled |
 | source-route adjudication pack | 300 rows | private audit pack generated; not yet labeled |
 | source-route agreement summary | 50-row seed | generated; currently 0 paired reviewer rows |
@@ -91,6 +93,17 @@ post contexts, cleaned evaluation queries, and live-style conversation turns
 without qids, raw queries, conversation snippets, platform identifiers,
 usernames, URLs, or source file paths. This is substrate evidence for separate
 cohort, surface-form, normalization, and abstention stress slices.
+
+`reports/private_intent_surface_export_summary.md` summarizes a qid-only private
+export that joins private qrels with silver route labels and adds intent family,
+surface form, trap classes, route labels, and evidence ids. The qid-only export
+stays outside this repo because stable ids can link back to private worksets.
+
+`reports/private_intent_inventory_silver.md` runs the same intent-family
+inventory path over that private qid-only export. It verifies that the 544-row
+qrel set can now be sliced by intent family, surface form, route, and trap class
+without raw text. It is still silver metadata and must be audited before public
+frequency claims.
 
 `reports/private_route_audit_pack_summary.md` was generated from a private
 50-row route audit seed. It reports only the sampling distribution. The audit
@@ -233,14 +246,15 @@ scan. The same target is wired into GitHub Actions.
   is ready for messenger/live-query cohorts once those qrels are mapped through
   the same private source-map schema.
 - Surface-form robustness is currently verified on synthetic fixtures. Private
-  qrels need `intent_id` and `surface_form` metadata before a real surface
-  robustness matrix can be reported.
+  qrels now have silver `intent_id` and `surface_form` metadata, but private
+  surface-variant runs are still needed before a real surface robustness matrix
+  can be reported.
 - Normalization ablation is currently verified on synthetic fixtures. Private
   runs need paired raw-surface and normalized outputs over the same qrels before
   rescue/regression claims can be reported.
-- Intent-family inventory is currently verified on synthetic fixtures. Private
-  qrels need audited `intent_family` and `trap_classes` metadata before public
-  frequency or per-family claims can be reported.
+- Intent-family inventory now runs on private silver metadata. It still needs
+  audited `intent_family` and `trap_classes` labels before public frequency or
+  per-family claims can be reported.
 
 ## Next Gate
 

@@ -40,6 +40,7 @@ class AlignmentTest(unittest.TestCase):
         self.assertIn("Real-query substrate inventory", report)
         self.assertIn("Surface-form robustness axis", report)
         self.assertIn("Intent-family inventory axis", report)
+        self.assertIn("private silver inventories", report)
         self.assertIn("Normalization ablation axis", report)
         self.assertIn("lift gate measure", report)
         self.assertIn("Per-source route failure slices", report)

@@ -144,10 +144,12 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
                 and has_text(root / "reports" / "intent_inventory_fixture.md", "Trap-Class Distribution")
                 and has_text(root / "docs" / "schemas.md", "intent_family")
                 and has_text(root / "docs" / "schemas.md", "trap_classes")
+                and has_text(root / "reports" / "private_intent_inventory_silver.md", "Private Intent-Family Inventory")
+                and has_text(root / "reports" / "private_intent_surface_export_summary.md", "exported qid-only rows: 544")
                 else "MISSING"
             ),
-            evidence="intent-family inventory treats surface forms and trap classes as aggregate slices",
-            why_it_matters="This makes intent families the organizing unit, matching the flagship study design.",
+            evidence="fixture and private silver inventories treat intent families, surface forms, and trap classes as aggregate slices",
+            why_it_matters="This moves the flagship design from synthetic slices into the private qid-only qrel path.",
         ),
         AlignmentItem(
             area="Normalization ablation axis",

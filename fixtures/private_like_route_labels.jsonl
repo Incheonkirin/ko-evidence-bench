@@ -1,0 +1,3 @@
+{"qid":"q1","route_gold":"policy_clause","allowed_source_tiers":["policy_clause"],"should_abstain":false,"labeler":"fixture","confidence":"medium","rationale_code":"policy_clause_direct"}
+{"qid":"q2","route_gold":"human_context_needed","allowed_source_tiers":["human_context_needed"],"should_abstain":true,"labeler":"fixture","confidence":"high","rationale_code":"needs_private_contract"}
+{"qid":"q3","route_gold":"product_disclosure","allowed_source_tiers":["product_disclosure","policy_clause"],"should_abstain":false,"labeler":"fixture","confidence":"medium","rationale_code":"product_table_needed"}

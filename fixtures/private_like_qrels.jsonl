@@ -1,0 +1,3 @@
+{"qid":"q1","query":"실비 비급여 도수치료도 보장되나요?","gate_category":"보장범위","intent":"실손 비급여 치료 보장 여부","required_facets":["비급여","실손"],"answer_structure":"policy clause","reason_code":"","needs_contract":false,"gold":[{"passage_id":"p1"}],"expanded_gold":[]}
+{"qid":"q2","query":"고지 안 하면 보험금 못 받나요?","gate_category":"고지의무","intent":"고지의무 위반과 보험금 지급 거절","required_facets":["고지","지급거절"],"answer_structure":"needs context","reason_code":"needs_contract","needs_contract":true,"gold":[],"expanded_gold":[]}
+{"qid":"q3","query":"해지환급금 얼마인지 약관 기준으로 확인","gate_category":"해지환급금","intent":"해지환급금 산정과 상품표 확인","required_facets":["환급","상품표"],"answer_structure":"table lookup","reason_code":"requires_table_value","needs_contract":false,"gold":[{"clause_id":"c3"}],"expanded_gold":[{"passage_id":"p3"}]}

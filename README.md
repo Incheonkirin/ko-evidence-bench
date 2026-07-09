@@ -166,8 +166,9 @@ questions.
 
 The same silver routing comparison is also exported as qid-only route prediction
 runs and scored through `scripts/reproduce_route_scorecard.py`; see
-`reports/private_route_scorecard_silver.md`. This keeps the evaluation path the
-same for silver diagnostics and future human-gold labels.
+`reports/private_route_scorecard_silver.md`. The report includes per-source-tier
+route slices and largest gold/predicted route confusions, keeping the evaluation
+path the same for silver diagnostics and future human-gold labels.
 
 To start the human audit gate, build a private audit pack and publish only the
 sampling summary:

@@ -15,6 +15,8 @@ from ko_evidence_bench.metrics import load_jsonl  # noqa: E402
 from ko_evidence_bench.route_score import (  # noqa: E402
     bootstrap_route_ci,
     paired_route_delta_ci,
+    route_confusion_counts,
+    route_slice_scores,
     score_route_run,
 )
 
@@ -99,6 +101,63 @@ def delta_table(
     return lines
 
 
+def slice_table(runs: dict[str, list[dict[str, Any]]], labels: list[dict[str, Any]]) -> list[str]:
+    lines = [
+        "| system | gold source tier | n | missing | route_acc | abstained_rate | expected_abstain |",
+        "|---|---|---:|---:|---:|---:|---:|",
+    ]
+    for name, rows in runs.items():
+        slices = route_slice_scores(labels, rows)
+        for gold in sorted(slices):
+            score = slices[gold]
+            lines.append(
+                "| "
+                + " | ".join(
+                    [
+                        f"`{name}`",
+                        f"`{gold}`",
+                        str(int(score["n"])),
+                        str(int(score["missing_predictions"])),
+                        pct(score["route_accuracy"]),
+                        pct(score["abstained_rate"]),
+                        pct(score["expected_abstention_rate"]),
+                    ]
+                )
+                + " |"
+            )
+    return lines
+
+
+def confusion_table(
+    runs: dict[str, list[dict[str, Any]]],
+    labels: list[dict[str, Any]],
+    *,
+    limit_per_system: int = 12,
+) -> list[str]:
+    lines = [
+        "| system | gold source tier | predicted source tier | count | share of run |",
+        "|---|---|---|---:|---:|",
+    ]
+    added = 0
+    for name, rows in runs.items():
+        counts = route_confusion_counts(labels, rows)
+        total = sum(counts.values())
+        added_for_system = 0
+        for (gold, pred), count in counts.most_common():
+            if gold == pred:
+                continue
+            lines.append(
+                f"| `{name}` | `{gold}` | `{pred}` | {count} | {pct(count / total if total else 0.0)} |"
+            )
+            added += 1
+            added_for_system += 1
+            if added_for_system >= limit_per_system:
+                break
+    if added == 0:
+        lines.append("| _(none)_ | _(none)_ | _(none)_ | 0 | 0.0% |")
+    return lines
+
+
 def render_report(
     labels: list[dict[str, Any]],
     runs: dict[str, list[dict[str, Any]]],
@@ -135,6 +194,29 @@ def render_report(
         ]
     )
     lines.extend(delta_table(labels, runs, baseline=baseline, samples=samples))
+    lines.extend(
+        [
+            "",
+            "## Route Accuracy By Gold Source Tier",
+            "",
+            "This slice table shows where route selection fails. The same table is",
+            "used for synthetic fixtures, silver diagnostics, and future",
+            "human-adjudicated route labels.",
+            "",
+        ]
+    )
+    lines.extend(slice_table(runs, labels))
+    lines.extend(
+        [
+            "",
+            "## Largest Route Confusions",
+            "",
+            "Rows below exclude correct gold/predicted pairs. They are aggregate",
+            "counts only and do not expose qids or row text.",
+            "",
+        ]
+    )
+    lines.extend(confusion_table(runs, labels))
     lines.extend(
         [
             "",

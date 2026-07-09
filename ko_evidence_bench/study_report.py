@@ -16,6 +16,20 @@ class MetricWithCi:
 
 
 @dataclass(frozen=True)
+class RouteSliceSignal:
+    n: str
+    route_accuracy: str
+    abstained_rate: str
+    expected_abstention_rate: str
+
+
+@dataclass(frozen=True)
+class RouteConfusionSignal:
+    count: str
+    share: str
+
+
+@dataclass(frozen=True)
 class StudyReportSignals:
     readiness: StudyReadiness
     structural_pack_clause20: MetricWithCi
@@ -25,6 +39,8 @@ class StudyReportSignals:
     keyword_route_accuracy: MetricWithCi
     keyword_route_delta: MetricWithCi
     keyword_abstention_recall: MetricWithCi
+    keyword_human_context_slice: RouteSliceSignal
+    keyword_human_context_to_policy: RouteConfusionSignal
 
 
 def metric_ci(report: str, run: str, metric: str) -> MetricWithCi:
@@ -63,6 +79,38 @@ def route_delta_ci(report: str, system: str, metric: str) -> MetricWithCi:
     return MetricWithCi(value=match.group(1), ci=match.group(2).strip())
 
 
+def route_slice_signal(report: str, system: str, gold_route: str) -> RouteSliceSignal:
+    pattern = (
+        rf"\| `{re.escape(system)}` \| `{re.escape(gold_route)}` \| "
+        r"([\d,]+) \| [\d,]+ \| ([\d.]+%) \| ([\d.]+%) \| ([\d.]+%) \|"
+    )
+    match = re.search(pattern, report)
+    if not match:
+        raise ValueError(f"missing route slice row: {system} {gold_route}")
+    return RouteSliceSignal(
+        n=match.group(1),
+        route_accuracy=match.group(2),
+        abstained_rate=match.group(3),
+        expected_abstention_rate=match.group(4),
+    )
+
+
+def route_confusion_signal(
+    report: str,
+    system: str,
+    gold_route: str,
+    predicted_route: str,
+) -> RouteConfusionSignal:
+    pattern = (
+        rf"\| `{re.escape(system)}` \| `{re.escape(gold_route)}` \| "
+        rf"`{re.escape(predicted_route)}` \| ([\d,]+) \| ([\d.]+%) \|"
+    )
+    match = re.search(pattern, report)
+    if not match:
+        raise ValueError(f"missing route confusion row: {system} {gold_route} -> {predicted_route}")
+    return RouteConfusionSignal(count=match.group(1), share=match.group(2))
+
+
 def points(value: str) -> str:
     return f"+{value}p"
 
@@ -92,6 +140,17 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
         keyword_route_accuracy=route_metric_ci(route_scorecard, "query_keyword_router", "route_accuracy"),
         keyword_route_delta=route_delta_ci(route_scorecard, "query_keyword_router", "route_accuracy"),
         keyword_abstention_recall=route_metric_ci(route_scorecard, "query_keyword_router", "abstention_recall"),
+        keyword_human_context_slice=route_slice_signal(
+            route_scorecard,
+            "query_keyword_router",
+            "human_context_needed",
+        ),
+        keyword_human_context_to_policy=route_confusion_signal(
+            route_scorecard,
+            "query_keyword_router",
+            "human_context_needed",
+            "policy_clause",
+        ),
     )
 
 
@@ -134,6 +193,12 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             "| Query-language routing helps but misses most abstention-needed cases | "
             f"route accuracy {signals.keyword_route_accuracy.value}; abstention recall "
             f"{signals.keyword_abstention_recall.value} | silver diagnostic |"
+        ),
+        (
+            "| The largest silver route failure is unsafe policy-clause fallback | "
+            f"`human_context_needed` route accuracy {signals.keyword_human_context_slice.route_accuracy}; "
+            f"{signals.keyword_human_context_to_policy.count} rows still predicted `policy_clause` | "
+            "silver diagnostic |"
         ),
         (
             "| Human-gold public headline claim | "
@@ -183,6 +248,28 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         (
             f"| `query_keyword_router` | `route_accuracy` | "
             f"{points(signals.keyword_route_delta.value)} | {signals.keyword_route_delta.ci} |"
+        ),
+        "",
+        "Silver source-route slices:",
+        "",
+        "| system | gold source tier | n | route accuracy | abstained rate | expected abstention |",
+        "|---|---|---:|---:|---:|---:|",
+        (
+            "| `query_keyword_router` | `human_context_needed` | "
+            f"{signals.keyword_human_context_slice.n} | "
+            f"{signals.keyword_human_context_slice.route_accuracy} | "
+            f"{signals.keyword_human_context_slice.abstained_rate} | "
+            f"{signals.keyword_human_context_slice.expected_abstention_rate} |"
+        ),
+        "",
+        "Largest silver confusion:",
+        "",
+        "| system | gold source tier | predicted source tier | count | share of run |",
+        "|---|---|---|---:|---:|",
+        (
+            "| `query_keyword_router` | `human_context_needed` | `policy_clause` | "
+            f"{signals.keyword_human_context_to_policy.count} | "
+            f"{signals.keyword_human_context_to_policy.share} |"
         ),
         "",
         "## Claim Control",

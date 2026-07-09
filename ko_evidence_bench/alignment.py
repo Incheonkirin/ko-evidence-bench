@@ -67,6 +67,19 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The evaluation path is tested before human-gold labels arrive.",
         ),
         AlignmentItem(
+            area="Per-source route failure slices",
+            status=(
+                "PASS"
+                if has_text(root / "reports" / "route_scorecard_fixture.md", "## Route Accuracy By Gold Source Tier")
+                and has_text(root / "reports" / "route_scorecard_fixture.md", "## Largest Route Confusions")
+                and has_text(root / "reports" / "private_route_scorecard_silver.md", "## Route Accuracy By Gold Source Tier")
+                and has_text(root / "reports" / "measurement_study_draft.md", "Largest silver confusion")
+                else "MISSING"
+            ),
+            evidence="route scorecards expose source-tier slices and largest route confusions",
+            why_it_matters="The study can explain where routing fails, not just report one aggregate number.",
+        ),
+        AlignmentItem(
             area="Human audit workflow",
             status=(
                 "PASS"

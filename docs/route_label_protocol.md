@@ -204,6 +204,12 @@ python3 scripts/reproduce_route_scorecard.py \
   --out reports/private_human_route_scorecard.md
 ```
 
+The route scorecard reports overall route accuracy, abstention behavior,
+per-gold-source route slices, and the largest gold/predicted route confusions.
+Those slice tables are the first place to check whether the system is still
+falling back to policy clauses when another source tier or human context is
+required.
+
 The route run JSONL schema is intentionally small:
 
 ```json

@@ -22,6 +22,7 @@ for steering the work, but they are blocked from headline use until the
 | Cross-text reranking improves clause recovery | `clause@20` 56.4% -> 64.9%; paired delta +8.5%p | silver diagnostic |
 | Always searching policy clauses is a weak source-routing baseline | `always_policy` route accuracy 21.5% | silver diagnostic |
 | Query-language routing helps but misses most abstention-needed cases | route accuracy 31.8%; abstention recall 10.5% | silver diagnostic |
+| The largest silver route failure is unsafe policy-clause fallback | `human_context_needed` route accuracy 10.5%; 190 rows still predicted `policy_clause` | silver diagnostic |
 | Human-gold public headline claim | 0 / 300 adjudicated labels complete | blocked |
 
 ## Retrieval Evidence
@@ -49,6 +50,18 @@ Paired delta vs `always_policy`:
 | candidate | metric | delta | 95% CI |
 |---|---|---:|---:|
 | `query_keyword_router` | `route_accuracy` | +10.3%p | 7.2% - 13.8% |
+
+Silver source-route slices:
+
+| system | gold source tier | n | route accuracy | abstained rate | expected abstention |
+|---|---|---:|---:|---:|---:|
+| `query_keyword_router` | `human_context_needed` | 276 | 10.5% | 10.5% | 100.0% |
+
+Largest silver confusion:
+
+| system | gold source tier | predicted source tier | count | share of run |
+|---|---|---|---:|---:|
+| `query_keyword_router` | `human_context_needed` | `policy_clause` | 190 | 34.9% |
 
 ## Claim Control
 

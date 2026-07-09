@@ -19,6 +19,8 @@ class StudyReportTest(unittest.TestCase):
         self.assertIn("64.9%", report)
         self.assertIn("+8.5%p", report)
         self.assertIn("31.8%", report)
+        self.assertIn("190 rows still predicted `policy_clause`", report)
+        self.assertIn("Silver source-route slices", report)
         self.assertIn("0 / 300 adjudicated labels complete", report)
 
     def test_build_script_check_mode(self):

@@ -7,6 +7,8 @@ from pathlib import Path
 from ko_evidence_bench.route_score import (
     bootstrap_route_ci,
     paired_route_delta_ci,
+    route_confusion_counts,
+    route_slice_scores,
     score_route_run,
 )
 
@@ -48,6 +50,28 @@ class RouteScoreTest(unittest.TestCase):
         self.assertEqual(scores["route_accuracy"], 0.5)
         self.assertEqual(scores["abstention_precision"], 1.0)
         self.assertEqual(scores["abstention_recall"], 1.0)
+
+    def test_route_slice_scores_and_confusions(self):
+        labels = [
+            {"qid": "q1", "route_gold": "policy_clause", "should_abstain": False},
+            {"qid": "q2", "route_gold": "claims_faq", "should_abstain": False},
+            {"qid": "q3", "route_gold": "human_context_needed", "should_abstain": True},
+        ]
+        run = [
+            {"qid": "q1", "route_pred": "policy_clause", "abstained": False},
+            {"qid": "q2", "route_pred": "policy_clause", "abstained": False},
+        ]
+
+        slices = route_slice_scores(labels, run)
+        confusions = route_confusion_counts(labels, run)
+
+        self.assertEqual(slices["policy_clause"]["route_accuracy"], 1.0)
+        self.assertEqual(slices["claims_faq"]["route_accuracy"], 0.0)
+        self.assertEqual(slices["human_context_needed"]["missing_predictions"], 1.0)
+        self.assertEqual(slices["human_context_needed"]["abstained_rate"], 1.0)
+        self.assertEqual(slices["human_context_needed"]["expected_abstention_rate"], 1.0)
+        self.assertEqual(confusions[("claims_faq", "policy_clause")], 1)
+        self.assertEqual(confusions[("human_context_needed", "out_of_scope")], 1)
 
     def test_bootstrap_and_paired_delta(self):
         labels = [
@@ -101,7 +125,10 @@ class RouteScoreTest(unittest.TestCase):
             )
 
             self.assertIn("Route Scorecard Fixture", result.stdout)
-            self.assertIn("`source_routed_demo`", out.read_text(encoding="utf-8"))
+            report = out.read_text(encoding="utf-8")
+            self.assertIn("`source_routed_demo`", report)
+            self.assertIn("Route Accuracy By Gold Source Tier", report)
+            self.assertIn("Largest Route Confusions", report)
 
 
 if __name__ == "__main__":

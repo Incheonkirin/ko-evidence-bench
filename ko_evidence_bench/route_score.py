@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import random
+from collections import Counter
 from typing import Any
 
 from .metrics import percentile_ci
@@ -76,6 +77,89 @@ def score_route_run(labels: list[dict[str, Any]], run_rows: list[dict[str, Any]]
         "abstention_precision": abst_tp / (abst_tp + abst_fp) if (abst_tp + abst_fp) else 0.0,
         "abstention_recall": abst_tp / (abst_tp + abst_fn) if (abst_tp + abst_fn) else 0.0,
     }
+
+
+def route_slice_scores(
+    labels: list[dict[str, Any]],
+    run_rows: list[dict[str, Any]],
+) -> dict[str, dict[str, float]]:
+    """Score route accuracy and abstention behavior by gold source tier."""
+
+    label_by_qid: dict[str, dict[str, Any]] = {}
+    for label in labels:
+        validate_route_label(label)
+        label_by_qid[label["qid"]] = label
+
+    run_by_qid: dict[str, dict[str, Any]] = {}
+    for row in run_rows:
+        validate_route_run(row)
+        run_by_qid[row["qid"]] = row
+
+    counts: dict[str, dict[str, float]] = {}
+    for qid in sorted(label_by_qid):
+        label = label_by_qid[qid]
+        gold = label["route_gold"]
+        run = run_by_qid.get(qid)
+        if run is None:
+            pred = "out_of_scope"
+            abstained = True
+            missing = 1.0
+        else:
+            pred = run["route_pred"]
+            abstained = run["abstained"]
+            missing = 0.0
+
+        row = counts.setdefault(
+            gold,
+            {
+                "n": 0.0,
+                "missing_predictions": 0.0,
+                "route_hits": 0.0,
+                "abstained": 0.0,
+                "should_abstain": 0.0,
+            },
+        )
+        row["n"] += 1.0
+        row["missing_predictions"] += missing
+        row["route_hits"] += 1.0 if pred == gold else 0.0
+        row["abstained"] += 1.0 if abstained else 0.0
+        row["should_abstain"] += 1.0 if label["should_abstain"] else 0.0
+
+    scores: dict[str, dict[str, float]] = {}
+    for gold, row in counts.items():
+        n = row["n"]
+        scores[gold] = {
+            "n": n,
+            "missing_predictions": row["missing_predictions"],
+            "route_accuracy": row["route_hits"] / n if n else 0.0,
+            "abstained_rate": row["abstained"] / n if n else 0.0,
+            "expected_abstention_rate": row["should_abstain"] / n if n else 0.0,
+        }
+    return scores
+
+
+def route_confusion_counts(
+    labels: list[dict[str, Any]],
+    run_rows: list[dict[str, Any]],
+) -> Counter[tuple[str, str]]:
+    """Count gold-route to predicted-route pairs for a qid-only run."""
+
+    label_by_qid: dict[str, dict[str, Any]] = {}
+    for label in labels:
+        validate_route_label(label)
+        label_by_qid[label["qid"]] = label
+
+    run_by_qid: dict[str, dict[str, Any]] = {}
+    for row in run_rows:
+        validate_route_run(row)
+        run_by_qid[row["qid"]] = row
+
+    counts: Counter[tuple[str, str]] = Counter()
+    for qid in sorted(label_by_qid):
+        gold = label_by_qid[qid]["route_gold"]
+        pred = run_by_qid.get(qid, {"route_pred": "out_of_scope"})["route_pred"]
+        counts[(gold, pred)] += 1
+    return counts
 
 
 def bootstrap_route_ci(

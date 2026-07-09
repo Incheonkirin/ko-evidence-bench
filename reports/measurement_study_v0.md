@@ -47,6 +47,8 @@ retrieve the right kind of evidence and abstain when citation is not possible.
 - Source-route review UI: static local CSV editor, no private rows checked in.
 - Source-route workflow dry-run: synthetic CSV export/import/agreement/validation/promotion passes.
 - Source-route scorecard dry-run: synthetic qid-only labels and predictions pass.
+- Source-route private silver scorecard: qid-only private route runs scored
+  through the same route scorecard path.
 - Source-route adjudication validation: `0/300` complete, promotion blocked
   until final labels are filled.
 - Structural pack-only `clause@20`: 56.4% with 95% CI 52.4%-60.5%.

@@ -10,6 +10,8 @@ Status: current private-lab inventory, summarized without raw rows.
 | assembled partial qrels file | 544 rows | pack-only and full cross-rerank scored; CI reports available |
 | source-route silver proxy labels | 544 rows | generated from private qrel metadata; aggregate report available |
 | source-route router baselines | 544 rows | always-policy and query-only router scored on silver labels |
+| source-route qid-only run exports | 544 rows x 2 runs | generated privately; aggregate summary available |
+| source-route silver scorecard | 544 rows x 2 runs | scored through qid-only route scorecard |
 | source-route human-audit seed | 50 rows | private audit pack generated; not yet labeled |
 | source-route adjudication pack | 300 rows | private audit pack generated; not yet labeled |
 | source-route review CSV templates | 50/50/300 rows | private reviewer CSVs generated; not yet filled |
@@ -43,6 +45,14 @@ context. The private qid-only label file is kept outside this public repo.
 `reports/private_route_router_baselines.md` was generated from the same 544-row
 silver labels. It compares `always_policy` against a query-only keyword router
 using aggregate route and abstention metrics with bootstrap CIs.
+
+`reports/private_route_run_export_summary.md` summarizes qid-only route run
+files exported from private qrels. The exported run files stay outside this
+repo because their qids can identify private source rows.
+
+`reports/private_route_scorecard_silver.md` scores those private qid-only route
+runs against silver route labels using the same route scorecard intended for
+future promoted human labels. It is still a diagnostic, not a headline result.
 
 `reports/private_route_audit_pack_summary.md` was generated from a private
 50-row route audit seed. It reports only the sampling distribution. The audit

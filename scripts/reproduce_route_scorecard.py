@@ -107,14 +107,15 @@ def render_report(
     run_dir: Path,
     baseline: str,
     samples: int,
+    title: str,
+    label_status: str,
 ) -> str:
     lines = [
-        "# Route Scorecard Fixture",
+        f"# {title}",
         "",
-        "This report validates the qid-only source-route scoring path on synthetic fixtures.",
-        "It is the public dry-run for promoted private human labels: no raw private query,",
-        "conversation, community, or policy text is needed to score route accuracy and",
-        "abstention behavior.",
+        f"This report validates the qid-only source-route scoring path on {label_status}.",
+        "No raw private query, conversation, community, or policy text is needed to",
+        "score route accuracy and abstention behavior.",
         "",
         "## Inputs",
         "",
@@ -139,9 +140,9 @@ def render_report(
             "",
             "## Interpretation",
             "",
-            "The fixture is intentionally tiny and synthetic. Its purpose is not model quality;",
-            "it proves that qid-only route labels can be scored after the private audit gate",
-            "promotes human-adjudicated labels.",
+            f"These scores use {label_status}. Treat them as diagnostics unless the",
+            "label file is human-adjudicated and validated. The scorecard path is the",
+            "same path intended for promoted private human labels.",
             "",
         ]
     )
@@ -155,6 +156,8 @@ def main() -> None:
     parser.add_argument("--baseline", default="always_policy")
     parser.add_argument("--out", type=Path, default=ROOT / "reports" / "route_scorecard_fixture.md")
     parser.add_argument("--samples", type=int, default=1000)
+    parser.add_argument("--title", default="Route Scorecard Fixture")
+    parser.add_argument("--label-status", default="synthetic fixture labels")
     args = parser.parse_args()
 
     labels = load_jsonl(args.labels)
@@ -169,6 +172,8 @@ def main() -> None:
         run_dir=args.run_dir,
         baseline=args.baseline,
         samples=args.samples,
+        title=args.title,
+        label_status=args.label_status,
     )
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(report, encoding="utf-8")

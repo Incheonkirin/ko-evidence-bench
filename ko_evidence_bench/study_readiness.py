@@ -47,7 +47,7 @@ def require_percent(pattern: str, text: str, *, name: str) -> str:
 
 def load_study_readiness(root: Path) -> StudyReadiness:
     full_cross = read(root / "reports" / "private_544_full_cross_scorecard.md")
-    router = read(root / "reports" / "private_route_router_baselines.md")
+    route_scorecard = read(root / "reports" / "private_route_scorecard_silver.md")
     validation = read(root / "reports" / "private_route_audit_validation_pending.md")
 
     retrieval_n = require_int(r"^- source result n: ([\d,]+)$", full_cross, name="retrieval n")
@@ -57,13 +57,13 @@ def load_study_readiness(root: Path) -> StudyReadiness:
         name="structural_cross_text clause@20",
     )
     always_policy_route_acc = require_percent(
-        r"\| always_policy \| `route_accuracy` \| ([\d.]+%) \|",
-        router,
+        r"\| `always_policy` \| [\d,]+ \| [\d,]+ \| ([\d.]+%) \|",
+        route_scorecard,
         name="always_policy route accuracy",
     )
     keyword_route_acc = require_percent(
-        r"\| query_keyword_router \| `route_accuracy` \| ([\d.]+%) \|",
-        router,
+        r"\| `query_keyword_router` \| [\d,]+ \| [\d,]+ \| ([\d.]+%) \|",
+        route_scorecard,
         name="query keyword route accuracy",
     )
     completed_route_labels = require_int(

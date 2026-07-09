@@ -1,4 +1,4 @@
-.PHONY: test check-public-safety check-study-readiness verify reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard summarize-private-result export-route-labels build-route-audit-pack export-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
+.PHONY: test check-public-safety check-study-readiness verify reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard summarize-private-result export-route-labels export-route-runs build-route-audit-pack export-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
 
 test:
 	python3 -m unittest discover -s tests
@@ -25,6 +25,9 @@ summarize-private-result:
 
 export-route-labels:
 	python3 scripts/export_route_labels.py --qrels "$(QRELS_JSONL)" --labels-out "$(LABELS_OUT)" --report-out reports/private_route_label_summary.md
+
+export-route-runs:
+	python3 scripts/export_route_runs.py --qrels "$(QRELS_JSONL)" --out-dir "$(ROUTE_RUNS_OUT)" --report-out reports/private_route_run_export_summary.md
 
 build-route-audit-pack:
 	python3 scripts/build_route_audit_pack.py --qrels "$(QRELS_JSONL)" --labels "$(LABELS_JSONL)" --audit-out "$(AUDIT_OUT)" --report-out reports/private_route_audit_pack_summary.md

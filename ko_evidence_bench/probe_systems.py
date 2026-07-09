@@ -14,6 +14,13 @@ from .surface import score_surface_run
 
 
 WORD_RE = re.compile(r"[0-9A-Za-z가-힣]+")
+PROBE_SYSTEM_IDS = (
+    "probe_literal_lexical",
+    "probe_normalized_lexical",
+    "probe_semantic_centroid",
+    "probe_hybrid_lexical_semantic",
+    "probe_route_aware_rerank",
+)
 
 SIGNAL_TERMS = [
     "암",
@@ -68,6 +75,90 @@ ROUTE_RULES = [
     ("policy_clause", ("암", "뇌", "심", "비급여", "실손", "실비", "보장")),
 ]
 
+SEMANTIC_CONCEPTS = {
+    "bundled_coverage": (
+        "암",
+        "뇌",
+        "심",
+        "암뇌심",
+        "뇌혈관질환",
+        "심장질환",
+        "진단비",
+        "cancer",
+        "cerebrovascular",
+        "heart",
+        "diagnosis",
+        "bundled",
+    ),
+    "indemnity_noncovered": (
+        "실손",
+        "실비",
+        "실손의료보험",
+        "비급여",
+        "도수치료",
+        "보장 여부",
+        "non-covered",
+        "reimbursed",
+        "treatment",
+    ),
+    "refund_termination": (
+        "해지",
+        "환급금",
+        "해지환급금",
+        "예시표",
+        "산정",
+        "surrender",
+        "refund",
+        "table",
+    ),
+    "claims_process": (
+        "청구",
+        "청구서",
+        "진단서",
+        "영수증",
+        "서류",
+        "claim",
+        "diagnosis document",
+        "receipt",
+    ),
+    "dispute_complaint": (
+        "분쟁",
+        "지급 거절",
+        "거절",
+        "다투",
+        "dispute",
+        "denial",
+        "resolved cases",
+    ),
+    "product_disclosure": (
+        "상품설명서",
+        "소비자",
+        "유의사항",
+        "계약 전",
+        "청약 철회",
+        "product disclosure",
+        "consumer",
+        "before signing",
+    ),
+    "disclosure_duty": (
+        "고지의무",
+        "중요한 인수 질문",
+        "사실대로",
+        "disclosure duty",
+        "underwriting questions",
+        "truthfully",
+    ),
+    "underwriting_context": (
+        "가입 가능",
+        "인수 가능",
+        "과거 치료",
+        "치료 이력",
+        "판단",
+        "accepted",
+        "underwriting",
+    ),
+}
+
 
 @dataclass(frozen=True)
 class ProbeInputs:
@@ -110,11 +201,31 @@ def evidence_text(row: dict[str, Any]) -> str:
     )
 
 
+def semantic_vector(text: str) -> Counter[str]:
+    lowered = expand_surface(text).lower()
+    vector: Counter[str] = Counter()
+    for concept, phrases in SEMANTIC_CONCEPTS.items():
+        for phrase in phrases:
+            if phrase.lower() in lowered:
+                vector[concept] += 1
+    return vector
+
+
+def cosine(left: Counter[str], right: Counter[str]) -> float:
+    if not left or not right:
+        return 0.0
+    dot = sum(left[key] * right.get(key, 0) for key in left)
+    left_norm = math.sqrt(sum(value * value for value in left.values()))
+    right_norm = math.sqrt(sum(value * value for value in right.values()))
+    return dot / (left_norm * right_norm) if left_norm and right_norm else 0.0
+
+
 class BM25Index:
     def __init__(self, evidence: list[dict[str, Any]]) -> None:
         self.evidence = evidence
         self.doc_tokens = [Counter(tokenize(evidence_text(row))) for row in evidence]
         self.doc_lengths = [sum(counter.values()) for counter in self.doc_tokens]
+        self.doc_semantic_vectors = [semantic_vector(evidence_text(row)) for row in evidence]
         self.avgdl = sum(self.doc_lengths) / len(self.doc_lengths) if self.doc_lengths else 0.0
         self.df: Counter[str] = Counter()
         for counter in self.doc_tokens:
@@ -147,12 +258,23 @@ def predict_route(query: str) -> str | None:
 
 
 def run_probe_system(inputs: ProbeInputs, *, system_id: str) -> list[dict[str, Any]]:
-    if system_id not in {"probe_literal_lexical", "probe_normalized_lexical", "probe_route_aware_rerank"}:
+    if system_id not in PROBE_SYSTEM_IDS:
         raise ValueError(f"unknown probe system: {system_id}")
 
     index = BM25Index(inputs.evidence)
     rows: list[dict[str, Any]] = []
-    use_expansion = system_id in {"probe_normalized_lexical", "probe_route_aware_rerank"}
+    use_expansion = system_id in {
+        "probe_normalized_lexical",
+        "probe_semantic_centroid",
+        "probe_hybrid_lexical_semantic",
+        "probe_route_aware_rerank",
+    }
+    use_semantic = system_id in {
+        "probe_semantic_centroid",
+        "probe_hybrid_lexical_semantic",
+        "probe_route_aware_rerank",
+    }
+    use_lexical = system_id != "probe_semantic_centroid"
     use_route = system_id == "probe_route_aware_rerank"
 
     for query in inputs.queries:
@@ -165,11 +287,14 @@ def run_probe_system(inputs: ProbeInputs, *, system_id: str) -> list[dict[str, A
 
         query_text = expand_surface(raw_query) if use_expansion else raw_query
         query_tokens = tokenize(query_text)
+        query_vector = semantic_vector(query_text)
         scored: list[tuple[float, dict[str, Any]]] = []
         for idx, evidence in enumerate(inputs.evidence):
             if use_route and route_hint and evidence["source_tier"] != route_hint:
                 continue
-            score = index.score(query_tokens, idx)
+            lexical_score = index.score(query_tokens, idx) if use_lexical else 0.0
+            semantic_score = cosine(query_vector, index.doc_semantic_vectors[idx]) if use_semantic else 0.0
+            score = lexical_score + (4.0 * semantic_score)
             if use_route and route_hint and evidence["source_tier"] == route_hint:
                 score += 2.0
             scored.append((score, evidence))
@@ -200,7 +325,7 @@ def run_probe_system(inputs: ProbeInputs, *, system_id: str) -> list[dict[str, A
 def build_probe_runs(inputs: ProbeInputs) -> dict[str, list[dict[str, Any]]]:
     return {
         system_id: run_probe_system(inputs, system_id=system_id)
-        for system_id in ("probe_literal_lexical", "probe_normalized_lexical", "probe_route_aware_rerank")
+        for system_id in PROBE_SYSTEM_IDS
     }
 
 

@@ -31,7 +31,7 @@ These are checked-in aggregate diagnostics, not final benchmark claims:
 | cohort-aware route accuracy | 46.9% | silver proxy |
 | Double-label agreement seed | 0 / 50 paired; kappa 0.000 | headline blocked |
 | Adjudicated human route labels | 0 / 300 complete | headline blocked |
-| Full system comparison matrix | 10 / 18 implemented; 7 not run; 1 blocked | headline blocked |
+| Full system comparison matrix | 12 / 20 implemented; 7 not run; 1 blocked | headline blocked |
 
 The generated readiness report is intentionally conservative:
 `reports/study_readiness.md` currently says
@@ -59,10 +59,11 @@ contains query variants, intent-level qrels, and synthetic evidence snippets.
 `reports/probe_privacy_report.md` records the schema and privacy screen for
 that package.
 
-`reports/probe_system_comparison.md` runs three public probe systems over that
-package: literal lexical retrieval, surface-expanded lexical retrieval, and a
-source-route-aware reranker with abstention. This is still a synthetic fixture,
-but it makes the comparison path executable instead of only descriptive.
+`reports/probe_system_comparison.md` runs public probe systems over that
+package: literal lexical retrieval, surface-expanded lexical retrieval,
+dependency-free semantic scoring, hybrid fusion, and a source-route-aware
+reranker with abstention. This is still a synthetic fixture, but it makes the
+comparison path executable instead of only descriptive.
 
 The qualitative example gallery is `reports/qualitative_gallery.md`. It shows
 synthetic side-by-side source-routing failures over the same public probe set.
@@ -258,10 +259,10 @@ artifact. `make verify` checks that it is current.
 synthetic probe package. `make verify` checks that it is current.
 
 `make reproduce-probe-system-comparison` runs the public synthetic probe through
-literal lexical, surface-expanded lexical, and source-route-aware retrieval
-systems. The checked-in report is `reports/probe_system_comparison.md`; it is a
-fixture-system comparison, not the full private analyzer/dense/hybrid/reranker
-matrix.
+literal lexical, surface-expanded lexical, semantic-centroid, hybrid-fusion, and
+source-route-aware retrieval systems. The checked-in report is
+`reports/probe_system_comparison.md`; it is a fixture-system comparison, not the
+full private analyzer/dense/hybrid/reranker matrix.
 
 `make build-qualitative-gallery` regenerates `reports/qualitative_gallery.md`,
 the synthetic side-by-side failure examples used to make the route diagnostics

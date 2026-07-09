@@ -131,12 +131,14 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
                 if (root / "ko_evidence_bench" / "probe_systems.py").exists()
                 and (root / "scripts" / "reproduce_probe_system_comparison.py").exists()
                 and has_text(root / "reports" / "probe_system_comparison.md", "Public Probe System Comparison")
+                and has_text(root / "reports" / "probe_system_comparison.md", "probe_semantic_centroid")
+                and has_text(root / "reports" / "probe_system_comparison.md", "probe_hybrid_lexical_semantic")
                 and has_text(root / "reports" / "probe_system_comparison.md", "probe_route_aware_rerank")
                 and has_text(root / "reports" / "system_matrix.md", "probe_route_aware_rerank")
                 and has_text(root / "Makefile", "check-probe-system-comparison")
                 else "MISSING"
             ),
-            evidence="literal, surface-expanded, and route-aware probe systems run on the same public fixture",
+            evidence="lexical, semantic, hybrid, and route-aware probe systems run on the same public fixture",
             why_it_matters="The public probe is executable evidence, not only a static dataset or dictionary.",
         ),
         AlignmentItem(

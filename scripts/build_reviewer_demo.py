@@ -31,7 +31,7 @@ def render_reviewer_demo(signals: HeroSignals) -> str:
         "| 2 | `reports/hero_signal.md` | Inspect the compact evidence table behind the figure. | Clause recovery, source routing, surface spread, and the human-label gate are visible together. |",
         "| 3 | `reports/claim_ledger.md` | Compare allowed wording with blocked wording. | Diagnostic claims are separated from final benchmark claims. |",
         "| 4 | `probes/ko_evidence_probe_v0/` + `reports/probe_privacy_report.md` | Inspect the public probe package and screen. | The released probes are synthetic, intent-level, and privacy-screened. |",
-        "| 5 | `reports/probe_system_comparison.md` | Check the runnable public systems. | Literal, surface-expanded, and source-route-aware retrieval are compared on the same probe. |",
+        "| 5 | `reports/probe_system_comparison.md` | Check the runnable public systems. | Lexical, semantic, hybrid, and source-route-aware retrieval are compared on the same probe. |",
         "| 6 | `reports/qualitative_gallery.md` | Read concrete side-by-side failure examples. | The route diagnostics are inspectable, not only aggregate tables. |",
         "| 7 | `reports/layer_attribution_fixture.md` | Inspect the failure-layer decomposition hook. | The study can explain where failures accumulate, not only whether a run passed. |",
         "| 8 | `reports/system_matrix.md` | Check which systems are actually backed by evidence. | The full analyzer/dense/hybrid/reranker matrix is explicit and incomplete. |",

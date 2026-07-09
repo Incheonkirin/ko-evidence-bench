@@ -13,12 +13,12 @@ has already been run.
 
 | item | value |
 |---|---:|
-| matrix systems | 18 |
-| implemented systems | 10 |
+| matrix systems | 20 |
+| implemented systems | 12 |
 | not-run systems | 7 |
 | blocked systems | 1 |
 | system families | 10 |
-| implemented diagnostic rows | 2775 |
+| implemented diagnostic rows | 2801 |
 
 ## Matrix
 
@@ -33,6 +33,8 @@ has already been run.
 | `surface_robust_demo` | `surface_fixture` | `fixture` | `implemented` | 8 | `fixture` | `reports/surface_scorecard_fixture.md` |
 | `probe_literal_lexical` | `public_probe_retrieval` | `retrieval` | `implemented` | 13 | `fixture` | `reports/probe_system_comparison.md` |
 | `probe_normalized_lexical` | `public_probe_retrieval` | `retrieval` | `implemented` | 13 | `fixture` | `reports/probe_system_comparison.md` |
+| `probe_semantic_centroid` | `public_probe_retrieval` | `retrieval` | `implemented` | 13 | `fixture` | `reports/probe_system_comparison.md` |
+| `probe_hybrid_lexical_semantic` | `public_probe_retrieval` | `retrieval` | `implemented` | 13 | `fixture` | `reports/probe_system_comparison.md` |
 | `probe_route_aware_rerank` | `public_probe_retrieval` | `reranking` | `implemented` | 13 | `fixture` | `reports/probe_system_comparison.md` |
 | `bm25_nori` | `analyzer_bm25` | `retrieval` | `not_run` | 0 | `missing_for_full_matrix` | `not yet run` |
 | `bm25_kiwi` | `analyzer_bm25` | `retrieval` | `not_run` | 0 | `missing_for_full_matrix` | `not yet run` |

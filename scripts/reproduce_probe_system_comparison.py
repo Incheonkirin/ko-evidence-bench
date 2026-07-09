@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from ko_evidence_bench.probe_systems import (  # noqa: E402
+    PROBE_SYSTEM_IDS,
     build_probe_runs,
     load_probe_inputs,
     score_probe_runs,
@@ -21,7 +22,9 @@ from ko_evidence_bench.probe_systems import (  # noqa: E402
 SYSTEM_LABELS = {
     "probe_literal_lexical": "literal lexical BM25 over synthetic Korean search text",
     "probe_normalized_lexical": "surface-expanded lexical BM25",
-    "probe_route_aware_rerank": "surface expansion plus source-route-aware reranking and abstention",
+    "probe_semantic_centroid": "dependency-free semantic centroid scorer over concept features",
+    "probe_hybrid_lexical_semantic": "lexical BM25 plus semantic concept-score fusion",
+    "probe_route_aware_rerank": "hybrid scoring plus source-route-aware reranking and abstention",
 }
 
 
@@ -60,11 +63,11 @@ def render_report(probe_dir: Path) -> str:
         "",
         "Status: **synthetic probe systems only; not a full private benchmark matrix**.",
         "",
-        "This report runs three small retrieval systems over the public synthetic",
+        "This report runs small retrieval systems over the public synthetic",
         "probe package. It proves that the repository can execute and compare",
-        "surface-fragile, surface-normalized, and source-route-aware systems without",
-        "publishing private queries, conversation snippets, source names, or policy",
-        "text.",
+        "literal lexical, surface-normalized, semantic, hybrid, and source-route-aware",
+        "systems without publishing private queries, conversation snippets, source",
+        "names, or policy text.",
         "",
         "## Inputs",
         "",
@@ -79,7 +82,7 @@ def render_report(probe_dir: Path) -> str:
         "| system | method |",
         "|---|---|",
     ]
-    for system_id in SYSTEM_LABELS:
+    for system_id in PROBE_SYSTEM_IDS:
         lines.append(f"| `{system_id}` | {SYSTEM_LABELS[system_id]} |")
 
     lines.extend(
@@ -117,7 +120,7 @@ def render_report(probe_dir: Path) -> str:
         ]
     )
     any_confusion = False
-    for system_id in SYSTEM_LABELS:
+    for system_id in PROBE_SYSTEM_IDS:
         for (gold, pred), count in sorted(confusions[system_id].items()):
             any_confusion = True
             lines.append(f"| `{system_id}` | `{gold}` | `{pred}` | {count} |")
@@ -130,7 +133,8 @@ def render_report(probe_dir: Path) -> str:
             "## Use Notes",
             "",
             "- This is a runnable public-system comparison, not the private analyzer/dense/hybrid/reranker matrix.",
-            "- The surface-expanded system is intentionally simple; it demonstrates the evaluation path, not a product rewrite engine.",
+            "- The semantic centroid is a dependency-free surrogate for exercising dense-style comparison plumbing; it is not a neural encoder.",
+            "- The hybrid system is intentionally simple; it demonstrates score fusion and source-mixing diagnostics, not a product rewrite engine.",
             "- The route-aware system shows why source selection and abstention must be scored separately from paragraph similarity.",
             "- Private system runs can reuse the same qid-only report shape after human labels are complete.",
             "",

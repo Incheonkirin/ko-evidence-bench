@@ -102,6 +102,28 @@
       "claim_scope": "fixture"
     },
     {
+      "system_id": "probe_semantic_centroid",
+      "family": "public_probe_retrieval",
+      "method": "dependency-free semantic centroid scorer over concept features",
+      "stage": "retrieval",
+      "current_status": "implemented",
+      "label_status": "synthetic_fixture",
+      "evidence": "reports/probe_system_comparison.md",
+      "rows": 13,
+      "claim_scope": "fixture"
+    },
+    {
+      "system_id": "probe_hybrid_lexical_semantic",
+      "family": "public_probe_retrieval",
+      "method": "lexical BM25 plus semantic concept-score fusion",
+      "stage": "retrieval",
+      "current_status": "implemented",
+      "label_status": "synthetic_fixture",
+      "evidence": "reports/probe_system_comparison.md",
+      "rows": 13,
+      "claim_scope": "fixture"
+    },
+    {
       "system_id": "probe_route_aware_rerank",
       "family": "public_probe_retrieval",
       "method": "surface expansion plus source-route-aware reranking and abstention",

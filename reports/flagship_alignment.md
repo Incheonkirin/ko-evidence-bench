@@ -16,7 +16,7 @@ headline claims.
 | Qid-only route scorecard path | `PASS` | private silver runs are scored through the same path as future human labels | The evaluation path is tested before human-gold labels arrive. |
 | Per-source route failure slices | `PASS` | route scorecards expose source-tier slices and largest route confusions | The study can explain where routing fails, not just report one aggregate number. |
 | Query-cohort route slices | `PASS` | source-map cohort scorecards compare query substrates without raw source names | The study can test whether failures differ across real query cohorts. |
-| Cohort-aware routing baseline | `PASS` | cohort-aware router is exported, scored, and summarized as a silver diagnostic | The repo shows a measured routing improvement, not only an evaluation shell. |
+| Cohort-aware routing baseline | `PASS` | cohort-aware router is exported, scored, and guarded by a silver lift gate | The repo shows a measured routing improvement, not only an evaluation shell. |
 | Human audit workflow | `PASS` | review UI plus synthetic audit workflow dry-run | The remaining work is label production, not missing audit plumbing. |
 | Human-label progress gate | `PASS` | 300-row brief, priority batch, merge dry-run, progress, and CSV validation are summarized without raw rows | The remaining human task can be prioritized, started, merged, and tracked before import. |
 | Human-gold route labels | `BLOCKED` | 0/300 adjudicated labels complete; 300 validation errors | This is the required gate before public headline claims. |

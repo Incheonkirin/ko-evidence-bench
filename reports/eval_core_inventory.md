@@ -10,6 +10,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | assembled partial qrels file | 544 rows | pack-only and full cross-rerank scored; CI reports available |
 | source-route silver proxy labels | 544 rows | generated from private qrel metadata; aggregate report available |
 | source-route router baselines | 544 rows x 4 systems | always-policy, query-keyword, risk-aware, and cohort-aware routers scored on silver labels |
+| source-route router lift gate | aggregate silver reports | cohort-aware routing lift is checked for drift before public claims |
 | source-route qid-only run exports | 544 rows x 4 runs | generated privately; aggregate summary available |
 | source-route silver scorecard | 544 rows x 4 runs | scored through qid-only route scorecard with per-source slices |
 | source-route cohort scorecard | 544 rows x 4 runs | scored by generic private query cohort; raw source names hidden |
@@ -56,6 +57,11 @@ silver labels. It compares `always_policy`, query-keyword, risk-aware, and
 cohort-aware routers using aggregate route and abstention metrics with bootstrap
 CIs. The cohort-aware router uses generic query cohorts from a private source
 map, not raw source names.
+
+`reports/private_router_lift_gate.md` checks that the cohort-aware router keeps
+its silver diagnostic lift over the query-keyword baseline and does not regress
+on the largest context-needed policy-clause fallback. It is a drift gate only;
+it does not promote silver labels into human-gold claims.
 
 `reports/private_route_run_export_summary.md` summarizes qid-only route run
 files exported from private qrels for all four router variants. The exported run

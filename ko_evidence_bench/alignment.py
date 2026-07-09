@@ -99,11 +99,12 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
                 "PASS"
                 if has_text(root / "ko_evidence_bench" / "route_router.py", "cohort_aware_query_route")
                 and has_text(root / "reports" / "private_route_router_baselines.md", "cohort_aware_query_router")
+                and has_text(root / "reports" / "private_router_lift_gate.md", "Status: **PASS**")
                 and has_text(root / "reports" / "measurement_study_draft.md", "+25.4%p")
                 and has_text(root / "reports" / "private_route_run_export_summary.md", "systems: 4")
                 else "MISSING"
             ),
-            evidence="cohort-aware router is exported, scored, and summarized as a silver diagnostic",
+            evidence="cohort-aware router is exported, scored, and guarded by a silver lift gate",
             why_it_matters="The repo shows a measured routing improvement, not only an evaluation shell.",
         ),
         AlignmentItem(

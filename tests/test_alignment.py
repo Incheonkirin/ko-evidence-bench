@@ -31,6 +31,7 @@ class AlignmentTest(unittest.TestCase):
         self.assertIn("Per-source route failure slices", report)
         self.assertIn("Query-cohort route slices", report)
         self.assertIn("Cohort-aware routing baseline", report)
+        self.assertIn("silver lift gate", report)
         self.assertIn("CSV validation", report)
         self.assertIn("source-route labels are still silver", report)
 

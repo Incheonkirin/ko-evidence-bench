@@ -77,6 +77,16 @@ class RuntimeSurfaceSignal:
 
 
 @dataclass(frozen=True)
+class AuditCoverageSignal:
+    audit_rows: str
+    matched_rows: str
+    route_coverage: str
+    intent_coverage: str
+    surface_coverage: str
+    trap_coverage: str
+
+
+@dataclass(frozen=True)
 class StudyReportSignals:
     readiness: StudyReadiness
     structural_pack_clause20: MetricWithCi
@@ -102,6 +112,7 @@ class StudyReportSignals:
     cohort_aware_route_surface: RouteSurfaceSignal
     structural_pack_runtime_surface: RuntimeSurfaceSignal
     structural_cross_text_runtime_surface: RuntimeSurfaceSignal
+    audit_coverage: AuditCoverageSignal
 
 
 def metric_ci(report: str, run: str, metric: str) -> MetricWithCi:
@@ -281,6 +292,29 @@ def runtime_surface_signal(report: str, system: str) -> RuntimeSurfaceSignal:
     )
 
 
+def audit_coverage_axis(report: str, axis: str) -> str:
+    pattern = rf"\| `{re.escape(axis)}` \| ([\d,]+) \| ([\d,]+) \| 0 \| [\d,]+ \| [\d,]+ \| `PASS` \|"
+    match = re.search(pattern, report)
+    if not match:
+        raise ValueError(f"missing complete audit coverage axis: {axis}")
+    return f"{match.group(2)} / {match.group(1)}"
+
+
+def audit_coverage_signal(report: str) -> AuditCoverageSignal:
+    audit_rows = re.search(r"^- audit rows: ([\d,]+)$", report, flags=re.MULTILINE)
+    matched_rows = re.search(r"^- matched audit rows: ([\d,]+)$", report, flags=re.MULTILINE)
+    if not audit_rows or not matched_rows:
+        raise ValueError("missing audit coverage row counts")
+    return AuditCoverageSignal(
+        audit_rows=audit_rows.group(1),
+        matched_rows=matched_rows.group(1),
+        route_coverage=audit_coverage_axis(report, "route_gold"),
+        intent_coverage=audit_coverage_axis(report, "intent_family"),
+        surface_coverage=audit_coverage_axis(report, "surface_form"),
+        trap_coverage=audit_coverage_axis(report, "trap_classes"),
+    )
+
+
 def points(value: str) -> str:
     return f"+{value}p"
 
@@ -293,6 +327,7 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
     intent_surface_export = read(root / "reports" / "private_intent_surface_export_summary.md")
     route_surface_scorecard = read(root / "reports" / "private_route_surface_scorecard_silver.md")
     runtime_surface_scorecard = read(root / "reports" / "private_runtime_surface_scorecard_silver.md")
+    audit_surface_coverage = read(root / "reports" / "private_audit_surface_coverage_300.md")
     readiness = load_study_readiness(root)
 
     return StudyReportSignals(
@@ -352,6 +387,7 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
             runtime_surface_scorecard,
             "structural_cross_text",
         ),
+        audit_coverage=audit_coverage_signal(audit_surface_coverage),
     )
 
 
@@ -441,6 +477,14 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"answerable clause@20 {signals.structural_cross_text_runtime_surface.answerable_clause20}; "
             f"worst surface {signals.structural_cross_text_runtime_surface.worst_surface_clause20} | "
             "silver runtime diagnostic |"
+        ),
+        (
+            "| Human audit workset covers the stress axes before labeling | "
+            f"{signals.audit_coverage.matched_rows} matched rows; route "
+            f"{signals.audit_coverage.route_coverage}, intent "
+            f"{signals.audit_coverage.intent_coverage}, surface "
+            f"{signals.audit_coverage.surface_coverage}, trap "
+            f"{signals.audit_coverage.trap_coverage} values covered | workset diagnostic |"
         ),
         (
             "| Human-gold public headline claim | "
@@ -651,6 +695,24 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "runtime-surface diagnostics above to separate retrieval-hit failures",
         "from source-route failures.",
         "",
+        "## Human Audit Coverage",
+        "",
+        "| audit rows | matched rows | route values | intent-family values | surface-form values | trap-class values | status |",
+        "|---:|---:|---:|---:|---:|---:|---|",
+        (
+            f"| {signals.audit_coverage.audit_rows} | "
+            f"{signals.audit_coverage.matched_rows} | "
+            f"{signals.audit_coverage.route_coverage} | "
+            f"{signals.audit_coverage.intent_coverage} | "
+            f"{signals.audit_coverage.surface_coverage} | "
+            f"{signals.audit_coverage.trap_coverage} | coverage only; labels incomplete |"
+        ),
+        "",
+        "This confirms the private 300-row human audit workset covers every",
+        "silver route, intent-family, surface-form, and trap-class value used by",
+        "the diagnostics. It does not remove the human-label gate: reviewers still",
+        "need to complete independent labels, agreement, adjudication, and validation.",
+        "",
         "## Claim Control",
         "",
         "| gate | current value | required before headline use |",
@@ -675,6 +737,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "make reproduce-surface-scorecard",
         "make reproduce-route-surface-scorecard",
         "make reproduce-runtime-surface-scorecard",
+        "make check-audit-surface-coverage",
         "make reproduce-normalization-ablation",
         "make reproduce-intent-inventory",
         "make reproduce-intent-surface-export",

@@ -86,6 +86,7 @@ make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
 make reproduce-route-surface-scorecard
 make reproduce-runtime-surface-scorecard
+make check-audit-surface-coverage
 make reproduce-normalization-ablation
 make reproduce-intent-inventory
 make reproduce-intent-surface-export
@@ -132,6 +133,10 @@ class, separating source-route failures from retrieval-hit failures.
 runtime retrieval hit booleans. It reports whether `clause@20` and `exact@20`
 vary by intent family, surface form, and trap class without publishing raw qids,
 evidence ids, or text.
+
+`make check-audit-surface-coverage` verifies that a human-audit workset covers
+the same route, intent-family, surface-form, and trap-class axes used by the
+diagnostic reports before reviewers spend time labeling it.
 
 `make reproduce-normalization-ablation` compares a raw-surface baseline run
 against a normalized/expanded candidate run and reports aggregate rescue and
@@ -250,6 +255,12 @@ qid-only surface metadata with private runtime hit booleans. On the silver
 diagnostic set, `structural_cross_text` reaches `clause@20 = 64.9%`,
 `answerable_clause@20 = 71.3%`, and `worst_surface_clause@20 = 44.4%` without
 publishing raw ranked evidence ids.
+
+The private audit coverage report is checked in at
+`reports/private_audit_surface_coverage_300.md`. It confirms that the 300-row
+human-audit workset covers all checked silver axes: 6/6 source routes, 9/9
+intent families, 4/4 surface forms, and 10/10 trap classes. This is coverage
+only; labels are still incomplete.
 
 To regenerate those private qid-only route runs with a source map:
 

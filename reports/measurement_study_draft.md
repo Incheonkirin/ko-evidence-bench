@@ -29,6 +29,7 @@ for steering the work, but they are blocked from headline use until the
 | Private qrels now have silver intent/surface slices | 544 qid-only rows; top silver family `refund_termination` 47.1%; top surface `formal` 55.9% | silver metadata |
 | Route decisions can now be scored by surface condition | cohort-aware route-only worst surface 22.2%; missing metadata 0 | silver route diagnostic |
 | Ranked retrieval hits can now be sliced by surface condition | `structural_cross_text` clause@20 64.9%; answerable clause@20 71.3%; worst surface 44.4% | silver runtime diagnostic |
+| Human audit workset covers the stress axes before labeling | 300 matched rows; route 6 / 6, intent 9 / 9, surface 4 / 4, trap 10 / 10 values covered | workset diagnostic |
 | Human-gold public headline claim | 0 / 50 paired labels; 0 / 300 adjudicated labels complete | blocked |
 
 ## Retrieval Evidence
@@ -126,6 +127,17 @@ abstention robustness across surface conditions. Pair it with the
 runtime-surface diagnostics above to separate retrieval-hit failures
 from source-route failures.
 
+## Human Audit Coverage
+
+| audit rows | matched rows | route values | intent-family values | surface-form values | trap-class values | status |
+|---:|---:|---:|---:|---:|---:|---|
+| 300 | 300 | 6 / 6 | 9 / 9 | 4 / 4 | 10 / 10 | coverage only; labels incomplete |
+
+This confirms the private 300-row human audit workset covers every
+silver route, intent-family, surface-form, and trap-class value used by
+the diagnostics. It does not remove the human-label gate: reviewers still
+need to complete independent labels, agreement, adjudication, and validation.
+
 ## Claim Control
 
 | gate | current value | required before headline use |
@@ -150,6 +162,7 @@ make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
 make reproduce-route-surface-scorecard
 make reproduce-runtime-surface-scorecard
+make check-audit-surface-coverage
 make reproduce-normalization-ablation
 make reproduce-intent-inventory
 make reproduce-intent-surface-export

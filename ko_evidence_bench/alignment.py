@@ -292,6 +292,20 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The remaining human task can be prioritized, started, merged, and tracked before import.",
         ),
         AlignmentItem(
+            area="Human-audit coverage gate",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "audit_coverage.py").exists()
+                and (root / "scripts" / "check_audit_surface_coverage.py").exists()
+                and has_text(root / "reports" / "audit_surface_coverage_fixture.md", "Status: **PASS**")
+                and has_text(root / "reports" / "private_audit_surface_coverage_300.md", "Status: **PASS**")
+                and has_text(root / "reports" / "measurement_study_draft.md", "Human Audit Coverage")
+                else "MISSING"
+            ),
+            evidence="300-row private audit workset covers route, intent-family, surface-form, and trap-class axes",
+            why_it_matters="The human-gold workset must preserve the Fable surface/intent design before reviewers spend time.",
+        ),
+        AlignmentItem(
             area="Human-gold route labels",
             status="PASS" if readiness.headline_ready else "BLOCKED",
             evidence=(

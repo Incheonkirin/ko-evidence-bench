@@ -19,6 +19,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | source-route priority review batch | 50-row private CSV | generated; aggregate-only batch summary checked in |
 | source-route batch merge dry-run | 50-row private CSV | generated; current batch has 0 label updates |
 | source-route review progress gate | 300-row CSV | generated; currently 0 complete rows |
+| source-route review CSV validation | 300-row CSV and 50-row priority batch | generated; currently fails completion gate |
 | source-route review UI | static local HTML | generated; no private data checked in |
 | route-audit workflow fixture | 3 synthetic rows | end-to-end dry-run passes |
 | route-only scorecard fixture | 6 synthetic rows | qid-only route scoring path passes |
@@ -82,6 +83,12 @@ public repo because they contain raw private query/context fields.
 of the private 300-row adjudication CSV. It reports field fill rates and error
 counts without qids, raw queries, context, or reviewer notes.
 
+`reports/private_route_review_csv_validation_300_adjudicated.md` validates the
+same private 300-row adjudication CSV before import or promotion. It confirms
+that required reviewer columns exist, but all 300 rows still lack final route
+labels, allowed source tiers, abstention flags, confidence, rationale codes, and
+labeler ids.
+
 `reports/private_route_review_brief_300_adjudicated.md` summarizes the same
 workset as a reviewer brief, including aggregate priority counts and required
 fields. It is aggregate-only and contains no row text.
@@ -89,6 +96,10 @@ fields. It is aggregate-only and contains no row text.
 `reports/private_route_review_batch_priority_50_summary.md` summarizes a private
 50-row priority batch selected from the 300-row adjudication CSV. The private
 batch CSV stays outside this repo because it contains row text.
+
+`reports/private_route_review_csv_validation_priority_50.md` validates that
+priority batch before import. The batch currently has 0 complete rows, matching
+the merge dry-run.
 
 `reports/private_route_review_batch_merge_priority_50_summary.md` summarizes
 merging the private priority batch back into the full 300-row review CSV. The
@@ -135,6 +146,8 @@ scan. The same target is wired into GitHub Actions.
   agreement metric exists yet.
 - Reviewer-editable CSV templates exist, but no completed reviewer import has
   been performed yet.
+- Reviewer CSV validation exists and fails as intended on the current unfilled
+  300-row adjudication CSV.
 - A local static review UI exists, but no reviewed CSV has been imported yet.
 - The full route-audit workflow is verified only on synthetic fixtures; private
   human labels are still pending.

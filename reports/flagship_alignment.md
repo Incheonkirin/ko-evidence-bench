@@ -15,7 +15,7 @@ headline claims.
 | README signal drift guard | `PASS` | scripts/sync_readme_signals.py --check | The first-screen numbers are generated from checked-in evidence. |
 | Qid-only route scorecard path | `PASS` | private silver runs are scored through the same path as future human labels | The evaluation path is tested before human-gold labels arrive. |
 | Human audit workflow | `PASS` | review UI plus synthetic audit workflow dry-run | The remaining work is label production, not missing audit plumbing. |
-| Human-label progress gate | `PASS` | 300-row brief, priority batch, merge dry-run, and progress are summarized without raw rows | The remaining human task can be prioritized, started, merged, and tracked before import. |
+| Human-label progress gate | `PASS` | 300-row brief, priority batch, merge dry-run, progress, and CSV validation are summarized without raw rows | The remaining human task can be prioritized, started, merged, and tracked before import. |
 | Human-gold route labels | `BLOCKED` | 0/300 adjudicated labels complete; 300 validation errors | This is the required gate before public headline claims. |
 | Public/private boundary | `PASS` | data statement plus public-safety scan | The private logs ground the work without leaking raw rows. |
 | CI verification | `PASS` | make verify in GitHub Actions | The repo continuously checks reports, claims, fixtures, and safety. |

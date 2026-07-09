@@ -25,6 +25,7 @@ class AlignmentTest(unittest.TestCase):
         report = render_alignment_report(load_alignment_items(ROOT))
 
         self.assertIn("Overall status: **NO-GO FOR HEADLINE CLAIMS**", report)
+        self.assertIn("CSV validation", report)
         self.assertIn("source-route labels are still silver", report)
 
     def test_build_script_check_mode(self):

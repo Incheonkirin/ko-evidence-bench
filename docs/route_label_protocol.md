@@ -130,6 +130,22 @@ python3 scripts/merge_route_review_batch.py \
 python3 scripts/check_route_review_progress.py \
   --csv /path/to/private_reviewer_a.csv \
   --report-out reports/private_route_review_progress.md
+
+python3 scripts/validate_route_review_csv.py \
+  --csv /path/to/private_reviewer_a.csv \
+  --report-out reports/private_route_review_csv_validation.md
+```
+
+Before import, run the same CSV validation with `--require-complete`. This is
+the pre-promotion guard: it should fail until every row has a valid
+`route_gold`, `allowed_source_tiers`, `should_abstain`, `confidence`,
+`rationale_code`, and `labeler`.
+
+```bash
+python3 scripts/validate_route_review_csv.py \
+  --csv /path/to/private_reviewer_a.csv \
+  --report-out reports/private_route_review_csv_validation.md \
+  --require-complete
 ```
 
 Then import the reviewed CSV back into a private audit pack:

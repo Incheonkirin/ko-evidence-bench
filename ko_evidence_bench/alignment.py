@@ -20,6 +20,13 @@ def has_text(path: Path, needle: str) -> bool:
     return path.exists() and needle in read(path)
 
 
+def has_all_text(path: Path, needles: list[str]) -> bool:
+    if not path.exists():
+        return False
+    text = read(path)
+    return all(needle in text for needle in needles)
+
+
 def load_alignment_items(root: Path) -> list[AlignmentItem]:
     readiness = load_study_readiness(root)
     return [
@@ -54,6 +61,63 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             ),
             evidence="scripts/sync_readme_signals.py --check",
             why_it_matters="The first-screen numbers are generated from checked-in evidence.",
+        ),
+        AlignmentItem(
+            area="Dictionary scope guard",
+            status=(
+                "PASS"
+                if has_all_text(
+                    root / "README.md",
+                    [
+                        "This is not an insurance advice system, a chatbot, or a Korean dictionary.",
+                        "retrieval evaluation workbench",
+                    ],
+                )
+                else "MISSING"
+            ),
+            evidence="README scope statement rejects a dictionary-first framing",
+            why_it_matters="The flagship has to be a measurement artifact, not a user-dictionary repo.",
+        ),
+        AlignmentItem(
+            area="Multi-source evidence frame",
+            status=(
+                "PASS"
+                if has_all_text(
+                    root / "docs" / "route_label_protocol.md",
+                    [
+                        "`policy_clause`",
+                        "`product_disclosure`",
+                        "`official_consumer_info`",
+                        "`claims_faq`",
+                        "`dispute_case`",
+                        "`expert_answer`",
+                        "`human_context_needed`",
+                    ],
+                )
+                and has_text(root / "README.md", "source tier")
+                and has_text(root / "reports" / "measurement_study_draft.md", "source-specific evidence")
+                else "MISSING"
+            ),
+            evidence="route protocol and study draft model multiple citable source tiers",
+            why_it_matters="The benchmark tests evidence routing, not only policy-clause recall.",
+        ),
+        AlignmentItem(
+            area="Real-query substrate inventory",
+            status=(
+                "PASS"
+                if has_all_text(
+                    root / "README.md",
+                    [
+                        "derived real-user query candidates from community crawls",
+                        "messenger-conversation messages",
+                        "community Q&A archive rows",
+                    ],
+                )
+                and has_text(root / "reports" / "private_route_cohort_scorecard_silver.md", "query cohort")
+                else "MISSING"
+            ),
+            evidence="README aggregates private query substrates and cohort scorecards compare them generically",
+            why_it_matters="The study is grounded in real query distributions without exposing private source names.",
         ),
         AlignmentItem(
             area="Qid-only route scorecard path",

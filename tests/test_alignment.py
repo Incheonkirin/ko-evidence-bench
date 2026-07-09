@@ -16,6 +16,9 @@ class AlignmentTest(unittest.TestCase):
         statuses = {item.area: item.status for item in items}
 
         self.assertEqual(statuses["Report-first artifact"], "PASS")
+        self.assertEqual(statuses["Dictionary scope guard"], "PASS")
+        self.assertEqual(statuses["Multi-source evidence frame"], "PASS")
+        self.assertEqual(statuses["Real-query substrate inventory"], "PASS")
         self.assertEqual(statuses["Qid-only route scorecard path"], "PASS")
         self.assertEqual(statuses["Per-source route failure slices"], "PASS")
         self.assertEqual(statuses["Query-cohort route slices"], "PASS")
@@ -28,6 +31,9 @@ class AlignmentTest(unittest.TestCase):
         report = render_alignment_report(load_alignment_items(ROOT))
 
         self.assertIn("Overall status: **NO-GO FOR HEADLINE CLAIMS**", report)
+        self.assertIn("Dictionary scope guard", report)
+        self.assertIn("Multi-source evidence frame", report)
+        self.assertIn("Real-query substrate inventory", report)
         self.assertIn("Per-source route failure slices", report)
         self.assertIn("Query-cohort route slices", report)
         self.assertIn("Cohort-aware routing baseline", report)

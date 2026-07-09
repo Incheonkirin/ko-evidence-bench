@@ -13,6 +13,9 @@ headline claims.
 | Generated finding table | `PASS` | finding candidates are generated from aggregate reports | Reviewers see numbers and claim controls before framework plumbing. |
 | Claim-control gate | `PASS` | study readiness is NO-GO | The repo refuses to promote silver diagnostics as final benchmark claims. |
 | README signal drift guard | `PASS` | scripts/sync_readme_signals.py --check | The first-screen numbers are generated from checked-in evidence. |
+| Dictionary scope guard | `PASS` | README scope statement rejects a dictionary-first framing | The flagship has to be a measurement artifact, not a user-dictionary repo. |
+| Multi-source evidence frame | `PASS` | route protocol and study draft model multiple citable source tiers | The benchmark tests evidence routing, not only policy-clause recall. |
+| Real-query substrate inventory | `PASS` | README aggregates private query substrates and cohort scorecards compare them generically | The study is grounded in real query distributions without exposing private source names. |
 | Qid-only route scorecard path | `PASS` | private silver runs are scored through the same path as future human labels | The evaluation path is tested before human-gold labels arrive. |
 | Per-source route failure slices | `PASS` | route scorecards expose source-tier slices and largest route confusions | The study can explain where routing fails, not just report one aggregate number. |
 | Query-cohort route slices | `PASS` | source-map cohort scorecards compare query substrates without raw source names | The study can test whether failures differ across real query cohorts. |

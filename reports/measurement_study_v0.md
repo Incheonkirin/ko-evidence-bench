@@ -1,6 +1,16 @@
 # Measurement Study v0
 
-Status: fixture-only draft.
+Status: superseded by generated draft.
+
+The current aggregate-only report is generated at
+`reports/measurement_study_draft.md` via:
+
+```bash
+make build-measurement-study
+```
+
+This file remains as the planning note for what the generated draft must prove
+before public headline use.
 
 ## Finding to Validate
 

@@ -1,4 +1,4 @@
-.PHONY: test check-public-safety check-study-readiness check-readme-signals verify reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard summarize-private-result export-route-labels export-route-runs build-route-audit-pack export-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
+.PHONY: test check-public-safety check-study-readiness check-readme-signals build-measurement-study check-measurement-study verify reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard summarize-private-result export-route-labels export-route-runs build-route-audit-pack export-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
 
 test:
 	python3 -m unittest discover -s tests
@@ -12,7 +12,13 @@ check-study-readiness:
 check-readme-signals:
 	python3 scripts/sync_readme_signals.py --check
 
-verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard check-study-readiness check-readme-signals check-public-safety
+build-measurement-study:
+	python3 scripts/build_measurement_study.py --out reports/measurement_study_draft.md
+
+check-measurement-study:
+	python3 scripts/build_measurement_study.py --out reports/measurement_study_draft.md --check
+
+verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard check-study-readiness check-readme-signals check-measurement-study check-public-safety
 
 reproduce-table-1:
 	python3 scripts/reproduce_table_1.py

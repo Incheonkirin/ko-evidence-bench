@@ -13,6 +13,9 @@ This is the public shell of a private search lab. It contains metrics, schemas,
 fixtures, and reports. It does not contain community crawls, messenger exports,
 or copyrighted policy corpora.
 
+The current aggregate-only study draft is
+`reports/measurement_study_draft.md`.
+
 ## Current Verified Signals
 
 <!-- BEGIN: current-verified-signals -->
@@ -76,6 +79,7 @@ make reproduce-table-1
 make reproduce-route-audit-workflow
 make reproduce-route-scorecard
 make check-study-readiness
+make build-measurement-study
 make verify
 ```
 
@@ -104,6 +108,9 @@ for private-source leakage indicators.
 `reports/study_readiness.md` from aggregate reports. The command fails only if
 the required evidence cannot be parsed; the report itself may correctly say
 `NO-GO` while human labels are incomplete.
+
+`make build-measurement-study` regenerates the aggregate-only study draft from
+checked-in reports. `make verify` checks that the committed draft is current.
 
 Private retrieval exports with query-level hit booleans can be summarized without
 publishing qids or text:
@@ -236,6 +243,7 @@ fixtures/
 reports/
   eval_core_inventory.md
   measurement_study_v0.md
+  measurement_study_draft.md
   route_audit_workflow_fixture.md
   route_scorecard_fixture.md
   private_route_scorecard_silver.md

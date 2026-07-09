@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520" role="img" aria-label="Diagnostic signal heatmap">
+<rect width="980" height="520" fill="#f7f8fb"/>
+<text x="36" y="54" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#172033">ko-evidence-bench diagnostic signals</text>
+<text x="36" y="86" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="400" fill="#4a5568">Aggregate diagnostics only; human-gold headline claims are blocked.</text>
+<rect x="36" y="124" width="430" height="140" rx="8" fill="#68a357"/>
+<text x="54" y="158" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Clause recovery</text>
+<text x="54" y="206" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff">56.4% -&gt; 64.9%</text>
+<text x="54" y="242" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="500" fill="#eef2f7">+8.5%p paired; CI 5.9% - 11.2%</text>
+<rect x="514" y="124" width="430" height="140" rx="8" fill="#c49a2c"/>
+<text x="532" y="158" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Source routing</text>
+<text x="532" y="206" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff">21.5% -&gt; 46.9%</text>
+<text x="532" y="242" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="500" fill="#eef2f7">+25.4%p paired; CI 19.3% - 31.2%</text>
+<rect x="36" y="304" width="430" height="140" rx="8" fill="#c49a2c"/>
+<text x="54" y="338" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Surface robustness</text>
+<text x="54" y="386" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff">worst surface 44.4%</text>
+<text x="54" y="422" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="500" fill="#eef2f7">20.5%p gap vs overall clause@20</text>
+<rect x="514" y="304" width="430" height="140" rx="8" fill="#6b7280"/>
+<text x="532" y="338" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Claim-control gate</text>
+<text x="532" y="386" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff">0/300 labels</text>
+<text x="532" y="422" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="500" fill="#eef2f7">0/50 paired; kappa 0.000</text>
+<text x="36" y="482" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="400" fill="#4a5568">n=544 silver rows. Public headline use waits for zero validation errors; current errors=300.</text>
+</svg>

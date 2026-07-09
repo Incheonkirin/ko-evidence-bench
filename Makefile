@@ -1,4 +1,4 @@
-.PHONY: test check-public-safety check-study-readiness check-readme-signals check-router-lift check-surface-lift build-measurement-study check-measurement-study build-alignment-report check-alignment-report verify reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile summarize-private-result export-route-labels export-intent-surface-qrels export-route-runs build-route-audit-pack export-route-review-csv build-route-review-brief build-route-review-batch merge-route-review-batch check-route-review-progress validate-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
+.PHONY: test check-public-safety check-study-readiness check-readme-signals check-router-lift check-surface-lift build-hero-signal check-hero-signal build-measurement-study check-measurement-study build-alignment-report check-alignment-report verify reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile summarize-private-result export-route-labels export-intent-surface-qrels export-route-runs build-route-audit-pack export-route-review-csv build-route-review-brief build-route-review-batch merge-route-review-batch check-route-review-progress validate-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
 
 test:
 	python3 -m unittest discover -s tests
@@ -18,6 +18,12 @@ check-router-lift:
 check-surface-lift:
 	python3 scripts/check_surface_lift.py --out reports/surface_lift_gate.md --check
 
+build-hero-signal:
+	python3 scripts/build_hero_signal.py --report-out reports/hero_signal.md --figure-out reports/figures/diagnostic_signal_heatmap.svg
+
+check-hero-signal:
+	python3 scripts/build_hero_signal.py --report-out reports/hero_signal.md --figure-out reports/figures/diagnostic_signal_heatmap.svg --check
+
 build-measurement-study:
 	python3 scripts/build_measurement_study.py --out reports/measurement_study_draft.md
 
@@ -30,7 +36,7 @@ build-alignment-report:
 check-alignment-report:
 	python3 scripts/build_alignment_report.py --out reports/flagship_alignment.md --check
 
-verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile check-study-readiness check-readme-signals check-router-lift check-surface-lift check-measurement-study check-alignment-report check-public-safety
+verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile check-study-readiness check-readme-signals check-router-lift check-surface-lift check-hero-signal check-measurement-study check-alignment-report check-public-safety
 
 reproduce-table-1:
 	python3 scripts/reproduce_table_1.py

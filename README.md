@@ -39,6 +39,14 @@ double-label seed and 300-row human route-label workset are completed
 and validated.
 <!-- END: current-verified-signals -->
 
+## Diagnostic Figure
+
+![Diagnostic signal heatmap](reports/figures/diagnostic_signal_heatmap.svg)
+
+The generated hero report is `reports/hero_signal.md`. It compresses the
+current aggregate diagnostics into one first-screen signal while keeping the
+human-gold claim gate visible.
+
 ## What This Evaluates
 
 The scorecard treats retrieval as more than "did we find a similar paragraph?"
@@ -93,6 +101,7 @@ make reproduce-intent-inventory
 make reproduce-intent-surface-export
 make reproduce-substrate-profile
 make check-study-readiness
+make build-hero-signal
 make build-measurement-study
 make build-alignment-report
 make verify
@@ -170,6 +179,10 @@ for private-source leakage indicators.
 `reports/study_readiness.md` from aggregate reports. The command fails only if
 the required evidence cannot be parsed; the report itself may correctly say
 `NO-GO` while human labels are incomplete.
+
+`make build-hero-signal` regenerates `reports/hero_signal.md` and
+`reports/figures/diagnostic_signal_heatmap.svg`, the diagnostic figure used in
+the README. `make verify` checks that both artifacts are current.
 
 `make build-measurement-study` regenerates the aggregate-only study draft from
 checked-in reports. `make verify` checks that the committed draft is current.
@@ -364,6 +377,7 @@ ko_evidence_bench/
   schemas.py          # Minimal JSONL schema validators.
 scripts/
   build_intent_inventory.py
+  build_hero_signal.py
   export_intent_surface_qrels.py
   profile_query_substrates.py
   reproduce_human_gold_rehearsal.py
@@ -384,6 +398,7 @@ fixtures/
 reports/
   eval_core_inventory.md
   flagship_alignment.md
+  hero_signal.md
   human_gold_rehearsal_fixture.md
   intent_inventory_fixture.md
   measurement_study_v0.md

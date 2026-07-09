@@ -11,12 +11,13 @@ headline claims.
 |---|---|---|---|
 | Report-first artifact | `PASS` | reports/measurement_study_draft.md | The study is the product; code is the reproduction apparatus. |
 | Generated finding table | `PASS` | finding candidates are generated from aggregate reports | Reviewers see numbers and claim controls before framework plumbing. |
+| Hero diagnostic figure | `PASS` | README hero figure and report are generated from aggregate diagnostics | The first screen leads with memorable findings while keeping the claim gate visible. |
 | Claim-control gate | `PASS` | study readiness is NO-GO | The repo refuses to promote silver diagnostics as final benchmark claims. |
 | README signal drift guard | `PASS` | scripts/sync_readme_signals.py --check | The first-screen numbers are generated from checked-in evidence. |
 | Dictionary scope guard | `PASS` | README scope statement rejects a dictionary-first framing | The flagship has to be a measurement artifact, not a user-dictionary repo. |
 | Multi-source evidence frame | `PASS` | route protocol and study draft model multiple citable source tiers | The benchmark tests evidence routing, not only policy-clause recall. |
 | Real-query substrate inventory | `PASS` | README aggregates private query substrates and cohort scorecards compare them generically | The study is grounded in real query distributions without exposing private source names. |
-| Surface-form robustness axis | `PASS` | surface-form scorecard and lift gate measure same-intent robustness across phrasing conditions | This implements the Fable axis about intent fragmentation, not token dictionaries. |
+| Surface-form robustness axis | `PASS` | surface-form scorecard and lift gate measure same-intent robustness across phrasing conditions | This implements the intent-fragmentation axis, not token dictionaries. |
 | Route-surface diagnostic axis | `PASS` | route-only scorecard slices source-route and abstention behavior by surface, intent family, and trap class | The study can separate surface-conditioned routing failures from retrieval-hit failures. |
 | Runtime-surface retrieval-hit axis | `PASS` | runtime hit booleans are sliced by surface form, intent family, and trap class without raw evidence ids | This moves surface robustness from fixture-only demos into actual retrieval-hit diagnostics. |
 | Intent-family inventory axis | `PASS` | fixture and private silver inventories treat intent families, surface forms, and trap classes as aggregate slices | This moves the flagship design from synthetic slices into the private qid-only qrel path. |
@@ -28,7 +29,7 @@ headline claims.
 | Cohort-aware routing baseline | `PASS` | cohort-aware router is exported, scored, and guarded by a silver lift gate | The repo shows a measured routing improvement, not only an evaluation shell. |
 | Human audit workflow | `PASS` | review UI plus synthetic audit workflow dry-run | The remaining work is label production, not missing audit plumbing. |
 | Human-label progress gate | `PASS` | 300-row brief, priority batch, merge dry-run, progress, and CSV validation are summarized without raw rows | The remaining human task can be prioritized, started, merged, and tracked before import. |
-| Human-audit coverage gate | `PASS` | 300-row private audit workset covers route, intent-family, surface-form, and trap-class axes | The human-gold workset must preserve the Fable surface/intent design before reviewers spend time. |
+| Human-audit coverage gate | `PASS` | 300-row private audit workset covers route, intent-family, surface-form, and trap-class axes | The human-gold workset must preserve the surface/intent design before reviewers spend time. |
 | Human-gold promotion rehearsal | `PASS` | synthetic completed labels validate, promote, and feed route plus route-surface scorecards | Once real labels are finished, the remaining path to measurement-study scorecards is already rehearsed. |
 | Human-gold route labels | `BLOCKED` | 0/50 paired labels; kappa 0.000; 0/300 adjudicated labels complete; 300 validation errors | Agreement quality and adjudicated coverage are required before public headline claims. |
 | Public/private boundary | `PASS` | data statement plus public-safety scan | The private logs ground the work without leaking raw rows. |

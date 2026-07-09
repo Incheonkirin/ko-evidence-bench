@@ -47,6 +47,20 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="Reviewers see numbers and claim controls before framework plumbing.",
         ),
         AlignmentItem(
+            area="Hero diagnostic figure",
+            status=(
+                "PASS"
+                if (root / "scripts" / "build_hero_signal.py").exists()
+                and has_text(root / "README.md", "reports/figures/diagnostic_signal_heatmap.svg")
+                and has_text(root / "reports" / "hero_signal.md", "Status: **diagnostic only")
+                and has_text(root / "reports" / "figures" / "diagnostic_signal_heatmap.svg", "diagnostic signals")
+                and has_text(root / "Makefile", "check-hero-signal")
+                else "MISSING"
+            ),
+            evidence="README hero figure and report are generated from aggregate diagnostics",
+            why_it_matters="The first screen leads with memorable findings while keeping the claim gate visible.",
+        ),
+        AlignmentItem(
             area="Claim-control gate",
             status="PASS" if (root / "reports" / "study_readiness.md").exists() else "MISSING",
             evidence=f"study readiness is {readiness.status}",
@@ -132,7 +146,7 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
                 else "MISSING"
             ),
             evidence="surface-form scorecard and lift gate measure same-intent robustness across phrasing conditions",
-            why_it_matters="This implements the Fable axis about intent fragmentation, not token dictionaries.",
+            why_it_matters="This implements the intent-fragmentation axis, not token dictionaries.",
         ),
         AlignmentItem(
             area="Route-surface diagnostic axis",
@@ -303,7 +317,7 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
                 else "MISSING"
             ),
             evidence="300-row private audit workset covers route, intent-family, surface-form, and trap-class axes",
-            why_it_matters="The human-gold workset must preserve the Fable surface/intent design before reviewers spend time.",
+            why_it_matters="The human-gold workset must preserve the surface/intent design before reviewers spend time.",
         ),
         AlignmentItem(
             area="Human-gold promotion rehearsal",

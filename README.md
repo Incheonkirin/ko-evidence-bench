@@ -86,6 +86,7 @@ make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
 make reproduce-normalization-ablation
 make reproduce-intent-inventory
+make reproduce-substrate-profile
 make check-study-readiness
 make build-measurement-study
 make build-alignment-report
@@ -127,6 +128,11 @@ regression counts by intent family, surface form, and trap class.
 `make reproduce-intent-inventory` summarizes synthetic intent families, source
 routes, surface conditions, and trap annotations without exposing qids or raw
 query text.
+
+`make reproduce-substrate-profile` compares synthetic query substrates using
+aggregate text-shape and intent-signal features. The private version profiles
+community post contexts, cleaned evaluation queries, and live-style conversation
+turns without publishing raw rows or source identifiers.
 
 `make verify` runs tests, reproduction commands, and a public-safety scan
 for private-source leakage indicators.
@@ -200,6 +206,13 @@ The private query-cohort scorecard is checked in at
 `reports/private_route_cohort_scorecard_silver.md`. It groups private sources
 through a generic source map and reports cohort-level route accuracy, abstention
 recall, and context-needed policy fallback without raw source names.
+
+The private query-substrate profile is checked in at
+`reports/private_query_substrate_profile.md`. It shows that the private lab's
+community post contexts, cleaned evaluation queries, and live-style conversation
+turns have materially different length and stress-signal distributions. This is
+why the repo keeps cohort, surface-form, normalization, and abstention slices
+separate instead of treating every text source as one corpus.
 
 To regenerate those private qid-only route runs with a source map:
 

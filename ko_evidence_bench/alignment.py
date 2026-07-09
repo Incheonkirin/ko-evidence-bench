@@ -202,6 +202,19 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The study can test whether failures differ across real query cohorts.",
         ),
         AlignmentItem(
+            area="Query-substrate profile",
+            status=(
+                "PASS"
+                if (root / "scripts" / "profile_query_substrates.py").exists()
+                and (root / "reports" / "substrate_profile_fixture.md").exists()
+                and (root / "reports" / "private_query_substrate_profile.md").exists()
+                and has_text(root / "reports" / "measurement_study_draft.md", "Query Substrate Evidence")
+                else "MISSING"
+            ),
+            evidence="aggregate shape profile compares community post contexts, cleaned eval queries, and live-style conversation turns",
+            why_it_matters="The study shows why query cohorts need different stress slices instead of treating all text as one corpus.",
+        ),
+        AlignmentItem(
             area="Cohort-aware routing baseline",
             status=(
                 "PASS"

@@ -1,4 +1,4 @@
-.PHONY: test check-public-safety check-study-readiness check-readme-signals check-router-lift check-surface-lift build-measurement-study check-measurement-study build-alignment-report check-alignment-report verify reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-normalization-ablation reproduce-intent-inventory summarize-private-result export-route-labels export-route-runs build-route-audit-pack export-route-review-csv build-route-review-brief build-route-review-batch merge-route-review-batch check-route-review-progress validate-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
+.PHONY: test check-public-safety check-study-readiness check-readme-signals check-router-lift check-surface-lift build-measurement-study check-measurement-study build-alignment-report check-alignment-report verify reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-normalization-ablation reproduce-intent-inventory reproduce-substrate-profile summarize-private-result export-route-labels export-route-runs build-route-audit-pack export-route-review-csv build-route-review-brief build-route-review-batch merge-route-review-batch check-route-review-progress validate-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
 
 test:
 	python3 -m unittest discover -s tests
@@ -30,7 +30,7 @@ build-alignment-report:
 check-alignment-report:
 	python3 scripts/build_alignment_report.py --out reports/flagship_alignment.md --check
 
-verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-normalization-ablation reproduce-intent-inventory check-study-readiness check-readme-signals check-router-lift check-surface-lift check-measurement-study check-alignment-report check-public-safety
+verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-normalization-ablation reproduce-intent-inventory reproduce-substrate-profile check-study-readiness check-readme-signals check-router-lift check-surface-lift check-measurement-study check-alignment-report check-public-safety
 
 reproduce-table-1:
 	python3 scripts/reproduce_table_1.py
@@ -52,6 +52,9 @@ reproduce-normalization-ablation:
 
 reproduce-intent-inventory:
 	python3 scripts/build_intent_inventory.py --out reports/intent_inventory_fixture.md
+
+reproduce-substrate-profile:
+	python3 scripts/profile_query_substrates.py --source community_post:fixtures/substrates/community_posts.jsonl:jsonl:title,body --source messenger_turn:fixtures/substrates/messenger_turns.csv:csv:Message --out reports/substrate_profile_fixture.md --title "Query Substrate Profile Fixture" --label-status "synthetic query-substrate fixture"
 
 summarize-private-result:
 	python3 scripts/summarize_hit_result.py --result "$(RESULT_JSON)" --baseline "$(BASELINE)" --out reports/private_aggregate_scorecard.md

@@ -36,6 +36,17 @@ class CohortRouteSignal:
 
 
 @dataclass(frozen=True)
+class SubstrateShapeSignal:
+    input_rows: str
+    usable_rows: str
+    avg_chars: str
+    median_chars: str
+    short_messages: str
+    long_contexts: str
+    question_like: str
+
+
+@dataclass(frozen=True)
 class StudyReportSignals:
     readiness: StudyReadiness
     structural_pack_clause20: MetricWithCi
@@ -52,6 +63,9 @@ class StudyReportSignals:
     keyword_human_context_to_policy: RouteConfusionSignal
     cohort_aware_human_context_to_policy: RouteConfusionSignal
     cohort_route_signal: CohortRouteSignal
+    community_post_context: SubstrateShapeSignal
+    messenger_conversation: SubstrateShapeSignal
+    search_eval_query: SubstrateShapeSignal
 
 
 def metric_ci(report: str, run: str, metric: str) -> MetricWithCi:
@@ -147,6 +161,25 @@ def cohort_route_signal(report: str, system: str) -> CohortRouteSignal:
     )
 
 
+def substrate_shape_signal(report: str, cohort: str) -> SubstrateShapeSignal:
+    pattern = (
+        rf"\| `{re.escape(cohort)}` \| ([\d,]+) \| ([\d,]+) \| [\d.]+% \| "
+        r"([\d.]+) \| ([\d.]+) \| [\d.]+ \| ([\d.]+%) \| ([\d.]+%) \| ([\d.]+%) \|"
+    )
+    match = re.search(pattern, report)
+    if not match:
+        raise ValueError(f"missing substrate profile row: {cohort}")
+    return SubstrateShapeSignal(
+        input_rows=match.group(1),
+        usable_rows=match.group(2),
+        avg_chars=match.group(3),
+        median_chars=match.group(4),
+        short_messages=match.group(5),
+        long_contexts=match.group(6),
+        question_like=match.group(7),
+    )
+
+
 def points(value: str) -> str:
     return f"+{value}p"
 
@@ -155,6 +188,7 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
     full_cross = read(root / "reports" / "private_544_full_cross_scorecard.md")
     route_scorecard = read(root / "reports" / "private_route_scorecard_silver.md")
     route_cohort_scorecard = read(root / "reports" / "private_route_cohort_scorecard_silver.md")
+    substrate_profile = read(root / "reports" / "private_query_substrate_profile.md")
     readiness = load_study_readiness(root)
 
     return StudyReportSignals(
@@ -202,6 +236,9 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
             "policy_clause",
         ),
         cohort_route_signal=cohort_route_signal(route_cohort_scorecard, "cohort_aware_query_router"),
+        community_post_context=substrate_shape_signal(substrate_profile, "community_post_context"),
+        messenger_conversation=substrate_shape_signal(substrate_profile, "messenger_conversation"),
+        search_eval_query=substrate_shape_signal(substrate_profile, "search_eval_query"),
     )
 
 
@@ -263,6 +300,14 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"route accuracy range {signals.cohort_route_signal.route_accuracy_range}; "
             f"context-needed policy fallback up to {signals.cohort_route_signal.max_context_policy_fallback} | "
             "silver diagnostic |"
+        ),
+        (
+            "| Real-query substrates need separate stress slices | "
+            f"community contexts avg {signals.community_post_context.avg_chars} chars with "
+            f"{signals.community_post_context.long_contexts} long contexts; live-style turns median "
+            f"{signals.messenger_conversation.median_chars} chars with "
+            f"{signals.messenger_conversation.short_messages} short messages; eval queries "
+            f"{signals.search_eval_query.short_messages} short | substrate diagnostic |"
         ),
         (
             "| Human-gold public headline claim | "
@@ -360,6 +405,46 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"{signals.cohort_route_signal.max_context_policy_fallback} |"
         ),
         "",
+        "## Query Substrate Evidence",
+        "",
+        "| cohort | input rows | usable rows | avg chars | median chars | short messages | long contexts | question-like |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|",
+        (
+            "| `community_post_context` | "
+            f"{signals.community_post_context.input_rows} | "
+            f"{signals.community_post_context.usable_rows} | "
+            f"{signals.community_post_context.avg_chars} | "
+            f"{signals.community_post_context.median_chars} | "
+            f"{signals.community_post_context.short_messages} | "
+            f"{signals.community_post_context.long_contexts} | "
+            f"{signals.community_post_context.question_like} |"
+        ),
+        (
+            "| `messenger_conversation` | "
+            f"{signals.messenger_conversation.input_rows} | "
+            f"{signals.messenger_conversation.usable_rows} | "
+            f"{signals.messenger_conversation.avg_chars} | "
+            f"{signals.messenger_conversation.median_chars} | "
+            f"{signals.messenger_conversation.short_messages} | "
+            f"{signals.messenger_conversation.long_contexts} | "
+            f"{signals.messenger_conversation.question_like} |"
+        ),
+        (
+            "| `search_eval_query` | "
+            f"{signals.search_eval_query.input_rows} | "
+            f"{signals.search_eval_query.usable_rows} | "
+            f"{signals.search_eval_query.avg_chars} | "
+            f"{signals.search_eval_query.median_chars} | "
+            f"{signals.search_eval_query.short_messages} | "
+            f"{signals.search_eval_query.long_contexts} | "
+            f"{signals.search_eval_query.question_like} |"
+        ),
+        "",
+        "These substrate diagnostics explain why the repo keeps separate cohort,",
+        "surface-form, normalization, and abstention slices. Long community posts,",
+        "short live-style turns, and cleaned evaluation queries are not the same",
+        "retrieval input distribution.",
+        "",
         "## Claim Control",
         "",
         "| gate | current value | required before headline use |",
@@ -384,6 +469,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "make reproduce-surface-scorecard",
         "make reproduce-normalization-ablation",
         "make reproduce-intent-inventory",
+        "make reproduce-substrate-profile",
         "make check-study-readiness",
         "make verify",
         "```",

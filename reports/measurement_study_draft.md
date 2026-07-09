@@ -25,6 +25,7 @@ for steering the work, but they are blocked from headline use until the
 | Cohort-aware routing improves source routing without raw source exposure | route accuracy 46.9%; paired delta +25.4%p; abstention recall 67.0% | silver diagnostic |
 | The largest silver route failure is unsafe policy-clause fallback | `human_context_needed -> policy_clause` drops from 190 to 28 rows | silver diagnostic |
 | Route failures vary by private query cohort | route accuracy range 36.2% - 55.2%; context-needed policy fallback up to 54.1% | silver diagnostic |
+| Real-query substrates need separate stress slices | community contexts avg 835.5 chars with 44.3% long contexts; live-style turns median 17.0 chars with 80.6% short messages; eval queries 94.5% short | substrate diagnostic |
 | Human-gold public headline claim | 0 / 50 paired labels; 0 / 300 adjudicated labels complete | blocked |
 
 ## Retrieval Evidence
@@ -74,6 +75,19 @@ Private query-cohort diagnostics:
 |---|---:|---:|
 | `cohort_aware_query_router` | 36.2% - 55.2% | 54.1% |
 
+## Query Substrate Evidence
+
+| cohort | input rows | usable rows | avg chars | median chars | short messages | long contexts | question-like |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `community_post_context` | 165970 | 165970 | 835.5 | 169.0 | 6.1% | 44.3% | 80.2% |
+| `messenger_conversation` | 7920 | 7796 | 36.8 | 17.0 | 80.6% | 2.0% | 16.8% |
+| `search_eval_query` | 544 | 544 | 23.7 | 22.0 | 94.5% | 0.0% | 41.4% |
+
+These substrate diagnostics explain why the repo keeps separate cohort,
+surface-form, normalization, and abstention slices. Long community posts,
+short live-style turns, and cleaned evaluation queries are not the same
+retrieval input distribution.
+
 ## Claim Control
 
 | gate | current value | required before headline use |
@@ -98,6 +112,7 @@ make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
 make reproduce-normalization-ablation
 make reproduce-intent-inventory
+make reproduce-substrate-profile
 make check-study-readiness
 make verify
 ```

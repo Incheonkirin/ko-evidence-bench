@@ -14,6 +14,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | source-route qid-only run exports | 544 rows x 4 runs | generated privately; aggregate summary available |
 | source-route silver scorecard | 544 rows x 4 runs | scored through qid-only route scorecard with per-source slices |
 | source-route cohort scorecard | 544 rows x 4 runs | scored by generic private query cohort; raw source names hidden |
+| query-substrate profile | 174,434 private input rows | aggregate text-shape and stress-signal profile generated without raw rows |
 | source-route human-audit seed | 50 rows | private audit pack generated; not yet labeled |
 | source-route adjudication pack | 300 rows | private audit pack generated; not yet labeled |
 | source-route agreement summary | 50-row seed | generated; currently 0 paired reviewer rows |
@@ -83,6 +84,13 @@ largest route-confusion pairs. It is still a diagnostic, not a headline result.
 qid-only route runs by generic query cohort. The cohort names are produced by a
 private source map kept outside this repo, so the report can compare query
 substrates without exposing raw source names. It is still a silver diagnostic.
+
+`reports/private_query_substrate_profile.md` profiles private query substrates
+with aggregate text-shape and intent-signal features only. It compares community
+post contexts, cleaned evaluation queries, and live-style conversation turns
+without qids, raw queries, conversation snippets, platform identifiers,
+usernames, URLs, or source file paths. This is substrate evidence for separate
+cohort, surface-form, normalization, and abstention stress slices.
 
 `reports/private_route_audit_pack_summary.md` was generated from a private
 50-row route audit seed. It reports only the sampling distribution. The audit

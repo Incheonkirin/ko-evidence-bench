@@ -157,11 +157,11 @@ def render_report(
             "## Use Notes",
             "",
             "- Use this report to find route and abstention regressions across surface",
-            "  conditions before running heavier evidence-ranking experiments.",
+            "  conditions independently from retrieval-hit regressions.",
             "- Treat silver-label results as diagnostics until the route labels and",
             "  intent/surface metadata are human-audited.",
-            "- Pair this route-only report with the full surface robustness scorecard",
-            "  once ranked evidence runs are available.",
+            "- Pair this route-only report with runtime-surface or full surface",
+            "  scorecards to separate routing failures from evidence-hit failures.",
             "",
         ]
     )

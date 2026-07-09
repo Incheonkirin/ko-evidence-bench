@@ -67,6 +67,16 @@ class RouteSurfaceSignal:
 
 
 @dataclass(frozen=True)
+class RuntimeSurfaceSignal:
+    clause20: str
+    answerable_clause20: str
+    exact20: str
+    avg_family_surface_spread: str
+    worst_surface_clause20: str
+    missing_metadata: str
+
+
+@dataclass(frozen=True)
 class StudyReportSignals:
     readiness: StudyReadiness
     structural_pack_clause20: MetricWithCi
@@ -90,6 +100,8 @@ class StudyReportSignals:
     always_policy_route_surface: RouteSurfaceSignal
     keyword_route_surface: RouteSurfaceSignal
     cohort_aware_route_surface: RouteSurfaceSignal
+    structural_pack_runtime_surface: RuntimeSurfaceSignal
+    structural_cross_text_runtime_surface: RuntimeSurfaceSignal
 
 
 def metric_ci(report: str, run: str, metric: str) -> MetricWithCi:
@@ -251,6 +263,24 @@ def route_surface_signal(report: str, system: str) -> RouteSurfaceSignal:
     )
 
 
+def runtime_surface_signal(report: str, system: str) -> RuntimeSurfaceSignal:
+    pattern = (
+        rf"\| `{re.escape(system)}` \| [\d,]+ \| [\d,]+ \| [\d,]+ \| [\d,]+ \| "
+        r"([\d.]+%) \| ([\d.]+%) \| ([\d.]+%) \| ([\d.]+%) \| ([\d.]+%) \| [\d,]+ \| ([\d,]+) \|"
+    )
+    match = re.search(pattern, report)
+    if not match:
+        raise ValueError(f"missing runtime-surface summary row: {system}")
+    return RuntimeSurfaceSignal(
+        clause20=match.group(1),
+        answerable_clause20=match.group(2),
+        exact20=match.group(3),
+        avg_family_surface_spread=match.group(4),
+        worst_surface_clause20=match.group(5),
+        missing_metadata=match.group(6),
+    )
+
+
 def points(value: str) -> str:
     return f"+{value}p"
 
@@ -262,6 +292,7 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
     substrate_profile = read(root / "reports" / "private_query_substrate_profile.md")
     intent_surface_export = read(root / "reports" / "private_intent_surface_export_summary.md")
     route_surface_scorecard = read(root / "reports" / "private_route_surface_scorecard_silver.md")
+    runtime_surface_scorecard = read(root / "reports" / "private_runtime_surface_scorecard_silver.md")
     readiness = load_study_readiness(root)
 
     return StudyReportSignals(
@@ -316,6 +347,11 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
         always_policy_route_surface=route_surface_signal(route_surface_scorecard, "always_policy"),
         keyword_route_surface=route_surface_signal(route_surface_scorecard, "query_keyword_router"),
         cohort_aware_route_surface=route_surface_signal(route_surface_scorecard, "cohort_aware_query_router"),
+        structural_pack_runtime_surface=runtime_surface_signal(runtime_surface_scorecard, "structural_pack"),
+        structural_cross_text_runtime_surface=runtime_surface_signal(
+            runtime_surface_scorecard,
+            "structural_cross_text",
+        ),
     )
 
 
@@ -400,6 +436,13 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"missing metadata {signals.cohort_aware_route_surface.missing_metadata} | silver route diagnostic |"
         ),
         (
+            "| Ranked retrieval hits can now be sliced by surface condition | "
+            f"`structural_cross_text` clause@20 {signals.structural_cross_text_runtime_surface.clause20}; "
+            f"answerable clause@20 {signals.structural_cross_text_runtime_surface.answerable_clause20}; "
+            f"worst surface {signals.structural_cross_text_runtime_surface.worst_surface_clause20} | "
+            "silver runtime diagnostic |"
+        ),
+        (
             "| Human-gold public headline claim | "
             f"{r.agreement_paired_rows} / 50 paired labels; "
             f"{r.completed_route_labels} / 300 adjudicated labels complete | blocked |"
@@ -427,6 +470,31 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"{points(signals.structural_cross_text_delta_clause20.value)} | "
             f"{signals.structural_cross_text_delta_clause20.ci} |"
         ),
+        "",
+        "Private runtime-surface diagnostics:",
+        "",
+        "| system | clause@20 | answerable clause@20 | exact@20 | avg family surface spread | worst surface clause@20 | missing metadata |",
+        "|---|---:|---:|---:|---:|---:|---:|",
+        (
+            f"| `structural_pack` | {signals.structural_pack_runtime_surface.clause20} | "
+            f"{signals.structural_pack_runtime_surface.answerable_clause20} | "
+            f"{signals.structural_pack_runtime_surface.exact20} | "
+            f"{signals.structural_pack_runtime_surface.avg_family_surface_spread} | "
+            f"{signals.structural_pack_runtime_surface.worst_surface_clause20} | "
+            f"{signals.structural_pack_runtime_surface.missing_metadata} |"
+        ),
+        (
+            f"| `structural_cross_text` | {signals.structural_cross_text_runtime_surface.clause20} | "
+            f"{signals.structural_cross_text_runtime_surface.answerable_clause20} | "
+            f"{signals.structural_cross_text_runtime_surface.exact20} | "
+            f"{signals.structural_cross_text_runtime_surface.avg_family_surface_spread} | "
+            f"{signals.structural_cross_text_runtime_surface.worst_surface_clause20} | "
+            f"{signals.structural_cross_text_runtime_surface.missing_metadata} |"
+        ),
+        "",
+        "This joins private runtime hit booleans with qid-only intent/surface",
+        "metadata. It does not publish raw ranked evidence ids, but it verifies",
+        "whether actual retrieval hits vary across surface conditions.",
         "",
         "## Source-Route Evidence",
         "",
@@ -579,8 +647,9 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         ),
         "",
         "This is a route-only surface scorecard. It checks source-route and",
-        "abstention robustness across surface conditions before ranked evidence",
-        "runs are available for full evidence-sufficiency scoring.",
+        "abstention robustness across surface conditions. Pair it with the",
+        "runtime-surface diagnostics above to separate retrieval-hit failures",
+        "from source-route failures.",
         "",
         "## Claim Control",
         "",
@@ -605,6 +674,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "make reproduce-route-cohort-scorecard",
         "make reproduce-surface-scorecard",
         "make reproduce-route-surface-scorecard",
+        "make reproduce-runtime-surface-scorecard",
         "make reproduce-normalization-ablation",
         "make reproduce-intent-inventory",
         "make reproduce-intent-surface-export",

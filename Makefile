@@ -1,4 +1,4 @@
-.PHONY: test check-public-safety check-study-readiness check-readme-signals check-router-lift check-surface-lift build-measurement-study check-measurement-study build-alignment-report check-alignment-report verify reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile summarize-private-result export-route-labels export-intent-surface-qrels export-route-runs build-route-audit-pack export-route-review-csv build-route-review-brief build-route-review-batch merge-route-review-batch check-route-review-progress validate-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
+.PHONY: test check-public-safety check-study-readiness check-readme-signals check-router-lift check-surface-lift build-measurement-study check-measurement-study build-alignment-report check-alignment-report verify reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile summarize-private-result export-route-labels export-intent-surface-qrels export-route-runs build-route-audit-pack export-route-review-csv build-route-review-brief build-route-review-batch merge-route-review-batch check-route-review-progress validate-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
 
 test:
 	python3 -m unittest discover -s tests
@@ -30,7 +30,7 @@ build-alignment-report:
 check-alignment-report:
 	python3 scripts/build_alignment_report.py --out reports/flagship_alignment.md --check
 
-verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile check-study-readiness check-readme-signals check-router-lift check-surface-lift check-measurement-study check-alignment-report check-public-safety
+verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile check-study-readiness check-readme-signals check-router-lift check-surface-lift check-measurement-study check-alignment-report check-public-safety
 
 reproduce-table-1:
 	python3 scripts/reproduce_table_1.py
@@ -49,6 +49,9 @@ reproduce-surface-scorecard:
 
 reproduce-route-surface-scorecard:
 	python3 scripts/reproduce_route_surface_scorecard.py --out reports/route_surface_scorecard_fixture.md
+
+reproduce-runtime-surface-scorecard:
+	python3 scripts/reproduce_runtime_surface_scorecard.py --out reports/runtime_surface_scorecard_fixture.md
 
 reproduce-normalization-ablation:
 	python3 scripts/reproduce_normalization_ablation.py --out reports/normalization_ablation_fixture.md

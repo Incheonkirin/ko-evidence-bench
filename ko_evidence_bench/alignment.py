@@ -146,7 +146,24 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
                 else "MISSING"
             ),
             evidence="route-only scorecard slices source-route and abstention behavior by surface, intent family, and trap class",
-            why_it_matters="The study can diagnose surface-conditioned routing failures before ranked evidence runs exist.",
+            why_it_matters="The study can separate surface-conditioned routing failures from retrieval-hit failures.",
+        ),
+        AlignmentItem(
+            area="Runtime-surface retrieval-hit axis",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "runtime_surface.py").exists()
+                and (root / "scripts" / "reproduce_runtime_surface_scorecard.py").exists()
+                and has_text(root / "reports" / "runtime_surface_scorecard_fixture.md", "Runtime Surface Summary")
+                and has_text(
+                    root / "reports" / "private_runtime_surface_scorecard_silver.md",
+                    "Private Runtime Surface Scorecard",
+                )
+                and has_text(root / "reports" / "measurement_study_draft.md", "Private runtime-surface diagnostics")
+                else "MISSING"
+            ),
+            evidence="runtime hit booleans are sliced by surface form, intent family, and trap class without raw evidence ids",
+            why_it_matters="This moves surface robustness from fixture-only demos into actual retrieval-hit diagnostics.",
         ),
         AlignmentItem(
             area="Intent-family inventory axis",

@@ -1,0 +1,26 @@
+{
+  "created_at": "fixture",
+  "n": 8,
+  "per_run": {
+    "raw_surface_runtime": [
+      {"qid": "surface_bundle_formal", "exact@1": true, "exact@5": true, "exact@10": true, "exact@20": true, "clause@1": true, "clause@5": true, "clause@10": true, "clause@20": true},
+      {"qid": "surface_bundle_abbrev", "exact@1": false, "exact@5": false, "exact@10": false, "exact@20": false, "clause@1": false, "clause@5": false, "clause@10": false, "clause@20": false},
+      {"qid": "surface_bundle_messenger", "exact@1": false, "exact@5": false, "exact@10": false, "exact@20": false, "clause@1": false, "clause@5": false, "clause@10": false, "clause@20": false},
+      {"qid": "surface_refund_formal", "exact@1": true, "exact@5": true, "exact@10": true, "exact@20": true, "clause@1": true, "clause@5": true, "clause@10": true, "clause@20": true},
+      {"qid": "surface_refund_colloquial", "exact@1": false, "exact@5": false, "exact@10": false, "exact@20": false, "clause@1": false, "clause@5": false, "clause@10": false, "clause@20": false},
+      {"qid": "surface_refund_messenger", "exact@1": false, "exact@5": false, "exact@10": false, "exact@20": false, "clause@1": false, "clause@5": false, "clause@10": false, "clause@20": false},
+      {"qid": "surface_underwriting_formal", "exact@1": false, "exact@5": false, "exact@10": false, "exact@20": false, "clause@1": false, "clause@5": false, "clause@10": false, "clause@20": false},
+      {"qid": "surface_underwriting_messenger", "exact@1": false, "exact@5": false, "exact@10": false, "exact@20": false, "clause@1": false, "clause@5": false, "clause@10": false, "clause@20": false}
+    ],
+    "surface_robust_runtime": [
+      {"qid": "surface_bundle_formal", "exact@1": true, "exact@5": true, "exact@10": true, "exact@20": true, "clause@1": true, "clause@5": true, "clause@10": true, "clause@20": true},
+      {"qid": "surface_bundle_abbrev", "exact@1": true, "exact@5": true, "exact@10": true, "exact@20": true, "clause@1": true, "clause@5": true, "clause@10": true, "clause@20": true},
+      {"qid": "surface_bundle_messenger", "exact@1": true, "exact@5": true, "exact@10": true, "exact@20": true, "clause@1": true, "clause@5": true, "clause@10": true, "clause@20": true},
+      {"qid": "surface_refund_formal", "exact@1": true, "exact@5": true, "exact@10": true, "exact@20": true, "clause@1": true, "clause@5": true, "clause@10": true, "clause@20": true},
+      {"qid": "surface_refund_colloquial", "exact@1": true, "exact@5": true, "exact@10": true, "exact@20": true, "clause@1": true, "clause@5": true, "clause@10": true, "clause@20": true},
+      {"qid": "surface_refund_messenger", "exact@1": true, "exact@5": true, "exact@10": true, "exact@20": true, "clause@1": true, "clause@5": true, "clause@10": true, "clause@20": true},
+      {"qid": "surface_underwriting_formal", "exact@1": false, "exact@5": false, "exact@10": false, "exact@20": false, "clause@1": false, "clause@5": false, "clause@10": false, "clause@20": false},
+      {"qid": "surface_underwriting_messenger", "exact@1": false, "exact@5": false, "exact@10": false, "exact@20": false, "clause@1": false, "clause@5": false, "clause@10": false, "clause@20": false}
+    ]
+  }
+}

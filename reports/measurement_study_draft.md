@@ -28,6 +28,7 @@ for steering the work, but they are blocked from headline use until the
 | Real-query substrates need separate stress slices | community contexts avg 835.5 chars with 44.3% long contexts; live-style turns median 17.0 chars with 80.6% short messages; eval queries 94.5% short | substrate diagnostic |
 | Private qrels now have silver intent/surface slices | 544 qid-only rows; top silver family `refund_termination` 47.1%; top surface `formal` 55.9% | silver metadata |
 | Route decisions can now be scored by surface condition | cohort-aware route-only worst surface 22.2%; missing metadata 0 | silver route diagnostic |
+| Ranked retrieval hits can now be sliced by surface condition | `structural_cross_text` clause@20 64.9%; answerable clause@20 71.3%; worst surface 44.4% | silver runtime diagnostic |
 | Human-gold public headline claim | 0 / 50 paired labels; 0 / 300 adjudicated labels complete | blocked |
 
 ## Retrieval Evidence
@@ -42,6 +43,17 @@ Paired delta vs `structural_pack`:
 | candidate | metric | delta | 95% CI |
 |---|---|---:|---:|
 | `structural_cross_text` | `clause@20` | +8.5%p | 5.9% - 11.2% |
+
+Private runtime-surface diagnostics:
+
+| system | clause@20 | answerable clause@20 | exact@20 | avg family surface spread | worst surface clause@20 | missing metadata |
+|---|---:|---:|---:|---:|---:|---:|
+| `structural_pack` | 56.4% | 61.9% | 46.0% | 29.2% | 44.4% | 0 |
+| `structural_cross_text` | 64.9% | 71.3% | 52.4% | 29.3% | 44.4% | 0 |
+
+This joins private runtime hit booleans with qid-only intent/surface
+metadata. It does not publish raw ranked evidence ids, but it verifies
+whether actual retrieval hits vary across surface conditions.
 
 ## Source-Route Evidence
 
@@ -110,8 +122,9 @@ review before public frequency claims.
 | `cohort_aware_query_router` | 46.9% | 67.0% | 1.8% | 22.2% | 0 |
 
 This is a route-only surface scorecard. It checks source-route and
-abstention robustness across surface conditions before ranked evidence
-runs are available for full evidence-sufficiency scoring.
+abstention robustness across surface conditions. Pair it with the
+runtime-surface diagnostics above to separate retrieval-hit failures
+from source-route failures.
 
 ## Claim Control
 
@@ -136,6 +149,7 @@ make reproduce-route-scorecard
 make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
 make reproduce-route-surface-scorecard
+make reproduce-runtime-surface-scorecard
 make reproduce-normalization-ablation
 make reproduce-intent-inventory
 make reproduce-intent-surface-export

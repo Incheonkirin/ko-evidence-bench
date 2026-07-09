@@ -85,6 +85,7 @@ make reproduce-route-scorecard
 make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
 make reproduce-route-surface-scorecard
+make reproduce-runtime-surface-scorecard
 make reproduce-normalization-ablation
 make reproduce-intent-inventory
 make reproduce-intent-surface-export
@@ -125,7 +126,12 @@ surface form.
 
 `make reproduce-route-surface-scorecard` runs a route-only surface scorecard.
 It slices route and abstention behavior by intent family, surface form, and trap
-class before ranked evidence runs are available.
+class, separating source-route failures from retrieval-hit failures.
+
+`make reproduce-runtime-surface-scorecard` joins qid-only surface metadata with
+runtime retrieval hit booleans. It reports whether `clause@20` and `exact@20`
+vary by intent family, surface form, and trap class without publishing raw qids,
+evidence ids, or text.
 
 `make reproduce-normalization-ablation` compares a raw-surface baseline run
 against a normalized/expanded candidate run and reports aggregate rescue and
@@ -235,7 +241,15 @@ silver metadata and require human audit before public frequency claims.
 The private route-surface scorecard is checked in at
 `reports/private_route_surface_scorecard_silver.md`. It scores the private
 route runs by surface form, intent family, and trap class. It is route-only:
-ranked evidence sufficiency still needs separate retrieval runs.
+use it with the runtime-surface scorecard to separate routing mistakes from
+retrieval-hit misses.
+
+The private runtime-surface scorecard is checked in at
+`reports/private_runtime_surface_scorecard_silver.md`. It joins the 544-row
+qid-only surface metadata with private runtime hit booleans. On the silver
+diagnostic set, `structural_cross_text` reaches `clause@20 = 64.9%`,
+`answerable_clause@20 = 71.3%`, and `worst_surface_clause@20 = 44.4%` without
+publishing raw ranked evidence ids.
 
 To regenerate those private qid-only route runs with a source map:
 

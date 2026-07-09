@@ -1,4 +1,4 @@
-.PHONY: test check-public-safety check-study-readiness check-readme-signals build-measurement-study check-measurement-study build-alignment-report check-alignment-report verify reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard summarize-private-result export-route-labels export-route-runs build-route-audit-pack export-route-review-csv build-route-review-brief check-route-review-progress import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
+.PHONY: test check-public-safety check-study-readiness check-readme-signals build-measurement-study check-measurement-study build-alignment-report check-alignment-report verify reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard summarize-private-result export-route-labels export-route-runs build-route-audit-pack export-route-review-csv build-route-review-brief build-route-review-batch check-route-review-progress import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
 
 test:
 	python3 -m unittest discover -s tests
@@ -52,6 +52,9 @@ export-route-review-csv:
 
 build-route-review-brief:
 	python3 scripts/build_route_review_brief.py --csv "$(CSV_IN)" --report-out reports/private_route_review_brief.md
+
+build-route-review-batch:
+	python3 scripts/build_route_review_batch.py --csv "$(CSV_IN)" --out-csv "$(CSV_OUT)" --report-out reports/private_route_review_batch_summary.md
 
 check-route-review-progress:
 	python3 scripts/check_route_review_progress.py --csv "$(CSV_IN)" --report-out reports/private_route_review_progress.md

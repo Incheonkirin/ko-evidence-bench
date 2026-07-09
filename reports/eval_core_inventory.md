@@ -16,6 +16,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | source-route adjudication pack | 300 rows | private audit pack generated; not yet labeled |
 | source-route review CSV templates | 50/50/300 rows | private reviewer CSVs generated; not yet filled |
 | source-route review brief | 300-row CSV | generated; aggregate-only reviewer work summary |
+| source-route priority review batch | 50-row private CSV | generated; aggregate-only batch summary checked in |
 | source-route review progress gate | 300-row CSV | generated; currently 0 complete rows |
 | source-route review UI | static local HTML | generated; no private data checked in |
 | route-audit workflow fixture | 3 synthetic rows | end-to-end dry-run passes |
@@ -83,6 +84,10 @@ counts without qids, raw queries, context, or reviewer notes.
 `reports/private_route_review_brief_300_adjudicated.md` summarizes the same
 workset as a reviewer brief, including aggregate priority counts and required
 fields. It is aggregate-only and contains no row text.
+
+`reports/private_route_review_batch_priority_50_summary.md` summarizes a private
+50-row priority batch selected from the 300-row adjudication CSV. The private
+batch CSV stays outside this repo because it contains row text.
 
 `tools/route_review_ui.html` is a static local reviewer for those CSV files. It
 does not include private rows and does not depend on network access.

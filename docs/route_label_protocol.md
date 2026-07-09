@@ -115,6 +115,12 @@ python3 scripts/build_route_review_brief.py \
   --csv /path/to/private_reviewer_a.csv \
   --report-out reports/private_route_review_brief.md
 
+python3 scripts/build_route_review_batch.py \
+  --csv /path/to/private_reviewer_a.csv \
+  --out-csv /path/to/private_priority_batch.csv \
+  --report-out reports/private_route_review_batch_summary.md \
+  --limit 50
+
 python3 scripts/check_route_review_progress.py \
   --csv /path/to/private_reviewer_a.csv \
   --report-out reports/private_route_review_progress.md

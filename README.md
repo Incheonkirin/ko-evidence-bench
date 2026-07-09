@@ -15,6 +15,7 @@ or copyrighted policy corpora.
 
 ## Current Verified Signals
 
+<!-- BEGIN: current-verified-signals -->
 These are checked-in aggregate diagnostics, not final benchmark claims:
 
 | Signal | Current Evidence | Status |
@@ -26,8 +27,10 @@ These are checked-in aggregate diagnostics, not final benchmark claims:
 | Adjudicated human route labels | 0 / 300 complete | headline blocked |
 
 The generated readiness report is intentionally conservative:
-`reports/study_readiness.md` currently says **NO-GO for public headline claims**
-until the 300-row human route-label workset is completed and validated.
+`reports/study_readiness.md` currently says
+**NO-GO for public headline claims** until the 300-row
+human route-label workset is completed and validated.
+<!-- END: current-verified-signals -->
 
 ## What This Evaluates
 

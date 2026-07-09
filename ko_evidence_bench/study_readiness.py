@@ -141,3 +141,29 @@ def render_study_readiness(readiness: StudyReadiness) -> str:
         ]
     )
     return "\n".join(lines)
+
+
+def render_readme_signals(readiness: StudyReadiness) -> str:
+    return "\n".join(
+        [
+            "<!-- BEGIN: current-verified-signals -->",
+            "These are checked-in aggregate diagnostics, not final benchmark claims:",
+            "",
+            "| Signal | Current Evidence | Status |",
+            "|---|---:|---|",
+            f"| Retrieval eval size | {readiness.retrieval_n} silver rows | scored with bootstrap CIs |",
+            f"| Best checked-in `clause@20` | {readiness.best_clause20} | retrieval signal only |",
+            f"| `always_policy` route accuracy | {readiness.always_policy_route_acc} | silver proxy |",
+            f"| query-keyword route accuracy | {readiness.keyword_route_acc} | silver proxy |",
+            (
+                "| Adjudicated human route labels | "
+                f"{readiness.completed_route_labels} / 300 complete | headline blocked |"
+            ),
+            "",
+            "The generated readiness report is intentionally conservative:",
+            "`reports/study_readiness.md` currently says",
+            f"**{readiness.status} for public headline claims** until the 300-row",
+            "human route-label workset is completed and validated.",
+            "<!-- END: current-verified-signals -->",
+        ]
+    )

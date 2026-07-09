@@ -14,7 +14,8 @@ fixtures, and reports. It does not contain community crawls, messenger exports,
 or copyrighted policy corpora.
 
 The current aggregate-only study draft is
-`reports/measurement_study_draft.md`.
+`reports/measurement_study_draft.md`. The current artifact-alignment report is
+`reports/flagship_alignment.md`.
 
 ## Current Verified Signals
 
@@ -80,6 +81,7 @@ make reproduce-route-audit-workflow
 make reproduce-route-scorecard
 make check-study-readiness
 make build-measurement-study
+make build-alignment-report
 make verify
 ```
 
@@ -111,6 +113,10 @@ the required evidence cannot be parsed; the report itself may correctly say
 
 `make build-measurement-study` regenerates the aggregate-only study draft from
 checked-in reports. `make verify` checks that the committed draft is current.
+
+`make build-alignment-report` regenerates the flagship alignment report, which
+shows which portfolio-study gates are implemented and which one still blocks
+headline claims.
 
 Private retrieval exports with query-level hit booleans can be summarized without
 publishing qids or text:
@@ -242,6 +248,7 @@ fixtures/
   system_runs/
 reports/
   eval_core_inventory.md
+  flagship_alignment.md
   measurement_study_v0.md
   measurement_study_draft.md
   route_audit_workflow_fixture.md

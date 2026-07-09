@@ -1,0 +1,10 @@
+[project]
+name = "ko-evidence-bench"
+version = "0.1.0"
+description = "Evidence-sufficiency and abstention evaluation for Korean retrieval."
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools.packages.find]
+include = ["ko_evidence_bench*"]
+

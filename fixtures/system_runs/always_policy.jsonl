@@ -1,0 +1,6 @@
+{"qid":"syn_policy_001","route_pred":"policy_clause","abstained":false,"ranked":[{"evidence_id":"clause_cancer_diag","source_tier":"policy_clause"},{"evidence_id":"clause_generic_payment","source_tier":"policy_clause"}]}
+{"qid":"syn_claim_001","route_pred":"policy_clause","abstained":false,"ranked":[{"evidence_id":"clause_generic_claim","source_tier":"policy_clause"},{"evidence_id":"faq_claim_docs","source_tier":"claims_faq"}]}
+{"qid":"syn_dispute_001","route_pred":"policy_clause","abstained":false,"ranked":[{"evidence_id":"clause_exclusion","source_tier":"policy_clause"},{"evidence_id":"fss_denial_case","source_tier":"dispute_case"}]}
+{"qid":"syn_context_001","route_pred":"policy_clause","abstained":false,"ranked":[{"evidence_id":"clause_refund_formula","source_tier":"policy_clause"}]}
+{"qid":"syn_expert_001","route_pred":"policy_clause","abstained":false,"ranked":[{"evidence_id":"clause_generic_process","source_tier":"policy_clause"},{"evidence_id":"expert_general_process","source_tier":"expert_answer"}]}
+

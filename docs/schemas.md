@@ -46,3 +46,24 @@ abstention decisions, and ranked evidence ids.
 `allowed_source_tiers` lets the qrel distinguish the primary route from allowed
 supporting sources. For example, a dispute question may require a regulator or
 dispute-case source while still allowing a policy clause as supporting evidence.
+
+## Optional Surface-Robustness Fields
+
+Surface-form scorecards can add two metadata fields to qrel rows:
+
+```json
+{
+  "qid": "surface_bundle_abbrev",
+  "intent_id": "cancer_brain_heart_bundle",
+  "surface_form": "abbreviated",
+  "route_gold": "policy_clause",
+  "should_abstain": false,
+  "sufficient_evidence_ids": ["clause_bundle_diag"]
+}
+```
+
+`intent_id` groups multiple phrasings of the same information need.
+`surface_form` names the phrasing condition, such as `formal`, `colloquial`,
+`abbreviated`, or `messenger_shorthand`. These fields let the public scorecard
+measure whether one intent remains retrievable across consumer, messenger, and
+formal wording without publishing raw query text.

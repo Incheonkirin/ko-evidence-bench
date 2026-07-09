@@ -81,6 +81,7 @@ make reproduce-table-1
 make reproduce-route-audit-workflow
 make reproduce-route-scorecard
 make reproduce-route-cohort-scorecard
+make reproduce-surface-scorecard
 make check-study-readiness
 make build-measurement-study
 make build-alignment-report
@@ -109,6 +110,11 @@ metrics score route accuracy and abstention behavior without raw text.
 path sliced by synthetic query cohorts. Private cohort reports use a private
 source map so aggregate reports can compare query substrates without exposing raw
 source names.
+
+`make reproduce-surface-scorecard` runs a synthetic surface-form robustness
+scorecard: the same intent appears in formal, abbreviated, colloquial, and
+messenger-style conditions, and the report measures whether success varies by
+surface form.
 
 `make verify` runs tests, reproduction commands, and a public-safety scan
 for private-source leakage indicators.
@@ -259,16 +265,20 @@ Private:
 ko_evidence_bench/
   metrics.py          # Scorecard metrics with bootstrap CIs.
   route_score.py      # Qid-only source-route metrics.
+  surface.py          # Surface-form robustness metrics.
   schemas.py          # Minimal JSONL schema validators.
 scripts/
   reproduce_table_1.py
   reproduce_route_scorecard.py
+  reproduce_surface_scorecard.py
 tools/
   route_review_ui.html
 fixtures/
   qrels.jsonl
   route_labels.jsonl
   route_runs/
+  surface_qrels.jsonl
+  surface_runs/
   system_runs/
 reports/
   eval_core_inventory.md
@@ -277,6 +287,7 @@ reports/
   measurement_study_draft.md
   route_audit_workflow_fixture.md
   route_scorecard_fixture.md
+  surface_scorecard_fixture.md
   private_route_scorecard_silver.md
   private_route_run_export_summary.md
   private_route_review_brief_300_adjudicated.md

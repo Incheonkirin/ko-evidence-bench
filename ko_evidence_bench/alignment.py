@@ -120,6 +120,20 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The study is grounded in real query distributions without exposing private source names.",
         ),
         AlignmentItem(
+            area="Surface-form robustness axis",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "surface.py").exists()
+                and (root / "scripts" / "reproduce_surface_scorecard.py").exists()
+                and has_text(root / "reports" / "surface_scorecard_fixture.md", "avg_intent_spread")
+                and has_text(root / "docs" / "schemas.md", "intent_id")
+                and has_text(root / "docs" / "schemas.md", "surface_form")
+                else "MISSING"
+            ),
+            evidence="surface-form scorecard measures same-intent robustness across phrasing conditions",
+            why_it_matters="This implements the Fable axis about intent fragmentation, not token dictionaries.",
+        ),
+        AlignmentItem(
             area="Qid-only route scorecard path",
             status=(
                 "PASS"

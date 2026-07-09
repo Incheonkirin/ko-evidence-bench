@@ -58,6 +58,11 @@ policy clauses, product disclosures, official consumer guidance, claims
 operations, dispute cases, expert guidance, and abstention routes. This keeps
 the work from collapsing into policy-clause-only retrieval.
 
+The private source-inventory gate is `docs/source_inventory.json`. The generated
+report `reports/source_inventory_readiness.md` joins aggregate route demand with
+inventory and rights readiness, so non-policy source tiers stay blocked until
+their corpus inventory is verified.
+
 ## Public Probe Set
 
 The public synthetic probe package is `probes/ko_evidence_probe_v0/`. It
@@ -196,6 +201,7 @@ make check-study-readiness
 make build-hero-signal
 make build-claim-ledger
 make build-source-catalog-report
+make build-source-inventory-report
 make build-reviewer-demo
 make build-probe-privacy-report
 make build-probe-dataset-card
@@ -606,6 +612,7 @@ ko_evidence_bench/
   route_score.py      # Qid-only source-route metrics.
   route_surface.py    # Route/abstention metrics by surface metadata.
   source_catalog.py   # Source-tier catalog coverage checks.
+  source_inventory.py # Private aggregate source inventory readiness checks.
   substrate_profile.py # Aggregate query-substrate profiling.
   surface.py          # Surface-form robustness metrics.
   surface_fragmentation.py # Exact-seed undercount audit.
@@ -623,6 +630,7 @@ scripts/
   summarize_answer_audit.py
   reproduce_answer_agreement_workflow.py
   build_source_catalog_report.py
+  build_source_inventory_report.py
   build_system_matrix_submission_pack.py
   rehearse_system_matrix_promotion.py
   build_probe_dataset_card.py
@@ -681,6 +689,7 @@ reports/
   private_route_audit_pack_summary.md
   private_route_audit_validation_pending.md
   private_route_label_summary.md
+  source_inventory_readiness.md
   private_route_router_baselines.md
   private_route_review_csv_50_reviewer_a_summary.md
   private_route_review_csv_50_reviewer_b_summary.md

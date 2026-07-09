@@ -1,0 +1,70 @@
+{
+  "title": "Private Source Inventory Readiness",
+  "status_note": "aggregate inventory readiness only; no raw source names, URLs, or document text",
+  "inventories": [
+    {
+      "source_tier": "policy_clause",
+      "inventory_status": "verified_private",
+      "record_count": 36983,
+      "rights_status": "private_eval_only",
+      "public_release": "aggregate_only",
+      "notes": "Private policy-clause corpus is available for evaluation; public release remains aggregate-only."
+    },
+    {
+      "source_tier": "product_disclosure",
+      "inventory_status": "needs_inventory_audit",
+      "record_count": 0,
+      "rights_status": "needs_rights_review",
+      "public_release": "none",
+      "notes": "Private demand exists, but source inventory and rights status are not yet verified."
+    },
+    {
+      "source_tier": "official_consumer_info",
+      "inventory_status": "needs_inventory_audit",
+      "record_count": 0,
+      "rights_status": "needs_rights_review",
+      "public_release": "none",
+      "notes": "Keep as a planned evidence tier until inventory and rights review are complete."
+    },
+    {
+      "source_tier": "claims_faq",
+      "inventory_status": "needs_inventory_audit",
+      "record_count": 0,
+      "rights_status": "needs_rights_review",
+      "public_release": "none",
+      "notes": "Private demand exists, but operational claim-guidance inventory is not yet verified."
+    },
+    {
+      "source_tier": "dispute_case",
+      "inventory_status": "needs_inventory_audit",
+      "record_count": 0,
+      "rights_status": "needs_rights_review",
+      "public_release": "none",
+      "notes": "Private demand exists, but dispute-case inventory is not yet verified."
+    },
+    {
+      "source_tier": "expert_answer",
+      "inventory_status": "needs_inventory_audit",
+      "record_count": 0,
+      "rights_status": "needs_rights_review",
+      "public_release": "none",
+      "notes": "Private demand exists, but reviewable expert-guidance inventory is not yet verified."
+    },
+    {
+      "source_tier": "human_context_needed",
+      "inventory_status": "not_searchable_route",
+      "record_count": null,
+      "rights_status": "not_applicable",
+      "public_release": "not_applicable",
+      "notes": "This is an abstention route, not a searchable corpus."
+    },
+    {
+      "source_tier": "out_of_scope",
+      "inventory_status": "not_searchable_route",
+      "record_count": null,
+      "rights_status": "not_applicable",
+      "public_release": "not_applicable",
+      "notes": "This is a filtering route, not a searchable corpus."
+    }
+  ]
+}

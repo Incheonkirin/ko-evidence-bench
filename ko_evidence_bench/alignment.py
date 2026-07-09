@@ -284,6 +284,26 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The project needs a checked multi-source corpus frame, not only route labels in prose.",
         ),
         AlignmentItem(
+            area="Source inventory readiness gate",
+            status=(
+                "PASS"
+                if (root / "docs" / "source_inventory.json").exists()
+                and (root / "ko_evidence_bench" / "source_inventory.py").exists()
+                and (root / "scripts" / "build_source_inventory_report.py").exists()
+                and has_text(
+                    root / "reports" / "source_inventory_readiness.md",
+                    "ACTION_REQUIRED for private source inventory",
+                )
+                and has_text(root / "reports" / "source_inventory_readiness.md", "blocked searchable tiers: 4")
+                and has_text(root / "reports" / "source_inventory_readiness.md", "`product_disclosure`")
+                and has_text(root / "reports" / "source_inventory_readiness.md", "`expert_answer`")
+                and has_text(root / "Makefile", "check-source-inventory-report")
+                else "MISSING"
+            ),
+            evidence="aggregate private route demand is joined with source inventory readiness and exposes blocked non-policy tiers",
+            why_it_matters="Multi-source evaluation needs acquisition and rights readiness, not only route taxonomy.",
+        ),
+        AlignmentItem(
             area="Real-query substrate inventory",
             status=(
                 "PASS"
@@ -708,7 +728,7 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "The repo now has the public shell expected of a flagship measurement study:",
             "generated study draft, claim-control gates, reviewer walkthrough,",
             "containerized reproduction, screened public probes, dataset card,",
-            "source catalog coverage, qualitative examples, layer attribution, system matrix guard,",
+            "source catalog coverage, source inventory readiness, qualitative examples, layer attribution, system matrix guard,",
             "answer-quality audit rehearsal, answer-quality review workflow,",
             "answer-quality agreement workflow, full-matrix submission handoff,",
             "full-matrix run-bundle contract, full-matrix promotion gate,",

@@ -90,12 +90,15 @@ public benchmark claim.
 | artifact | current evidence | status |
 |---|---|---|
 | `reports/source_catalog_coverage.md` | public probe covers 6 searchable source tiers plus abstention routes; 0 validation issues | fixture source-catalog gate; not private corpus-completeness proof |
+| `reports/source_inventory_readiness.md` | 544 aggregate demand rows; `policy_clause` READY with 36,983 records; 4 demanded non-policy tiers BLOCKED | inventory readiness gate; not source acquisition proof |
 
 This keeps the study from becoming policy-clause-only retrieval. The
 source catalog separates policy clauses, product disclosures, official
 consumer guidance, claim-operation material, dispute cases, expert
 guidance, and abstention routes before route or retrieval metrics are
 interpreted.
+The inventory gate prevents source-routing claims from implying that
+every demanded source tier has a verified private corpus.
 
 ## Source-Route Evidence
 
@@ -249,6 +252,7 @@ make check-study-readiness
 make build-hero-signal
 make build-claim-ledger
 make build-source-catalog-report
+make build-source-inventory-report
 make build-probe-privacy-report
 make build-qualitative-gallery
 make validate-system-matrix-bundle

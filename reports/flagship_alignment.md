@@ -27,6 +27,7 @@ headline claims.
 | Dictionary scope guard | `PASS` | README scope statement rejects a dictionary-first framing | The flagship has to be a measurement artifact, not a user-dictionary repo. |
 | Multi-source evidence frame | `PASS` | route protocol and study draft model multiple citable source tiers | The benchmark tests evidence routing, not only policy-clause recall. |
 | Source catalog coverage gate | `PASS` | source-tier catalog joins public qrels and evidence snippets across searchable and abstention routes | The project needs a checked multi-source corpus frame, not only route labels in prose. |
+| Source inventory readiness gate | `PASS` | aggregate private route demand is joined with source inventory readiness and exposes blocked non-policy tiers | Multi-source evaluation needs acquisition and rights readiness, not only route taxonomy. |
 | Real-query substrate inventory | `PASS` | README aggregates private query substrates and cohort scorecards compare them generically | The study is grounded in real query distributions without exposing private source names. |
 | Surface-form robustness axis | `PASS` | surface-form scorecard and lift gate measure same-intent robustness across phrasing conditions | This implements the intent-fragmentation axis, not token dictionaries. |
 | Route-surface diagnostic axis | `PASS` | route-only scorecard slices source-route and abstention behavior by surface, intent family, and trap class | The study can separate surface-conditioned routing failures from retrieval-hit failures. |
@@ -59,7 +60,7 @@ headline claims.
 The repo now has the public shell expected of a flagship measurement study:
 generated study draft, claim-control gates, reviewer walkthrough,
 containerized reproduction, screened public probes, dataset card,
-source catalog coverage, qualitative examples, layer attribution, system matrix guard,
+source catalog coverage, source inventory readiness, qualitative examples, layer attribution, system matrix guard,
 answer-quality audit rehearsal, answer-quality review workflow,
 answer-quality agreement workflow, full-matrix submission handoff,
 full-matrix run-bundle contract, full-matrix promotion gate,

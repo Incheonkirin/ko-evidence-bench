@@ -52,6 +52,12 @@ The public wording guard is `reports/claim_ledger.md`: it says which diagnostic
 claims are currently allowed, which claims are blocked, and what evidence is
 needed next.
 
+The source-tier catalog is `docs/source_catalog.json`. The generated report
+`reports/source_catalog_coverage.md` checks that the public probe exercises
+policy clauses, product disclosures, official consumer guidance, claims
+operations, dispute cases, expert guidance, and abstention routes. This keeps
+the work from collapsing into policy-clause-only retrieval.
+
 ## Public Probe Set
 
 The public synthetic probe package is `probes/ko_evidence_probe_v0/`. It
@@ -189,6 +195,7 @@ make reproduce-substrate-profile
 make check-study-readiness
 make build-hero-signal
 make build-claim-ledger
+make build-source-catalog-report
 make build-reviewer-demo
 make build-probe-privacy-report
 make build-probe-dataset-card
@@ -310,6 +317,12 @@ the README. `make verify` checks that both artifacts are current.
 `make build-claim-ledger` regenerates `reports/claim_ledger.md`, the wording
 guard that separates diagnostic claims, blocked human-gold claims, and
 out-of-scope claims. `make verify` checks that it is current.
+
+`make build-source-catalog-report` regenerates
+`reports/source_catalog_coverage.md`, a source-tier coverage gate over
+`docs/source_catalog.json` and the public probe qrels/evidence. It verifies
+that source routing is evaluated across multiple evidence tiers, not only
+policy clauses.
 
 `make build-reviewer-demo` regenerates `reports/reviewer_demo.md`, the
 3-minute public walkthrough for reading the repository as a measurement-study
@@ -592,6 +605,7 @@ ko_evidence_bench/
   metrics.py          # Scorecard metrics with bootstrap CIs.
   route_score.py      # Qid-only source-route metrics.
   route_surface.py    # Route/abstention metrics by surface metadata.
+  source_catalog.py   # Source-tier catalog coverage checks.
   substrate_profile.py # Aggregate query-substrate profiling.
   surface.py          # Surface-form robustness metrics.
   surface_fragmentation.py # Exact-seed undercount audit.
@@ -608,6 +622,7 @@ scripts/
   import_answer_review_csv.py
   summarize_answer_audit.py
   reproduce_answer_agreement_workflow.py
+  build_source_catalog_report.py
   build_system_matrix_submission_pack.py
   rehearse_system_matrix_promotion.py
   build_probe_dataset_card.py

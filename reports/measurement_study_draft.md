@@ -85,6 +85,18 @@ retrieval, routing, surface, and fixture evidence, but it has not yet run
 the full analyzer/dense/hybrid/reranker matrix needed for a stronger
 public benchmark claim.
 
+## Source-Catalog Evidence
+
+| artifact | current evidence | status |
+|---|---|---|
+| `reports/source_catalog_coverage.md` | public probe covers 6 searchable source tiers plus abstention routes; 0 validation issues | fixture source-catalog gate; not private corpus-completeness proof |
+
+This keeps the study from becoming policy-clause-only retrieval. The
+source catalog separates policy clauses, product disclosures, official
+consumer guidance, claim-operation material, dispute cases, expert
+guidance, and abstention routes before route or retrieval metrics are
+interpreted.
+
 ## Source-Route Evidence
 
 | system | route accuracy | 95% CI | abstention recall |
@@ -236,6 +248,7 @@ make reproduce-substrate-profile
 make check-study-readiness
 make build-hero-signal
 make build-claim-ledger
+make build-source-catalog-report
 make build-probe-privacy-report
 make build-qualitative-gallery
 make validate-system-matrix-bundle

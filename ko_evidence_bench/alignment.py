@@ -267,6 +267,23 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The benchmark tests evidence routing, not only policy-clause recall.",
         ),
         AlignmentItem(
+            area="Source catalog coverage gate",
+            status=(
+                "PASS"
+                if (root / "docs" / "source_catalog.json").exists()
+                and (root / "ko_evidence_bench" / "source_catalog.py").exists()
+                and (root / "scripts" / "build_source_catalog_report.py").exists()
+                and has_text(root / "reports" / "source_catalog_coverage.md", "PASS source-tier catalog fixture")
+                and has_text(root / "reports" / "source_catalog_coverage.md", "policy-clause-only")
+                and has_text(root / "reports" / "source_catalog_coverage.md", "`official_consumer_info`")
+                and has_text(root / "reports" / "source_catalog_coverage.md", "`expert_answer`")
+                and has_text(root / "Makefile", "check-source-catalog-report")
+                else "MISSING"
+            ),
+            evidence="source-tier catalog joins public qrels and evidence snippets across searchable and abstention routes",
+            why_it_matters="The project needs a checked multi-source corpus frame, not only route labels in prose.",
+        ),
+        AlignmentItem(
             area="Real-query substrate inventory",
             status=(
                 "PASS"
@@ -691,7 +708,7 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "The repo now has the public shell expected of a flagship measurement study:",
             "generated study draft, claim-control gates, reviewer walkthrough,",
             "containerized reproduction, screened public probes, dataset card,",
-            "qualitative examples, layer attribution, system matrix guard,",
+            "source catalog coverage, qualitative examples, layer attribution, system matrix guard,",
             "answer-quality audit rehearsal, answer-quality review workflow,",
             "answer-quality agreement workflow, full-matrix submission handoff,",
             "full-matrix run-bundle contract, full-matrix promotion gate,",

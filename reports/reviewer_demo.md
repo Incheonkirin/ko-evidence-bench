@@ -12,24 +12,25 @@ a reviewer who wants to understand the study artifact before reading code.
 | 1 | `README.md` + diagnostic figure | Start with the thesis and first-screen signals. | The repo leads with findings and claim limits, not framework features. |
 | 2 | `reports/hero_signal.md` | Inspect the compact evidence table behind the figure. | Clause recovery, source routing, surface spread, and the human-label gate are visible together. |
 | 3 | `reports/claim_ledger.md` | Compare allowed wording with blocked wording. | Diagnostic claims are separated from final benchmark claims. |
-| 4 | `probes/ko_evidence_probe_v0/` + `reports/probe_privacy_report.md` | Inspect the public probe package and screen. | The released probes are synthetic, intent-level, and privacy-screened. |
-| 5 | `probes/ko_evidence_probe_v0/DATASET_CARD.md` + `reports/probe_dataset_card.md` | Check the release-facing probe card. | The public probe has generated row counts, intended use, non-goals, and privacy notes. |
-| 6 | `reports/probe_beir_export.md` + `probes/ko_evidence_probe_v0/beir/` | Check the standard retrieval export. | The public probe can be consumed by BEIR-style tooling while route and abstention labels stay in metadata. |
-| 7 | `reports/probe_system_comparison.md` | Check the runnable public systems. | Lexical, semantic, hybrid, and source-route-aware retrieval are compared on the same probe. |
-| 8 | `reports/probe_trap_mining.md` | Inspect trap-class mining. | Analyzer and intent-fragmentation traps are mined as diagnostics, not as dictionary entries. |
-| 9 | `reports/surface_fragmentation_audit.md` | Check seed-counting bias. | Exact lexical seeds undercount same-intent surface variants; the output is an audit, not a synonym list. |
-| 10 | `reports/qualitative_gallery.md` | Read concrete side-by-side failure examples. | The route diagnostics are inspectable, not only aggregate tables. |
-| 11 | `reports/layer_attribution_fixture.md` | Inspect the failure-layer decomposition hook. | The study can explain where failures accumulate, not only whether a run passed. |
-| 12 | `reports/answer_quality_audit_fixture.md` | Check the answer-quality audit rehearsal. | Retrieval hit metrics are not answer-quality claims; sufficiency and unsafe answers need separate labels. |
-| 13 | `reports/answer_review_workflow_fixture.md` | Check the answer-review CSV roundtrip. | The answer-quality label path can be exported, validated, imported, and promoted without publishing private rows. |
-| 14 | `reports/answer_agreement_workflow_fixture.md` | Check the answer-agreement rehearsal. | Two reviewer fields can be validated and summarized without exposing private rows. |
-| 15 | `reports/system_matrix.md` | Check which systems are actually backed by evidence. | The full analyzer/dense/hybrid/reranker matrix is explicit and incomplete. |
-| 16 | `reports/system_matrix_submission_pack_fixture.md` + `fixtures/system_matrix_submission_template/` | Inspect the qid-only matrix handoff template. | Missing analyzer, dense, hybrid, and reranker runs have a concrete submission shape without raw text. |
-| 17 | `reports/system_matrix_bundle_fixture.md` | Inspect the qid-only run-bundle contract. | Future analyzer, dense, hybrid, and reranker runs have an import and leakage-check path. |
-| 18 | `reports/system_matrix_promotion_fixture.md` | Check the matrix promotion rehearsal. | A validated fixture bundle is still blocked from updating the matrix without scale and real-run provenance. |
-| 19 | `reports/measurement_study_draft.md` | Read the aggregate-only study draft. | The report is the product; code exists to regenerate and check it. |
-| 20 | `reports/human_gold_rehearsal_fixture.md` | Verify the synthetic completed-label path. | Once real labels exist, the promotion and scorecard path is already rehearsed. |
-| 21 | `reports/study_readiness.md` | Confirm the remaining gate. | Headline claims stay blocked until human labels are complete and validated. |
+| 4 | `docs/source_catalog.json` + `reports/source_catalog_coverage.md` | Check the source-tier catalog. | The evaluation is multi-source, not policy-clause-only retrieval. |
+| 5 | `probes/ko_evidence_probe_v0/` + `reports/probe_privacy_report.md` | Inspect the public probe package and screen. | The released probes are synthetic, intent-level, and privacy-screened. |
+| 6 | `probes/ko_evidence_probe_v0/DATASET_CARD.md` + `reports/probe_dataset_card.md` | Check the release-facing probe card. | The public probe has generated row counts, intended use, non-goals, and privacy notes. |
+| 7 | `reports/probe_beir_export.md` + `probes/ko_evidence_probe_v0/beir/` | Check the standard retrieval export. | The public probe can be consumed by BEIR-style tooling while route and abstention labels stay in metadata. |
+| 8 | `reports/probe_system_comparison.md` | Check the runnable public systems. | Lexical, semantic, hybrid, and source-route-aware retrieval are compared on the same probe. |
+| 9 | `reports/probe_trap_mining.md` | Inspect trap-class mining. | Analyzer and intent-fragmentation traps are mined as diagnostics, not as dictionary entries. |
+| 10 | `reports/surface_fragmentation_audit.md` | Check seed-counting bias. | Exact lexical seeds undercount same-intent surface variants; the output is an audit, not a synonym list. |
+| 11 | `reports/qualitative_gallery.md` | Read concrete side-by-side failure examples. | The route diagnostics are inspectable, not only aggregate tables. |
+| 12 | `reports/layer_attribution_fixture.md` | Inspect the failure-layer decomposition hook. | The study can explain where failures accumulate, not only whether a run passed. |
+| 13 | `reports/answer_quality_audit_fixture.md` | Check the answer-quality audit rehearsal. | Retrieval hit metrics are not answer-quality claims; sufficiency and unsafe answers need separate labels. |
+| 14 | `reports/answer_review_workflow_fixture.md` | Check the answer-review CSV roundtrip. | The answer-quality label path can be exported, validated, imported, and promoted without publishing private rows. |
+| 15 | `reports/answer_agreement_workflow_fixture.md` | Check the answer-agreement rehearsal. | Two reviewer fields can be validated and summarized without exposing private rows. |
+| 16 | `reports/system_matrix.md` | Check which systems are actually backed by evidence. | The full analyzer/dense/hybrid/reranker matrix is explicit and incomplete. |
+| 17 | `reports/system_matrix_submission_pack_fixture.md` + `fixtures/system_matrix_submission_template/` | Inspect the qid-only matrix handoff template. | Missing analyzer, dense, hybrid, and reranker runs have a concrete submission shape without raw text. |
+| 18 | `reports/system_matrix_bundle_fixture.md` | Inspect the qid-only run-bundle contract. | Future analyzer, dense, hybrid, and reranker runs have an import and leakage-check path. |
+| 19 | `reports/system_matrix_promotion_fixture.md` | Check the matrix promotion rehearsal. | A validated fixture bundle is still blocked from updating the matrix without scale and real-run provenance. |
+| 20 | `reports/measurement_study_draft.md` | Read the aggregate-only study draft. | The report is the product; code exists to regenerate and check it. |
+| 21 | `reports/human_gold_rehearsal_fixture.md` | Verify the synthetic completed-label path. | Once real labels exist, the promotion and scorecard path is already rehearsed. |
+| 22 | `reports/study_readiness.md` | Confirm the remaining gate. | Headline claims stay blocked until human labels are complete and validated. |
 
 ## One Command
 
@@ -53,7 +54,7 @@ make docker-demo
 
 `make docker-demo` builds the local image and reruns the fixture table,
 layer attribution, readiness gate, probe privacy screen, public probe
-dataset card, BEIR export, system comparison, trap-mining check, surface-fragmentation audit, qualitative gallery check, answer-quality audit check, answer-review workflow check, answer-agreement workflow check, system matrix submission-pack check, system matrix bundle check, system matrix promotion check, system matrix check,
+source-catalog check, dataset card, BEIR export, system comparison, trap-mining check, surface-fragmentation audit, qualitative gallery check, answer-quality audit check, answer-review workflow check, answer-agreement workflow check, system matrix submission-pack check, system matrix bundle check, system matrix promotion check, system matrix check,
 generated-report checks, and public-safety scan inside the container.
 
 ## Current Diagnostic Signals

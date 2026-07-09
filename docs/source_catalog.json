@@ -1,0 +1,70 @@
+{
+  "title": "Source Tier Catalog",
+  "status_note": "generic source-tier catalog; fixture coverage only, not proof of private corpus completeness",
+  "tiers": [
+    {
+      "source_tier": "policy_clause",
+      "role": "Contractual clause evidence for definitions, coverage triggers, exclusions, riders, and tables.",
+      "search_target": "insurer policy clauses, riders, appendices, and contract tables",
+      "public_probe_status": "covered",
+      "private_status": "available_private_corpus",
+      "headline_status": "silver_only"
+    },
+    {
+      "source_tier": "product_disclosure",
+      "role": "Product-level disclosure evidence for summaries, refund tables, product options, and pre-contract material.",
+      "search_target": "product disclosures, product summaries, refund tables, and public product pages",
+      "public_probe_status": "covered",
+      "private_status": "planned_or_partial",
+      "headline_status": "needs_inventory_audit"
+    },
+    {
+      "source_tier": "official_consumer_info",
+      "role": "Official consumer guidance for general rules, public notices, comparison material, and consumer-facing explanations.",
+      "search_target": "official consumer guidance, public association material, and regulator-style consumer documents",
+      "public_probe_status": "covered",
+      "private_status": "planned_or_partial",
+      "headline_status": "needs_inventory_audit"
+    },
+    {
+      "source_tier": "claims_faq",
+      "role": "Operational claim guidance for documents, submission steps, processing channels, and workflow instructions.",
+      "search_target": "claim guides, claim FAQ material, document checklists, and operational help pages",
+      "public_probe_status": "covered",
+      "private_status": "planned_or_partial",
+      "headline_status": "needs_inventory_audit"
+    },
+    {
+      "source_tier": "dispute_case",
+      "role": "Dispute and denial precedent material for contested payments, reviews, complaints, and similar resolved cases.",
+      "search_target": "dispute summaries, denial-case explanations, review precedents, and complaint-resolution material",
+      "public_probe_status": "covered",
+      "private_status": "planned_or_partial",
+      "headline_status": "needs_inventory_audit"
+    },
+    {
+      "source_tier": "expert_answer",
+      "role": "General professional guidance when the answer is explanatory and not safely grounded in a contract or official source alone.",
+      "search_target": "licensed or reviewable expert guidance archives and general professional explanations",
+      "public_probe_status": "covered",
+      "private_status": "planned_or_partial",
+      "headline_status": "needs_inventory_audit"
+    },
+    {
+      "source_tier": "human_context_needed",
+      "role": "Abstention route when private contract, rider, date, diagnosis, denial, or underwriting context is required.",
+      "search_target": "not a searchable corpus tier",
+      "public_probe_status": "abstention_only",
+      "private_status": "requires_user_context",
+      "headline_status": "requires_abstention_audit"
+    },
+    {
+      "source_tier": "out_of_scope",
+      "role": "Abstention route for requests outside insurance evidence retrieval.",
+      "search_target": "not a searchable corpus tier",
+      "public_probe_status": "abstention_only",
+      "private_status": "requires_filtering",
+      "headline_status": "requires_abstention_audit"
+    }
+  ]
+}

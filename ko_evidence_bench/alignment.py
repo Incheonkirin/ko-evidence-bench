@@ -150,6 +150,20 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="This makes intent families the organizing unit, matching the flagship study design.",
         ),
         AlignmentItem(
+            area="Normalization ablation axis",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "ablation.py").exists()
+                and (root / "scripts" / "reproduce_normalization_ablation.py").exists()
+                and has_text(root / "reports" / "normalization_ablation_fixture.md", "Lift By Intent Family")
+                and has_text(root / "reports" / "normalization_ablation_fixture.md", "rescued rows | 5")
+                and has_text(root / "reports" / "normalization_ablation_fixture.md", "not a query-rewrite product")
+                else "MISSING"
+            ),
+            evidence="normalization ablation reports aggregate rescue/regression by intent family and surface",
+            why_it_matters="This validates normalization as measured lift, not a standalone dictionary artifact.",
+        ),
+        AlignmentItem(
             area="Qid-only route scorecard path",
             status=(
                 "PASS"

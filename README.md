@@ -82,6 +82,7 @@ make reproduce-route-audit-workflow
 make reproduce-route-scorecard
 make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
+make reproduce-normalization-ablation
 make reproduce-intent-inventory
 make check-study-readiness
 make build-measurement-study
@@ -116,6 +117,10 @@ source names.
 scorecard: the same intent appears in formal, abbreviated, colloquial, and
 messenger-style conditions, and the report measures whether success varies by
 surface form.
+
+`make reproduce-normalization-ablation` compares a raw-surface baseline run
+against a normalized/expanded candidate run and reports aggregate rescue and
+regression counts by intent family, surface form, and trap class.
 
 `make reproduce-intent-inventory` summarizes synthetic intent families, source
 routes, surface conditions, and trap annotations without exposing qids or raw
@@ -268,6 +273,7 @@ Private:
 
 ```text
 ko_evidence_bench/
+  ablation.py         # Run-level rescue/regression comparisons.
   intent_inventory.py # Aggregate intent-family inventory metrics.
   metrics.py          # Scorecard metrics with bootstrap CIs.
   route_score.py      # Qid-only source-route metrics.
@@ -275,6 +281,7 @@ ko_evidence_bench/
   schemas.py          # Minimal JSONL schema validators.
 scripts/
   build_intent_inventory.py
+  reproduce_normalization_ablation.py
   reproduce_table_1.py
   reproduce_route_scorecard.py
   reproduce_surface_scorecard.py
@@ -293,6 +300,7 @@ reports/
   intent_inventory_fixture.md
   measurement_study_v0.md
   measurement_study_draft.md
+  normalization_ablation_fixture.md
   route_audit_workflow_fixture.md
   route_scorecard_fixture.md
   surface_scorecard_fixture.md

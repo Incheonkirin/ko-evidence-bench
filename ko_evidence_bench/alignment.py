@@ -252,6 +252,21 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="This moves surface robustness from fixture-only demos into actual retrieval-hit diagnostics.",
         ),
         AlignmentItem(
+            area="Layer attribution axis",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "layer_attribution.py").exists()
+                and (root / "scripts" / "reproduce_layer_attribution.py").exists()
+                and has_text(root / "reports" / "layer_attribution_fixture.md", "Failure Mass By Layer")
+                and has_text(root / "reports" / "layer_attribution_fixture.md", "surface_fragmentation")
+                and has_text(root / "reports" / "measurement_study_draft.md", "Layer Attribution Evidence")
+                and has_text(root / "Makefile", "reproduce-layer-attribution")
+                else "MISSING"
+            ),
+            evidence="failed synthetic rows are decomposed into primary diagnostic layers",
+            why_it_matters="The study can explain where failures accumulate instead of only reporting aggregate scores.",
+        ),
+        AlignmentItem(
             area="Intent-family inventory axis",
             status=(
                 "PASS"
@@ -476,10 +491,10 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "The repo now has the public shell expected of a flagship measurement study:",
             "generated study draft, claim-control gates, reviewer walkthrough,",
             "containerized reproduction, screened public probes, qualitative",
-            "examples, qid-only scorecards, audit workflow, and public-safety",
-            "checks. It is not headline-ready because the source-route labels",
-            "still lack independent agreement evidence and human-adjudicated",
-            "coverage.",
+            "examples, layer attribution, qid-only scorecards, audit workflow,",
+            "and public-safety checks. It is not headline-ready because the",
+            "source-route labels still lack independent agreement evidence and",
+            "human-adjudicated coverage.",
             "",
             "## Next Gate",
             "",

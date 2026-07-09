@@ -25,6 +25,7 @@ headline claims.
 | Surface-form robustness axis | `PASS` | surface-form scorecard and lift gate measure same-intent robustness across phrasing conditions | This implements the intent-fragmentation axis, not token dictionaries. |
 | Route-surface diagnostic axis | `PASS` | route-only scorecard slices source-route and abstention behavior by surface, intent family, and trap class | The study can separate surface-conditioned routing failures from retrieval-hit failures. |
 | Runtime-surface retrieval-hit axis | `PASS` | runtime hit booleans are sliced by surface form, intent family, and trap class without raw evidence ids | This moves surface robustness from fixture-only demos into actual retrieval-hit diagnostics. |
+| Layer attribution axis | `PASS` | failed synthetic rows are decomposed into primary diagnostic layers | The study can explain where failures accumulate instead of only reporting aggregate scores. |
 | Intent-family inventory axis | `PASS` | fixture and private silver inventories treat intent families, surface forms, and trap classes as aggregate slices | This moves the flagship design from synthetic slices into the private qid-only qrel path. |
 | Normalization ablation axis | `PASS` | normalization ablation reports aggregate rescue/regression by intent family and surface | This validates normalization as measured lift, not a standalone dictionary artifact. |
 | Qid-only route scorecard path | `PASS` | private silver runs are scored through the same path as future human labels | The evaluation path is tested before human-gold labels arrive. |
@@ -45,10 +46,10 @@ headline claims.
 The repo now has the public shell expected of a flagship measurement study:
 generated study draft, claim-control gates, reviewer walkthrough,
 containerized reproduction, screened public probes, qualitative
-examples, qid-only scorecards, audit workflow, and public-safety
-checks. It is not headline-ready because the source-route labels
-still lack independent agreement evidence and human-adjudicated
-coverage.
+examples, layer attribution, qid-only scorecards, audit workflow,
+and public-safety checks. It is not headline-ready because the
+source-route labels still lack independent agreement evidence and
+human-adjudicated coverage.
 
 ## Next Gate
 

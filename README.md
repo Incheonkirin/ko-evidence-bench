@@ -118,6 +118,7 @@ make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
 make reproduce-route-surface-scorecard
 make reproduce-runtime-surface-scorecard
+make reproduce-layer-attribution
 make check-audit-surface-coverage
 make reproduce-normalization-ablation
 make reproduce-intent-inventory
@@ -140,9 +141,9 @@ Containerized demo:
 make docker-demo
 ```
 
-This builds the local image and reruns the fixture table, readiness gate,
-generated-report checks, probe privacy screen, and public-safety scan inside
-the container.
+This builds the local image and reruns the fixture table, layer attribution,
+readiness gate, generated-report checks, probe privacy screen, and
+public-safety scan inside the container.
 
 Expected output is a small scorecard over synthetic fixture runs:
 
@@ -186,6 +187,12 @@ class, separating source-route failures from retrieval-hit failures.
 runtime retrieval hit booleans. It reports whether `clause@20` and `exact@20`
 vary by intent family, surface form, and trap class without publishing raw qids,
 evidence ids, or text.
+
+`make reproduce-layer-attribution` attributes failed synthetic retrieval rows to
+one primary diagnostic layer: abstention, source routing, register gap, surface
+fragmentation, evidence-form mismatch, or residual evidence miss. This is the
+Table-2-style decomposition hook for the measurement study; it is not a final
+human-gold attribution result.
 
 `make check-audit-surface-coverage` verifies that a human-audit workset covers
 the same route, intent-family, surface-form, and trap-class axes used by the
@@ -427,6 +434,7 @@ ko_evidence_bench/
   ablation.py         # Run-level rescue/regression comparisons.
   intent_inventory.py # Aggregate intent-family inventory metrics.
   intent_surface_export.py # Qid-only intent/surface metadata export.
+  layer_attribution.py # Primary failure-layer attribution.
   metrics.py          # Scorecard metrics with bootstrap CIs.
   route_score.py      # Qid-only source-route metrics.
   route_surface.py    # Route/abstention metrics by surface metadata.
@@ -440,6 +448,7 @@ scripts/
   export_intent_surface_qrels.py
   profile_query_substrates.py
   reproduce_human_gold_rehearsal.py
+  reproduce_layer_attribution.py
   reproduce_normalization_ablation.py
   reproduce_table_1.py
   reproduce_route_scorecard.py
@@ -461,6 +470,7 @@ reports/
   hero_signal.md
   human_gold_rehearsal_fixture.md
   intent_inventory_fixture.md
+  layer_attribution_fixture.md
   measurement_study_v0.md
   measurement_study_draft.md
   normalization_ablation_fixture.md

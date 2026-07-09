@@ -36,6 +36,8 @@ class StudyReportTest(unittest.TestCase):
         self.assertIn("Ranked retrieval hits can now be sliced by surface condition", report)
         self.assertIn("Private runtime-surface diagnostics", report)
         self.assertIn("answerable clause@20 71.3%", report)
+        self.assertIn("Layer Attribution Evidence", report)
+        self.assertIn("Table-2-style decomposition hook", report)
         self.assertIn("Human audit workset covers the stress axes before labeling", report)
         self.assertIn("Human Audit Coverage", report)
         self.assertIn("4 / 4", report)

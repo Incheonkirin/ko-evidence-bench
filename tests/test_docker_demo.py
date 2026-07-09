@@ -22,6 +22,7 @@ class DockerDemoTest(unittest.TestCase):
         self.assertIn("docker-build:", makefile)
         self.assertIn("docker-demo:", makefile)
         self.assertIn("docker run --rm $(DOCKER_IMAGE)", makefile)
+        self.assertIn("reproduce-layer-attribution", makefile)
         self.assertIn("check-probe-privacy", makefile)
         self.assertIn("check-qualitative-gallery", makefile)
         self.assertIn("check-public-safety", makefile)

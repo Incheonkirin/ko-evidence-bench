@@ -127,6 +127,18 @@ abstention robustness across surface conditions. Pair it with the
 runtime-surface diagnostics above to separate retrieval-hit failures
 from source-route failures.
 
+## Layer Attribution Evidence
+
+| artifact | current evidence | status |
+|---|---|---|
+| `reports/layer_attribution_fixture.md` | synthetic failures are decomposed into abstention, source-route, register, surface, evidence-form, and residual evidence-hit layers | fixture path only; human-gold attribution blocked |
+
+This is the measurement study's Table-2-style decomposition hook. It
+proves that the repo can explain where failure mass accumulates, but
+the public fixture does not promote layer percentages as final system
+claims. Human-audited route labels and private run outputs are still
+needed before this becomes a headline table.
+
 ## Human Audit Coverage
 
 | audit rows | matched rows | route values | intent-family values | surface-form values | trap-class values | status |
@@ -163,6 +175,7 @@ make reproduce-human-gold-rehearsal
 make reproduce-surface-scorecard
 make reproduce-route-surface-scorecard
 make reproduce-runtime-surface-scorecard
+make reproduce-layer-attribution
 make check-audit-surface-coverage
 make reproduce-normalization-ablation
 make reproduce-intent-inventory
@@ -180,7 +193,8 @@ make docker-demo
 The public commands reproduce synthetic fixtures and regenerate aggregate
 claim-control reports. The public probe package is synthetic and
 screened by `reports/probe_privacy_report.md`; qualitative examples are
-generated at `reports/qualitative_gallery.md`. `make docker-demo` runs
+generated at `reports/qualitative_gallery.md`, and layer attribution is
+generated at `reports/layer_attribution_fixture.md`. `make docker-demo` runs
 a short containerized reproduction path for reviewers. Private qid-only
 route runs and raw qrels stay outside the public repository.
 

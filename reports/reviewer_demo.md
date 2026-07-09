@@ -14,9 +14,10 @@ a reviewer who wants to understand the study artifact before reading code.
 | 3 | `reports/claim_ledger.md` | Compare allowed wording with blocked wording. | Diagnostic claims are separated from final benchmark claims. |
 | 4 | `probes/ko_evidence_probe_v0/` + `reports/probe_privacy_report.md` | Inspect the public probe package and screen. | The released probes are synthetic, intent-level, and privacy-screened. |
 | 5 | `reports/qualitative_gallery.md` | Read concrete side-by-side failure examples. | The route diagnostics are inspectable, not only aggregate tables. |
-| 6 | `reports/measurement_study_draft.md` | Read the aggregate-only study draft. | The report is the product; code exists to regenerate and check it. |
-| 7 | `reports/human_gold_rehearsal_fixture.md` | Verify the synthetic completed-label path. | Once real labels exist, the promotion and scorecard path is already rehearsed. |
-| 8 | `reports/study_readiness.md` | Confirm the remaining gate. | Headline claims stay blocked until human labels are complete and validated. |
+| 6 | `reports/layer_attribution_fixture.md` | Inspect the failure-layer decomposition hook. | The study can explain where failures accumulate, not only whether a run passed. |
+| 7 | `reports/measurement_study_draft.md` | Read the aggregate-only study draft. | The report is the product; code exists to regenerate and check it. |
+| 8 | `reports/human_gold_rehearsal_fixture.md` | Verify the synthetic completed-label path. | Once real labels exist, the promotion and scorecard path is already rehearsed. |
+| 9 | `reports/study_readiness.md` | Confirm the remaining gate. | Headline claims stay blocked until human labels are complete and validated. |
 
 ## One Command
 
@@ -39,8 +40,9 @@ make docker-demo
 ```
 
 `make docker-demo` builds the local image and reruns the fixture table,
-readiness gate, probe privacy screen, qualitative gallery check,
-generated-report checks, and public-safety scan inside the container.
+layer attribution, readiness gate, probe privacy screen, qualitative
+gallery check, generated-report checks, and public-safety scan inside
+the container.
 
 ## Current Diagnostic Signals
 

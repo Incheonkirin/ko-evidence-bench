@@ -210,6 +210,19 @@ Those slice tables are the first place to check whether the system is still
 falling back to policy clauses when another source tier or human context is
 required.
 
+To compare query substrates without exposing source names, run the cohort
+scorecard with a private source map:
+
+```bash
+python3 scripts/reproduce_route_cohort_scorecard.py \
+  --qrels /path/to/private_qrels.jsonl \
+  --labels /path/to/private_human_route_labels.jsonl \
+  --run-dir /path/to/private_route_runs \
+  --source-map /path/to/private_source_cohort_map.json \
+  --out reports/private_route_cohort_scorecard.md \
+  --fail-on-unmapped
+```
+
 The route run JSONL schema is intentionally small:
 
 ```json

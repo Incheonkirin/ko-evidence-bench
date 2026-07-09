@@ -79,6 +79,7 @@ make test
 make reproduce-table-1
 make reproduce-route-audit-workflow
 make reproduce-route-scorecard
+make reproduce-route-cohort-scorecard
 make check-study-readiness
 make build-measurement-study
 make build-alignment-report
@@ -102,6 +103,11 @@ label promotion. Its report is checked in at
 synthetic labels and route predictions. This is the public dry-run for the
 private human-label path: once adjudicated route labels are promoted, the same
 metrics score route accuracy and abstention behavior without raw text.
+
+`make reproduce-route-cohort-scorecard` runs the same qid-only route scoring
+path sliced by synthetic query cohorts. Private cohort reports use a private
+source map so aggregate reports can compare query substrates without exposing raw
+source names.
 
 `make verify` runs tests, reproduction commands, and a public-safety scan
 for private-source leakage indicators.
@@ -169,6 +175,11 @@ runs and scored through `scripts/reproduce_route_scorecard.py`; see
 `reports/private_route_scorecard_silver.md`. The report includes per-source-tier
 route slices and largest gold/predicted route confusions, keeping the evaluation
 path the same for silver diagnostics and future human-gold labels.
+
+The private query-cohort scorecard is checked in at
+`reports/private_route_cohort_scorecard_silver.md`. It groups private sources
+through a generic source map and reports cohort-level route accuracy, abstention
+recall, and context-needed policy fallback without raw source names.
 
 To start the human audit gate, build a private audit pack and publish only the
 sampling summary:

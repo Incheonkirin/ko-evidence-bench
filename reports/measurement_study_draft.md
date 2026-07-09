@@ -23,6 +23,7 @@ for steering the work, but they are blocked from headline use until the
 | Always searching policy clauses is a weak source-routing baseline | `always_policy` route accuracy 21.5% | silver diagnostic |
 | Query-language routing helps but misses most abstention-needed cases | route accuracy 31.8%; abstention recall 10.5% | silver diagnostic |
 | The largest silver route failure is unsafe policy-clause fallback | `human_context_needed` route accuracy 10.5%; 190 rows still predicted `policy_clause` | silver diagnostic |
+| Route failures vary by private query cohort | route accuracy range 24.8% - 38.3%; context-needed policy fallback up to 84.2% | silver diagnostic |
 | Human-gold public headline claim | 0 / 300 adjudicated labels complete | blocked |
 
 ## Retrieval Evidence
@@ -62,6 +63,12 @@ Largest silver confusion:
 | system | gold source tier | predicted source tier | count | share of run |
 |---|---|---|---:|---:|
 | `query_keyword_router` | `human_context_needed` | `policy_clause` | 190 | 34.9% |
+
+Private query-cohort diagnostics:
+
+| system | route accuracy range across cohorts | max context-needed policy fallback |
+|---|---:|---:|
+| `query_keyword_router` | 24.8% - 38.3% | 84.2% |
 
 ## Claim Control
 

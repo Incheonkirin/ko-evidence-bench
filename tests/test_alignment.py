@@ -18,6 +18,7 @@ class AlignmentTest(unittest.TestCase):
         self.assertEqual(statuses["Report-first artifact"], "PASS")
         self.assertEqual(statuses["Qid-only route scorecard path"], "PASS")
         self.assertEqual(statuses["Per-source route failure slices"], "PASS")
+        self.assertEqual(statuses["Query-cohort route slices"], "PASS")
         self.assertEqual(statuses["Human-label progress gate"], "PASS")
         self.assertEqual(statuses["Human-gold route labels"], "BLOCKED")
         self.assertEqual(overall_status(items), "NO-GO FOR HEADLINE CLAIMS")
@@ -27,6 +28,7 @@ class AlignmentTest(unittest.TestCase):
 
         self.assertIn("Overall status: **NO-GO FOR HEADLINE CLAIMS**", report)
         self.assertIn("Per-source route failure slices", report)
+        self.assertIn("Query-cohort route slices", report)
         self.assertIn("CSV validation", report)
         self.assertIn("source-route labels are still silver", report)
 

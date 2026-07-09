@@ -21,6 +21,8 @@ class StudyReportTest(unittest.TestCase):
         self.assertIn("31.8%", report)
         self.assertIn("190 rows still predicted `policy_clause`", report)
         self.assertIn("Silver source-route slices", report)
+        self.assertIn("route accuracy range 24.8% - 38.3%", report)
+        self.assertIn("context-needed policy fallback up to 84.2%", report)
         self.assertIn("0 / 300 adjudicated labels complete", report)
 
     def test_build_script_check_mode(self):

@@ -30,6 +30,12 @@ class RouteConfusionSignal:
 
 
 @dataclass(frozen=True)
+class CohortRouteSignal:
+    route_accuracy_range: str
+    max_context_policy_fallback: str
+
+
+@dataclass(frozen=True)
 class StudyReportSignals:
     readiness: StudyReadiness
     structural_pack_clause20: MetricWithCi
@@ -41,6 +47,7 @@ class StudyReportSignals:
     keyword_abstention_recall: MetricWithCi
     keyword_human_context_slice: RouteSliceSignal
     keyword_human_context_to_policy: RouteConfusionSignal
+    cohort_route_signal: CohortRouteSignal
 
 
 def metric_ci(report: str, run: str, metric: str) -> MetricWithCi:
@@ -111,6 +118,31 @@ def route_confusion_signal(
     return RouteConfusionSignal(count=match.group(1), share=match.group(2))
 
 
+def percent_float(value: str) -> float:
+    return float(value.rstrip("%"))
+
+
+def cohort_route_signal(report: str, system: str) -> CohortRouteSignal:
+    metric_rows = re.findall(
+        rf"\| `{re.escape(system)}` \| `[^`]+` \| [\d,]+ \| ([\d.]+%) \| [\d.]+% \| [\d.]+% \|",
+        report,
+    )
+    fallback_rows = re.findall(
+        rf"\| `{re.escape(system)}` \| `[^`]+` \| [\d,]+ \| [\d,]+ \| ([\d.]+%) \|",
+        report,
+    )
+    if not metric_rows:
+        raise ValueError(f"missing cohort route metric rows for {system}")
+    if not fallback_rows:
+        raise ValueError(f"missing cohort fallback rows for {system}")
+    route_values = sorted(percent_float(value) for value in metric_rows)
+    fallback_values = sorted(percent_float(value) for value in fallback_rows)
+    return CohortRouteSignal(
+        route_accuracy_range=f"{route_values[0]:.1f}% - {route_values[-1]:.1f}%",
+        max_context_policy_fallback=f"{fallback_values[-1]:.1f}%",
+    )
+
+
 def points(value: str) -> str:
     return f"+{value}p"
 
@@ -118,6 +150,7 @@ def points(value: str) -> str:
 def load_study_report_signals(root: Path) -> StudyReportSignals:
     full_cross = read(root / "reports" / "private_544_full_cross_scorecard.md")
     route_scorecard = read(root / "reports" / "private_route_scorecard_silver.md")
+    route_cohort_scorecard = read(root / "reports" / "private_route_cohort_scorecard_silver.md")
     readiness = load_study_readiness(root)
 
     return StudyReportSignals(
@@ -151,6 +184,7 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
             "human_context_needed",
             "policy_clause",
         ),
+        cohort_route_signal=cohort_route_signal(route_cohort_scorecard, "query_keyword_router"),
     )
 
 
@@ -198,6 +232,12 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             "| The largest silver route failure is unsafe policy-clause fallback | "
             f"`human_context_needed` route accuracy {signals.keyword_human_context_slice.route_accuracy}; "
             f"{signals.keyword_human_context_to_policy.count} rows still predicted `policy_clause` | "
+            "silver diagnostic |"
+        ),
+        (
+            "| Route failures vary by private query cohort | "
+            f"route accuracy range {signals.cohort_route_signal.route_accuracy_range}; "
+            f"context-needed policy fallback up to {signals.cohort_route_signal.max_context_policy_fallback} | "
             "silver diagnostic |"
         ),
         (
@@ -270,6 +310,16 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             "| `query_keyword_router` | `human_context_needed` | `policy_clause` | "
             f"{signals.keyword_human_context_to_policy.count} | "
             f"{signals.keyword_human_context_to_policy.share} |"
+        ),
+        "",
+        "Private query-cohort diagnostics:",
+        "",
+        "| system | route accuracy range across cohorts | max context-needed policy fallback |",
+        "|---|---:|---:|",
+        (
+            "| `query_keyword_router` | "
+            f"{signals.cohort_route_signal.route_accuracy_range} | "
+            f"{signals.cohort_route_signal.max_context_policy_fallback} |"
         ),
         "",
         "## Claim Control",

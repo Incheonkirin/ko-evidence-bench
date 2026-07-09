@@ -1,0 +1,7 @@
+{
+  "default_cohort": "fixture_unmapped",
+  "cohorts": {
+    "fixture_expert_raw": "fixture_expert_qna",
+    "fixture_forum_raw": "fixture_forum"
+  }
+}

@@ -80,6 +80,20 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The study can explain where routing fails, not just report one aggregate number.",
         ),
         AlignmentItem(
+            area="Query-cohort route slices",
+            status=(
+                "PASS"
+                if (root / "scripts" / "reproduce_route_cohort_scorecard.py").exists()
+                and (root / "fixtures" / "source_cohort_map.json").exists()
+                and has_text(root / "reports" / "route_cohort_scorecard_fixture.md", "## Route Metrics By Query Cohort")
+                and has_text(root / "reports" / "private_route_cohort_scorecard_silver.md", "unmapped source rows: 0")
+                and has_text(root / "reports" / "measurement_study_draft.md", "Private query-cohort diagnostics")
+                else "MISSING"
+            ),
+            evidence="source-map cohort scorecards compare query substrates without raw source names",
+            why_it_matters="The study can test whether failures differ across real query cohorts.",
+        ),
+        AlignmentItem(
             area="Human audit workflow",
             status=(
                 "PASS"

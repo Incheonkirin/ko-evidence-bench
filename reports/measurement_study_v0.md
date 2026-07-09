@@ -38,6 +38,8 @@ retrieve the right kind of evidence and abstain when citation is not possible.
 - Source-route audit seed: `n=50`, private rows plus aggregate-only summary.
 - Source-route adjudication workset: `n=300`, private rows plus aggregate-only
   summary.
+- Source-route reviewer CSV templates: `n=50` reviewer A, `n=50` reviewer B,
+  and `n=300` adjudication templates.
 - Source-route adjudication validation: `0/300` complete, promotion blocked
   until final labels are filled.
 - Structural pack-only `clause@20`: 56.4% with 95% CI 52.4%-60.5%.

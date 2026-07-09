@@ -22,6 +22,18 @@ ROUTE_LABELS = {
 CONFIDENCE_LABELS = {"high", "medium", "low"}
 
 
+def reviewer_template() -> dict[str, Any]:
+    return {
+        "route_gold": "",
+        "allowed_source_tiers": [],
+        "should_abstain": None,
+        "confidence": "",
+        "rationale_code": "",
+        "labeler": "",
+        "notes": "",
+    }
+
+
 def is_blank(value: Any) -> bool:
     return value in (None, "", [])
 

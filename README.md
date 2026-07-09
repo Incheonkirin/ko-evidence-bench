@@ -137,6 +137,10 @@ The current adjudication workset has been validation-checked and is still
 pending: 0 of 300 adjudicated labels are complete. That status is recorded in
 `reports/private_route_audit_validation_pending.md`.
 
+Reviewer-editable private CSV templates have also been generated for the
+50-row reviewer A/B seed and the 300-row adjudication workset. Their public
+summaries are checked in without raw rows.
+
 ## Public/Private Boundary
 
 Public:
@@ -177,6 +181,9 @@ reports/
   private_route_audit_validation_pending.md
   private_route_label_summary.md
   private_route_router_baselines.md
+  private_route_review_csv_50_reviewer_a_summary.md
+  private_route_review_csv_50_reviewer_b_summary.md
+  private_route_review_csv_300_adjudicated_summary.md
 docs/
   data_statement.md
   route_label_protocol.md

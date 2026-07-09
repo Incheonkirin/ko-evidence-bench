@@ -85,6 +85,38 @@ separate private `--audit-out` path.
 The audit pack may contain raw private query text and must stay outside this
 public repo. Only the aggregate sampling summary should be checked in.
 
+For manual review, export a private CSV template:
+
+```bash
+python3 scripts/export_route_review_csv.py \
+  --audit /path/to/private_route_audit_pack.jsonl \
+  --reviewer-prefix reviewer_a \
+  --csv-out /path/to/private_reviewer_a.csv \
+  --report-out reports/private_route_review_csv_export.md
+```
+
+Reviewers fill these CSV columns:
+
+- `route_gold`
+- `allowed_source_tiers`
+- `should_abstain`
+- `confidence`
+- `rationale_code`
+- `labeler`
+- `notes`
+
+Then import the reviewed CSV back into a private audit pack:
+
+```bash
+python3 scripts/import_route_review_csv.py \
+  --audit /path/to/private_route_audit_pack.jsonl \
+  --csv /path/to/private_reviewer_a.csv \
+  --target-prefix reviewer_a \
+  --out /path/to/private_route_audit_pack.reviewer_a.jsonl \
+  --report-out reports/private_route_review_csv_import.md \
+  --skip-empty
+```
+
 After independent labels are filled, summarize agreement without exposing rows:
 
 ```bash

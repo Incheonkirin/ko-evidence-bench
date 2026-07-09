@@ -40,6 +40,8 @@ class ReviewerDemoTest(unittest.TestCase):
         self.assertIn("reports/answer_agreement_workflow_fixture.md", report)
         self.assertIn("Two reviewer fields can be validated", report)
         self.assertIn("reports/system_matrix.md", report)
+        self.assertIn("reports/system_matrix_submission_pack_fixture.md", report)
+        self.assertIn("concrete submission shape", report)
         self.assertIn("reports/system_matrix_bundle_fixture.md", report)
         self.assertIn("qid-only run-bundle contract", report)
         self.assertIn("reports/system_matrix_promotion_fixture.md", report)

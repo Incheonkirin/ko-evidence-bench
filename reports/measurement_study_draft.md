@@ -76,6 +76,7 @@ presented as answer-quality claims.
 | artifact | current evidence | status |
 |---|---|---|
 | `reports/system_matrix.md` | 14 implemented diagnostic/fixture systems; 7 not-run analyzer/dense/hybrid/reranker systems; 1 human-gold gate blocked | full comparison matrix incomplete |
+| `reports/system_matrix_submission_pack_fixture.md` | qid-only submission template covers 7 missing systems and emits 9 template files | handoff template only; not external model output |
 | `reports/system_matrix_bundle_fixture.md` | qid-only bundle contract covers 7 runnable missing systems with 0 validation errors | import rehearsal only; not external model output |
 | `reports/system_matrix_promotion_fixture.md` | mechanical gates pass, but fixture promotion is blocked by 8 rows and fixture provenance | no matrix update from synthetic evidence |
 
@@ -226,6 +227,7 @@ make reproduce-surface-fragmentation-audit
 make reproduce-answer-quality-audit
 make reproduce-answer-review-workflow
 make reproduce-answer-agreement-workflow
+make build-system-matrix-submission-pack
 make check-audit-surface-coverage
 make reproduce-normalization-ablation
 make reproduce-intent-inventory

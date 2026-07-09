@@ -24,11 +24,12 @@ a reviewer who wants to understand the study artifact before reading code.
 | 13 | `reports/answer_review_workflow_fixture.md` | Check the answer-review CSV roundtrip. | The answer-quality label path can be exported, validated, imported, and promoted without publishing private rows. |
 | 14 | `reports/answer_agreement_workflow_fixture.md` | Check the answer-agreement rehearsal. | Two reviewer fields can be validated and summarized without exposing private rows. |
 | 15 | `reports/system_matrix.md` | Check which systems are actually backed by evidence. | The full analyzer/dense/hybrid/reranker matrix is explicit and incomplete. |
-| 16 | `reports/system_matrix_bundle_fixture.md` | Inspect the qid-only run-bundle contract. | Future analyzer, dense, hybrid, and reranker runs have an import and leakage-check path. |
-| 17 | `reports/system_matrix_promotion_fixture.md` | Check the matrix promotion rehearsal. | A validated fixture bundle is still blocked from updating the matrix without scale and real-run provenance. |
-| 18 | `reports/measurement_study_draft.md` | Read the aggregate-only study draft. | The report is the product; code exists to regenerate and check it. |
-| 19 | `reports/human_gold_rehearsal_fixture.md` | Verify the synthetic completed-label path. | Once real labels exist, the promotion and scorecard path is already rehearsed. |
-| 20 | `reports/study_readiness.md` | Confirm the remaining gate. | Headline claims stay blocked until human labels are complete and validated. |
+| 16 | `reports/system_matrix_submission_pack_fixture.md` + `fixtures/system_matrix_submission_template/` | Inspect the qid-only matrix handoff template. | Missing analyzer, dense, hybrid, and reranker runs have a concrete submission shape without raw text. |
+| 17 | `reports/system_matrix_bundle_fixture.md` | Inspect the qid-only run-bundle contract. | Future analyzer, dense, hybrid, and reranker runs have an import and leakage-check path. |
+| 18 | `reports/system_matrix_promotion_fixture.md` | Check the matrix promotion rehearsal. | A validated fixture bundle is still blocked from updating the matrix without scale and real-run provenance. |
+| 19 | `reports/measurement_study_draft.md` | Read the aggregate-only study draft. | The report is the product; code exists to regenerate and check it. |
+| 20 | `reports/human_gold_rehearsal_fixture.md` | Verify the synthetic completed-label path. | Once real labels exist, the promotion and scorecard path is already rehearsed. |
+| 21 | `reports/study_readiness.md` | Confirm the remaining gate. | Headline claims stay blocked until human labels are complete and validated. |
 
 ## One Command
 
@@ -52,7 +53,7 @@ make docker-demo
 
 `make docker-demo` builds the local image and reruns the fixture table,
 layer attribution, readiness gate, probe privacy screen, public probe
-dataset card, BEIR export, system comparison, trap-mining check, surface-fragmentation audit, qualitative gallery check, answer-quality audit check, answer-review workflow check, answer-agreement workflow check, system matrix bundle check, system matrix promotion check, system matrix check,
+dataset card, BEIR export, system comparison, trap-mining check, surface-fragmentation audit, qualitative gallery check, answer-quality audit check, answer-review workflow check, answer-agreement workflow check, system matrix submission-pack check, system matrix bundle check, system matrix promotion check, system matrix check,
 generated-report checks, and public-safety scan inside the container.
 
 ## Current Diagnostic Signals

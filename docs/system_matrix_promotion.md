@@ -7,6 +7,19 @@ that are still `not_run`. A run bundle is not enough to change those rows.
 Before promotion, the bundle must pass mechanical, privacy, scale, and
 provenance gates.
 
+Start by creating a qid-only submission template:
+
+```bash
+python3 scripts/build_system_matrix_submission_pack.py \
+  --qrels /path/to/private_qid_only_qrels.jsonl \
+  --pack-dir /path/to/private_matrix_submission_template \
+  --out reports/private_system_matrix_submission_pack.md
+```
+
+Each external runner fills one JSONL run file per missing system. The template
+contains stable qids only and must stay free of raw queries, answers, source
+names, URLs, conversation snippets, or evidence text.
+
 ## Gates
 
 | gate | Required |

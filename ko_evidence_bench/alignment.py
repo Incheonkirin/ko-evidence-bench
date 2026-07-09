@@ -413,6 +413,24 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The repo must not imply the full analyzer/dense/hybrid/reranker matrix has already been run.",
         ),
         AlignmentItem(
+            area="Full-matrix submission handoff",
+            status=(
+                "PASS"
+                if (root / "scripts" / "build_system_matrix_submission_pack.py").exists()
+                and (root / "fixtures" / "system_matrix_submission_template" / "manifest.template.json").exists()
+                and has_text(
+                    root / "reports" / "system_matrix_submission_pack_fixture.md",
+                    "PASS qid-only matrix submission template",
+                )
+                and has_text(root / "reports" / "system_matrix_submission_pack_fixture.md", "required missing-matrix systems: 7")
+                and has_text(root / "reports" / "system_matrix_submission_pack_fixture.md", "template only; no external systems run")
+                and has_text(root / "Makefile", "check-system-matrix-submission-pack")
+                else "MISSING"
+            ),
+            evidence="qid-only handoff templates cover every missing analyzer, dense, hybrid, and reranker run",
+            why_it_matters="The missing full matrix now has a concrete submission shape before validation and promotion.",
+        ),
+        AlignmentItem(
             area="Full-matrix run-bundle contract",
             status=(
                 "PASS"
@@ -675,7 +693,8 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "containerized reproduction, screened public probes, dataset card,",
             "qualitative examples, layer attribution, system matrix guard,",
             "answer-quality audit rehearsal, answer-quality review workflow,",
-            "answer-quality agreement workflow, full-matrix run-bundle contract, full-matrix promotion gate,",
+            "answer-quality agreement workflow, full-matrix submission handoff,",
+            "full-matrix run-bundle contract, full-matrix promotion gate,",
             "qid-only scorecards, audit workflow,",
             "and public-safety checks. It is not headline-ready",
             "because source-route labels still lack independent agreement",

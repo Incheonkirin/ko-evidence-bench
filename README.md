@@ -92,6 +92,12 @@ The system comparison ledger is `reports/system_matrix.md`. It records which
 systems are backed by checked-in evidence and which analyzer, dense, hybrid, or
 reranker comparisons are still not run.
 
+`reports/system_matrix_submission_pack_fixture.md` builds a qid-only handoff
+template for those missing analyzer, dense, hybrid, and reranker runs. It
+creates the checked-in fixture template at
+`fixtures/system_matrix_submission_template/` and keeps promotion blocked until
+real external-system outputs replace the templates.
+
 `reports/answer_quality_audit_fixture.md` rehearses a qid-only answer-quality
 audit path. It separates retrieval hits from final answer sufficiency: whether
 returned evidence was sufficient, partial, insufficient, a correct abstention,
@@ -194,6 +200,7 @@ make build-qualitative-gallery
 make reproduce-answer-quality-audit
 make reproduce-answer-review-workflow
 make reproduce-answer-agreement-workflow
+make build-system-matrix-submission-pack
 make validate-system-matrix-bundle
 make rehearse-system-matrix-promotion
 make build-system-matrix-report
@@ -356,6 +363,11 @@ human review.
 reporting across two reviewer fields. The checked-in report is
 `reports/answer_agreement_workflow_fixture.md`; it is synthetic and not
 inter-annotator evidence.
+
+`make build-system-matrix-submission-pack` builds the qid-only submission
+template for the missing analyzer, dense, hybrid, and reranker runs. The
+checked-in report is `reports/system_matrix_submission_pack_fixture.md`; it is
+a handoff template, not external model output.
 
 `make validate-system-matrix-bundle` validates the qid-only run-bundle contract
 for the missing analyzer, dense, hybrid, and reranker systems against
@@ -596,6 +608,7 @@ scripts/
   import_answer_review_csv.py
   summarize_answer_audit.py
   reproduce_answer_agreement_workflow.py
+  build_system_matrix_submission_pack.py
   rehearse_system_matrix_promotion.py
   build_probe_dataset_card.py
   build_system_matrix_report.py

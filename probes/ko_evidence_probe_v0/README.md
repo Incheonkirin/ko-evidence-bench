@@ -12,6 +12,7 @@ conversation messages, or policy corpora.
   metadata.
 - `qrels.jsonl`: intent-level source-route labels and sufficient evidence ids.
 - `evidence.jsonl`: synthetic evidence snippets grouped by source tier.
+- `beir/`: BEIR-style retrieval subset exported from the same probe rows.
 
 ## Design
 
@@ -32,3 +33,16 @@ The screen validates schema consistency, qid/evidence joins, source-tier values,
 synthetic provenance, common PII patterns, private-source indicators, and
 long n-gram overlap against a synthetic source-reference fixture. Private labs
 can run the same script with private reference files outside this repo.
+
+## BEIR-Style Export
+
+Run:
+
+```bash
+make export-probe-beir
+```
+
+The export writes `beir/corpus.jsonl`, `beir/queries.jsonl`,
+`beir/qrels/test.tsv`, and `beir/query_metadata.jsonl`. It is a standard
+retrieval subset for answerable rows only; source-route and abstention labels
+remain in `qrels.jsonl` and `query_metadata.jsonl`.

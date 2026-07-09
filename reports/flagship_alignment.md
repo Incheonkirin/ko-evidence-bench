@@ -17,6 +17,7 @@ headline claims.
 | Reviewer demo path | `PASS` | generated 3-minute walkthrough links findings, claim controls, rehearsal, and readiness | A reviewer can understand the study artifact before reading framework code. |
 | Containerized reproduction path | `PASS` | Dockerfile plus make docker-demo reruns the fixture table and claim-control checks | A reviewer can reproduce the public demo without first configuring a Python environment. |
 | Public probe set and privacy screen | `PASS` | synthetic queries, intent-level qrels, evidence snippets, and privacy-screen report | The released instrument is a screened probe set, not a dictionary or private-data dump. |
+| BEIR-style public probe export | `PASS` | public probe rows are exported to corpus, queries, qrels, and metadata files | The public probe can plug into standard IR tooling without hiding route and abstention limits. |
 | Runnable public probe systems | `PASS` | lexical, semantic, hybrid, and route-aware probe systems run on the same public fixture | The public probe is executable evidence, not only a static dataset or dictionary. |
 | Trap-mining diagnostic | `PASS` | public probe queries are mined for trap classes and compared with qrel annotations | Analyzer and intent-fragmentation failures are measured as diagnostics, not shipped as a dictionary. |
 | Surface-fragmentation undercount audit | `PASS` | public probe intents compare exact lexical seed counts with qrel-level surface variants | The repo measures the user's undercount critique instead of turning aliases into a dictionary. |

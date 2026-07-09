@@ -125,6 +125,23 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The released instrument is a screened probe set, not a dictionary or private-data dump.",
         ),
         AlignmentItem(
+            area="BEIR-style public probe export",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "beir_export.py").exists()
+                and (root / "scripts" / "export_probe_beir.py").exists()
+                and (root / "probes" / "ko_evidence_probe_v0" / "beir" / "corpus.jsonl").exists()
+                and (root / "probes" / "ko_evidence_probe_v0" / "beir" / "queries.jsonl").exists()
+                and (root / "probes" / "ko_evidence_probe_v0" / "beir" / "qrels" / "test.tsv").exists()
+                and has_text(root / "reports" / "probe_beir_export.md", "BEIR-style retrieval subset")
+                and has_text(root / "reports" / "probe_beir_export.md", "abstention rows skipped from BEIR qrels")
+                and has_text(root / "Makefile", "check-probe-beir")
+                else "MISSING"
+            ),
+            evidence="public probe rows are exported to corpus, queries, qrels, and metadata files",
+            why_it_matters="The public probe can plug into standard IR tooling without hiding route and abstention limits.",
+        ),
+        AlignmentItem(
             area="Runnable public probe systems",
             status=(
                 "PASS"

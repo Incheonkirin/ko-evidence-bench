@@ -1,0 +1,13 @@
+{"_id": "probe-bundle-formal", "text": "암, 뇌혈관질환, 심장질환 진단비 보장 범위를 확인하고 싶습니다."}
+{"_id": "probe-bundle-abbrev", "text": "암뇌심 진단비가 한 특약에 같이 묶여 있나요?"}
+{"_id": "probe-bundle-messenger", "text": "암/뇌/심 진단비 같이 보는 거 맞나요?"}
+{"_id": "probe-indemnity-formal", "text": "실손의료보험에서 비급여 도수치료 보장 조건을 알려주세요."}
+{"_id": "probe-indemnity-colloquial", "text": "비급여 치료도 실비에서 되는지 궁금해요."}
+{"_id": "probe-refund-formal", "text": "보험계약 해지 시 해지환급금 산정 기준은 어디에서 확인하나요?"}
+{"_id": "probe-refund-messenger", "text": "해지하면 환급금 얼마 나오는지 표 봐야 해요?"}
+{"_id": "probe-underwriting-context", "text": "과거 치료 이력이 있는데 가입 가능 여부를 지금 판단해 주세요."}
+{"_id": "probe-underwriting-messenger", "text": "예전에 치료받은 거 있는데 인수 가능해요?"}
+{"_id": "probe-claims-docs", "text": "보험금 청구할 때 진단서와 영수증 중 어떤 서류가 필요한가요?"}
+{"_id": "probe-dispute-denial", "text": "보험금 지급 거절에 다투려면 분쟁 사례를 확인해야 하나요?"}
+{"_id": "probe-product-disclosure", "text": "보험 가입 전에 상품설명서와 소비자 유의사항을 어디서 확인하나요?"}
+{"_id": "probe-expert-explain", "text": "고지의무가 무엇인지 일반적인 설명이 필요합니다."}

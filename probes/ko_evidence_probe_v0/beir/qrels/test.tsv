@@ -1,0 +1,12 @@
+query-id	corpus-id	score
+probe-bundle-formal	ev-policy-bundle-diagnosis	1
+probe-bundle-abbrev	ev-policy-bundle-diagnosis	1
+probe-bundle-messenger	ev-policy-bundle-diagnosis	1
+probe-indemnity-formal	ev-policy-noncovered-treatment	1
+probe-indemnity-colloquial	ev-policy-noncovered-treatment	1
+probe-refund-formal	ev-disclosure-refund-table	1
+probe-refund-messenger	ev-disclosure-refund-table	1
+probe-claims-docs	ev-claims-document-checklist	1
+probe-dispute-denial	ev-dispute-denial-case	1
+probe-product-disclosure	ev-official-precontract-info	1
+probe-expert-explain	ev-expert-disclosure-duty	1

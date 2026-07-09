@@ -94,3 +94,16 @@ contains the source-route label and sufficient evidence ids for the same qid.
 
 Every row must use `provenance = "synthetic_public_fixture"` and pass
 `make check-probe-privacy` before publication.
+
+The same package can be exported to a BEIR-style retrieval subset:
+
+```text
+probes/ko_evidence_probe_v0/beir/corpus.jsonl
+probes/ko_evidence_probe_v0/beir/queries.jsonl
+probes/ko_evidence_probe_v0/beir/qrels/test.tsv
+probes/ko_evidence_probe_v0/beir/query_metadata.jsonl
+```
+
+The BEIR qrels include answerable query-evidence pairs only. Source-route,
+surface, trap, and abstention metadata remain in `query_metadata.jsonl` and the
+original `qrels.jsonl`.

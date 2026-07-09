@@ -44,6 +44,8 @@ class StudyReportTest(unittest.TestCase):
         self.assertIn("answerable clause@20 71.3%", report)
         self.assertIn("Layer Attribution Evidence", report)
         self.assertIn("Table-2-style decomposition hook", report)
+        self.assertIn("make export-probe-beir", report)
+        self.assertIn("reports/probe_beir_export.md", report)
         self.assertIn("Human audit workset covers the stress axes before labeling", report)
         self.assertIn("Human Audit Coverage", report)
         self.assertIn("system matrix not-run systems", report)

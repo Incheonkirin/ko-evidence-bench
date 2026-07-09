@@ -74,6 +74,11 @@ counting misses when the same intent appears as formal wording, abbreviation,
 colloquial phrasing, or messenger shorthand. It is an audit of counting bias,
 not a production synonym list.
 
+`reports/probe_beir_export.md` documents the BEIR-style retrieval subset at
+`probes/ko_evidence_probe_v0/beir/`. It exports answerable rows to
+`corpus.jsonl`, `queries.jsonl`, and `qrels/test.tsv`, while source-route,
+surface, trap, and abstention metadata stay in `query_metadata.jsonl`.
+
 The qualitative example gallery is `reports/qualitative_gallery.md`. It shows
 synthetic side-by-side source-routing failures over the same public probe set.
 
@@ -149,6 +154,7 @@ make build-hero-signal
 make build-claim-ledger
 make build-reviewer-demo
 make build-probe-privacy-report
+make export-probe-beir
 make reproduce-probe-system-comparison
 make reproduce-probe-trap-mining
 make reproduce-surface-fragmentation-audit
@@ -284,6 +290,10 @@ analyzer/intent failure mining, not a dictionary generator.
 undercounting on the public probe package. The checked-in report is
 `reports/surface_fragmentation_audit.md`; it treats surface expansion as an
 evaluation diagnostic, not a synonym product.
+
+`make export-probe-beir` writes the public probe to a BEIR-style retrieval
+layout under `probes/ko_evidence_probe_v0/beir/` and regenerates
+`reports/probe_beir_export.md`. `make verify` checks that the export is current.
 
 `make build-qualitative-gallery` regenerates `reports/qualitative_gallery.md`,
 the synthetic side-by-side failure examples used to make the route diagnostics
@@ -477,6 +487,7 @@ Private:
 ```text
 ko_evidence_bench/
   ablation.py         # Run-level rescue/regression comparisons.
+  beir_export.py      # Public probe BEIR-style export.
   intent_inventory.py # Aggregate intent-family inventory metrics.
   intent_surface_export.py # Qid-only intent/surface metadata export.
   layer_attribution.py # Primary failure-layer attribution.
@@ -494,6 +505,7 @@ scripts/
   build_intent_inventory.py
   build_claim_ledger.py
   build_hero_signal.py
+  export_probe_beir.py
   export_intent_surface_qrels.py
   profile_query_substrates.py
   reproduce_human_gold_rehearsal.py

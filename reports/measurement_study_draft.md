@@ -203,6 +203,7 @@ make reproduce-surface-scorecard
 make reproduce-route-surface-scorecard
 make reproduce-runtime-surface-scorecard
 make reproduce-layer-attribution
+make export-probe-beir
 make reproduce-probe-system-comparison
 make reproduce-probe-trap-mining
 make reproduce-surface-fragmentation-audit
@@ -223,8 +224,9 @@ make docker-demo
 
 The public commands reproduce synthetic fixtures and regenerate aggregate
 claim-control reports. The public probe package is synthetic and
-screened by `reports/probe_privacy_report.md`; qualitative examples are
-generated at `reports/qualitative_gallery.md`, and layer attribution is
+screened by `reports/probe_privacy_report.md`; its BEIR-style retrieval
+subset is documented at `reports/probe_beir_export.md`. Qualitative examples
+are generated at `reports/qualitative_gallery.md`, and layer attribution is
 generated at `reports/layer_attribution_fixture.md`. System coverage is
 tracked at `reports/system_matrix.md`. `make docker-demo` runs
 a short containerized reproduction path for reviewers. Private qid-only

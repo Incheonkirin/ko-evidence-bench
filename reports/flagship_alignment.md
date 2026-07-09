@@ -32,6 +32,7 @@ headline claims.
 | Runtime-surface retrieval-hit axis | `PASS` | runtime hit booleans are sliced by surface form, intent family, and trap class without raw evidence ids | This moves surface robustness from fixture-only demos into actual retrieval-hit diagnostics. |
 | Layer attribution axis | `PASS` | failed synthetic rows are decomposed into primary diagnostic layers | The study can explain where failures accumulate instead of only reporting aggregate scores. |
 | Answer-quality audit rehearsal | `PASS` | synthetic qid-only labels validate answer sufficiency, correct abstention, and unsafe answers | Retrieval-hit metrics are not final answer-quality claims; the audit path keeps that boundary explicit. |
+| Answer-quality review workflow | `PASS` | synthetic CSV export, validation, import, audit validation, and qid-only promotion are rehearsed | The remaining answer-quality work is reviewer production, not missing review plumbing. |
 | System comparison matrix guard | `PASS` | system matrix report separates implemented diagnostics from not-run and blocked comparisons | The repo must not imply the full analyzer/dense/hybrid/reranker matrix has already been run. |
 | Full-matrix run-bundle contract | `PASS` | synthetic qid-only bundle validates import, coverage, leakage, and scoring for the missing systems | The missing full matrix now has a checked artifact contract instead of an undefined handoff. |
 | Full-matrix promotion gate | `PASS` | promotion gates reject the synthetic bundle until scale and real-run provenance exist | The repo can accept future full-matrix runs without pretending fixture outputs are model evidence. |
@@ -56,8 +57,9 @@ The repo now has the public shell expected of a flagship measurement study:
 generated study draft, claim-control gates, reviewer walkthrough,
 containerized reproduction, screened public probes, dataset card,
 qualitative examples, layer attribution, system matrix guard,
-answer-quality audit rehearsal, full-matrix run-bundle contract,
-full-matrix promotion gate, qid-only scorecards, audit workflow,
+answer-quality audit rehearsal, answer-quality review workflow,
+full-matrix run-bundle contract, full-matrix promotion gate,
+qid-only scorecards, audit workflow,
 and public-safety checks. It is not headline-ready
 because source-route labels still lack independent agreement
 evidence and human-adjudicated coverage, and the full comparison

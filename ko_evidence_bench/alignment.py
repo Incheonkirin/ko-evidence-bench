@@ -361,6 +361,25 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="Retrieval-hit metrics are not final answer-quality claims; the audit path keeps that boundary explicit.",
         ),
         AlignmentItem(
+            area="Answer-quality review workflow",
+            status=(
+                "PASS"
+                if (root / "scripts" / "export_answer_review_csv.py").exists()
+                and (root / "scripts" / "validate_answer_review_csv.py").exists()
+                and (root / "scripts" / "import_answer_review_csv.py").exists()
+                and (root / "scripts" / "reproduce_answer_review_workflow.py").exists()
+                and has_text(
+                    root / "reports" / "answer_review_workflow_fixture.md",
+                    "PASS synthetic answer-quality CSV workflow rehearsal",
+                )
+                and has_text(root / "reports" / "answer_review_workflow_fixture.md", "not human-gold evidence")
+                and has_text(root / "Makefile", "check-answer-review-workflow")
+                else "MISSING"
+            ),
+            evidence="synthetic CSV export, validation, import, audit validation, and qid-only promotion are rehearsed",
+            why_it_matters="The remaining answer-quality work is reviewer production, not missing review plumbing.",
+        ),
+        AlignmentItem(
             area="System comparison matrix guard",
             status=(
                 "PASS"
@@ -638,8 +657,9 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "generated study draft, claim-control gates, reviewer walkthrough,",
             "containerized reproduction, screened public probes, dataset card,",
             "qualitative examples, layer attribution, system matrix guard,",
-            "answer-quality audit rehearsal, full-matrix run-bundle contract,",
-            "full-matrix promotion gate, qid-only scorecards, audit workflow,",
+            "answer-quality audit rehearsal, answer-quality review workflow,",
+            "full-matrix run-bundle contract, full-matrix promotion gate,",
+            "qid-only scorecards, audit workflow,",
             "and public-safety checks. It is not headline-ready",
             "because source-route labels still lack independent agreement",
             "evidence and human-adjudicated coverage, and the full comparison",

@@ -97,6 +97,10 @@ audit path. It separates retrieval hits from final answer sufficiency: whether
 returned evidence was sufficient, partial, insufficient, a correct abstention,
 or an unsafe answer. The fixture is synthetic and not a human-gold result.
 
+`reports/answer_review_workflow_fixture.md` rehearses the private reviewer CSV
+path for those answer-quality labels: export, validate, import, qid-only audit
+validation, and promotion. It uses synthetic rows only.
+
 `reports/system_matrix_bundle_fixture.md` validates the qid-only run-bundle
 contract for those missing analyzer, dense, hybrid, and reranker systems. The
 fixture bundle is synthetic and does not claim that the external systems have
@@ -184,6 +188,7 @@ make reproduce-probe-trap-mining
 make reproduce-surface-fragmentation-audit
 make build-qualitative-gallery
 make reproduce-answer-quality-audit
+make reproduce-answer-review-workflow
 make validate-system-matrix-bundle
 make rehearse-system-matrix-promotion
 make build-system-matrix-report
@@ -336,6 +341,11 @@ answer-quality fixture. The checked-in report is
 `reports/answer_quality_audit_fixture.md`; it rehearses evidence-sufficiency
 and unsafe-answer labeling after retrieval, not human-gold answer-quality
 claims.
+
+`make reproduce-answer-review-workflow` rehearses the private CSV review
+roundtrip for answer-quality labels. The checked-in report is
+`reports/answer_review_workflow_fixture.md`; it proves workflow plumbing, not
+human review.
 
 `make validate-system-matrix-bundle` validates the qid-only run-bundle contract
 for the missing analyzer, dense, hybrid, and reranker systems against
@@ -519,6 +529,12 @@ Reviewers can use `tools/route_review_ui.html` as a local, static CSV editor.
 It reads private CSVs in the browser and downloads the reviewed CSV without
 uploading data.
 
+Answer-quality review follows the same public/private boundary. Export a
+private CSV with `scripts/export_answer_review_csv.py`, validate it with
+`scripts/validate_answer_review_csv.py`, and import reviewed labels with
+`scripts/import_answer_review_csv.py`. Public reports should include only
+aggregate progress and validation summaries.
+
 ## Public/Private Boundary
 
 Public:
@@ -560,6 +576,10 @@ ko_evidence_bench/
   schemas.py          # Minimal JSONL schema validators.
 scripts/
   reproduce_answer_quality_audit.py
+  reproduce_answer_review_workflow.py
+  export_answer_review_csv.py
+  validate_answer_review_csv.py
+  import_answer_review_csv.py
   rehearse_system_matrix_promotion.py
   build_probe_dataset_card.py
   build_system_matrix_report.py

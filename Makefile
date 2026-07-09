@@ -1,6 +1,6 @@
 DOCKER_IMAGE ?= ko-evidence-bench:local
 
-.PHONY: test check-public-safety check-study-readiness check-readme-signals check-router-lift check-surface-lift build-hero-signal check-hero-signal build-claim-ledger check-claim-ledger build-reviewer-demo check-reviewer-demo build-probe-privacy-report check-probe-privacy build-probe-dataset-card check-probe-dataset-card export-probe-beir check-probe-beir reproduce-probe-system-comparison check-probe-system-comparison reproduce-probe-trap-mining check-probe-trap-mining reproduce-surface-fragmentation-audit check-surface-fragmentation-audit build-qualitative-gallery check-qualitative-gallery reproduce-answer-quality-audit check-answer-quality-audit validate-system-matrix-bundle check-system-matrix-bundle rehearse-system-matrix-promotion check-system-matrix-promotion build-system-matrix-report check-system-matrix-report build-measurement-study check-measurement-study build-alignment-report check-alignment-report verify docker-build docker-demo reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard reproduce-layer-attribution check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile summarize-private-result export-route-labels export-intent-surface-qrels export-route-runs build-route-audit-pack export-route-review-csv build-route-review-brief build-route-review-batch merge-route-review-batch check-route-review-progress validate-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
+.PHONY: test check-public-safety check-study-readiness check-readme-signals check-router-lift check-surface-lift build-hero-signal check-hero-signal build-claim-ledger check-claim-ledger build-reviewer-demo check-reviewer-demo build-probe-privacy-report check-probe-privacy build-probe-dataset-card check-probe-dataset-card export-probe-beir check-probe-beir reproduce-probe-system-comparison check-probe-system-comparison reproduce-probe-trap-mining check-probe-trap-mining reproduce-surface-fragmentation-audit check-surface-fragmentation-audit build-qualitative-gallery check-qualitative-gallery reproduce-answer-quality-audit check-answer-quality-audit reproduce-answer-review-workflow check-answer-review-workflow validate-system-matrix-bundle check-system-matrix-bundle rehearse-system-matrix-promotion check-system-matrix-promotion build-system-matrix-report check-system-matrix-report build-measurement-study check-measurement-study build-alignment-report check-alignment-report verify docker-build docker-demo reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard reproduce-layer-attribution check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile summarize-private-result export-route-labels export-intent-surface-qrels export-route-runs build-route-audit-pack export-route-review-csv build-route-review-brief build-route-review-batch merge-route-review-batch check-route-review-progress validate-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router export-answer-review-csv validate-answer-review-csv import-answer-review-csv
 
 test:
 	python3 -m unittest discover -s tests
@@ -86,6 +86,12 @@ reproduce-answer-quality-audit:
 check-answer-quality-audit:
 	python3 scripts/reproduce_answer_quality_audit.py --out reports/answer_quality_audit_fixture.md --check
 
+reproduce-answer-review-workflow:
+	python3 scripts/reproduce_answer_review_workflow.py --out reports/answer_review_workflow_fixture.md
+
+check-answer-review-workflow:
+	python3 scripts/reproduce_answer_review_workflow.py --out reports/answer_review_workflow_fixture.md --check
+
 validate-system-matrix-bundle:
 	python3 scripts/validate_system_matrix_bundle.py --out reports/system_matrix_bundle_fixture.md
 
@@ -116,14 +122,14 @@ build-alignment-report:
 check-alignment-report:
 	python3 scripts/build_alignment_report.py --out reports/flagship_alignment.md --check
 
-verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard reproduce-layer-attribution check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile check-study-readiness check-readme-signals check-router-lift check-surface-lift check-hero-signal check-claim-ledger check-reviewer-demo check-probe-privacy check-probe-dataset-card check-probe-beir check-probe-system-comparison check-probe-trap-mining check-surface-fragmentation-audit check-qualitative-gallery check-answer-quality-audit check-system-matrix-bundle check-system-matrix-promotion check-system-matrix-report check-measurement-study check-alignment-report check-public-safety
+verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard reproduce-layer-attribution check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile check-study-readiness check-readme-signals check-router-lift check-surface-lift check-hero-signal check-claim-ledger check-reviewer-demo check-probe-privacy check-probe-dataset-card check-probe-beir check-probe-system-comparison check-probe-trap-mining check-surface-fragmentation-audit check-qualitative-gallery check-answer-quality-audit check-answer-review-workflow check-system-matrix-bundle check-system-matrix-promotion check-system-matrix-report check-measurement-study check-alignment-report check-public-safety
 
 docker-build:
 	docker build -t $(DOCKER_IMAGE) .
 
 docker-demo:
 	docker build -t $(DOCKER_IMAGE) .
-	docker run --rm $(DOCKER_IMAGE) make reproduce-table-1 reproduce-layer-attribution check-study-readiness check-hero-signal check-claim-ledger check-reviewer-demo check-probe-privacy check-probe-dataset-card check-probe-beir check-probe-system-comparison check-probe-trap-mining check-surface-fragmentation-audit check-qualitative-gallery check-answer-quality-audit check-system-matrix-bundle check-system-matrix-promotion check-system-matrix-report check-measurement-study check-alignment-report check-public-safety
+	docker run --rm $(DOCKER_IMAGE) make reproduce-table-1 reproduce-layer-attribution check-study-readiness check-hero-signal check-claim-ledger check-reviewer-demo check-probe-privacy check-probe-dataset-card check-probe-beir check-probe-system-comparison check-probe-trap-mining check-surface-fragmentation-audit check-qualitative-gallery check-answer-quality-audit check-answer-review-workflow check-system-matrix-bundle check-system-matrix-promotion check-system-matrix-report check-measurement-study check-alignment-report check-public-safety
 
 reproduce-table-1:
 	python3 scripts/reproduce_table_1.py
@@ -202,6 +208,15 @@ validate-route-review-csv:
 
 import-route-review-csv:
 	python3 scripts/import_route_review_csv.py --audit "$(AUDIT_JSONL)" --csv "$(CSV_IN)" --target-prefix "$(TARGET_PREFIX)" --out "$(AUDIT_OUT)" --report-out reports/private_route_review_csv_import.md --skip-empty
+
+export-answer-review-csv:
+	python3 scripts/export_answer_review_csv.py --audit "$(AUDIT_JSONL)" --reviewer-prefix "$(REVIEWER_PREFIX)" --csv-out "$(CSV_OUT)" --report-out reports/private_answer_review_csv_export.md
+
+validate-answer-review-csv:
+	python3 scripts/validate_answer_review_csv.py --csv "$(CSV_IN)" --report-out reports/private_answer_review_csv_validation.md $(ARGS)
+
+import-answer-review-csv:
+	python3 scripts/import_answer_review_csv.py --audit "$(AUDIT_JSONL)" --csv "$(CSV_IN)" --target-prefix "$(TARGET_PREFIX)" --out "$(AUDIT_OUT)" --report-out reports/private_answer_review_csv_import.md --skip-empty
 
 summarize-route-audit:
 	python3 scripts/summarize_route_audit.py --audit "$(AUDIT_JSONL)" --field-a "$(FIELD_A)" --field-b "$(FIELD_B)" --report-out reports/private_route_audit_agreement.md

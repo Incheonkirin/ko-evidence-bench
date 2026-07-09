@@ -58,3 +58,46 @@ audit labels the output state directly, so the measurement study can say:
 The checked-in fixture is synthetic and only rehearses the validation, summary,
 and qid-only promotion path. Human-gold answer-quality claims require private
 reviewed labels and agreement reporting.
+
+## Review Workflow
+
+Export a private reviewer CSV:
+
+```bash
+python3 scripts/export_answer_review_csv.py \
+  --audit /path/to/private_answer_audit.jsonl \
+  --reviewer-prefix reviewer_a \
+  --csv-out /path/to/private_answer_reviewer_a.csv \
+  --report-out reports/private_answer_review_csv_export.md
+```
+
+Validate progress before import:
+
+```bash
+python3 scripts/validate_answer_review_csv.py \
+  --csv /path/to/private_answer_reviewer_a.csv \
+  --report-out reports/private_answer_review_csv_validation.md
+```
+
+Before promotion, run the same validation with `--require-complete`.
+
+Import the reviewed CSV back into a private audit pack:
+
+```bash
+python3 scripts/import_answer_review_csv.py \
+  --audit /path/to/private_answer_audit.jsonl \
+  --csv /path/to/private_answer_reviewer_a.csv \
+  --target-prefix reviewer_a \
+  --out /path/to/private_answer_audit.reviewer_a.jsonl \
+  --report-out reports/private_answer_review_csv_import.md \
+  --skip-empty
+```
+
+The public rehearsal is:
+
+```bash
+make reproduce-answer-review-workflow
+```
+
+It proves the export, CSV validation, import, qid-only validation, and promotion
+path on synthetic rows only. It does not create human-gold labels.

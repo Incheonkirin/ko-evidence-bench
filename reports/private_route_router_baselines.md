@@ -19,12 +19,20 @@ conversation snippets, or platform identifiers.
 | query_keyword_router | `route_accuracy` | 31.8% | 27.8% - 35.7% |
 | query_keyword_router | `abstention_precision` | 65.9% | 51.2% - 80.0% |
 | query_keyword_router | `abstention_recall` | 10.5% | 7.1% - 14.1% |
+| risk_aware_query_router | `route_accuracy` | 32.7% | 28.9% - 36.8% |
+| risk_aware_query_router | `abstention_precision` | 46.0% | 38.3% - 53.7% |
+| risk_aware_query_router | `abstention_recall` | 26.8% | 21.7% - 32.4% |
+| cohort_aware_query_router | `route_accuracy` | 46.9% | 43.0% - 51.3% |
+| cohort_aware_query_router | `abstention_precision` | 55.1% | 49.9% - 60.3% |
+| cohort_aware_query_router | `abstention_recall` | 67.0% | 61.5% - 72.7% |
 
 ## Paired Delta vs `always_policy`
 
 | system | metric | delta | 95% CI |
 |---|---|---:|---:|
 | query_keyword_router | `route_accuracy` | 10.3% | 7.2% - 13.4% |
+| risk_aware_query_router | `route_accuracy` | 11.2% | 6.4% - 16.0% |
+| cohort_aware_query_router | `route_accuracy` | 25.4% | 19.3% - 31.6% |
 
 ## Gold Route Distribution
 
@@ -52,6 +60,28 @@ conversation snippets, or platform identifiers.
 | `human_context_needed` | 44 | 8.1% |
 | `claims_faq` | 35 | 6.4% |
 | `dispute_case` | 10 | 1.8% |
+| `expert_answer` | 4 | 0.7% |
+
+## Prediction Distribution: `risk_aware_query_router`
+
+| value | count | share |
+|---|---:|---:|
+| `policy_clause` | 257 | 47.2% |
+| `human_context_needed` | 161 | 29.6% |
+| `product_disclosure` | 76 | 14.0% |
+| `claims_faq` | 34 | 6.2% |
+| `dispute_case` | 12 | 2.2% |
+| `expert_answer` | 4 | 0.7% |
+
+## Prediction Distribution: `cohort_aware_query_router`
+
+| value | count | share |
+|---|---:|---:|
+| `human_context_needed` | 336 | 61.8% |
+| `policy_clause` | 82 | 15.1% |
+| `product_disclosure` | 76 | 14.0% |
+| `claims_faq` | 34 | 6.2% |
+| `dispute_case` | 12 | 2.2% |
 | `expert_answer` | 4 | 0.7% |
 
 ## Use Notes

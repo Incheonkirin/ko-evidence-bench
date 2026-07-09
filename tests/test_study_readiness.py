@@ -15,6 +15,7 @@ class StudyReadinessTest(unittest.TestCase):
         self.assertEqual(readiness.best_clause20, "64.9%")
         self.assertEqual(readiness.always_policy_route_acc, "21.5%")
         self.assertEqual(readiness.keyword_route_acc, "31.8%")
+        self.assertEqual(readiness.cohort_aware_route_acc, "46.9%")
         self.assertEqual(readiness.completed_route_labels, 0)
         self.assertEqual(readiness.route_validation_errors, 300)
         self.assertFalse(readiness.headline_ready)

@@ -14,6 +14,7 @@ diagnostics as final benchmark results before human route labels exist.
 | best checked-in `clause@20` | 64.9% | retrieval signal, not answer quality |
 | `always_policy` route accuracy | 21.5% | silver baseline only |
 | query-keyword route accuracy | 31.8% | silver baseline only |
+| cohort-aware route accuracy | 46.9% | silver diagnostic only |
 | completed adjudicated route labels | 0 | needs at least 300 |
 | route validation errors | 300 | must be 0 before headline use |
 

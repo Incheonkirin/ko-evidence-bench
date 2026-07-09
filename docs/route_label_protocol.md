@@ -198,6 +198,12 @@ python3 scripts/promote_route_audit.py \
 Then score route-only predictions without exposing row text:
 
 ```bash
+python3 scripts/export_route_runs.py \
+  --qrels /path/to/private_qrels.jsonl \
+  --out-dir /path/to/private_route_runs \
+  --source-map /path/to/private_source_cohort_map.json \
+  --report-out reports/private_route_run_export_summary.md
+
 python3 scripts/reproduce_route_scorecard.py \
   --labels /path/to/private_human_route_labels.jsonl \
   --run-dir /path/to/private_route_runs \

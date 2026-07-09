@@ -14,7 +14,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from ko_evidence_bench.metrics import load_jsonl  # noqa: E402
-from ko_evidence_bench.route_router import query_only_route  # noqa: E402
+from ko_evidence_bench.route_router import (  # noqa: E402
+    cohort_aware_query_route,
+    query_only_route,
+    risk_aware_query_route,
+)
 from ko_evidence_bench.schemas import ROUTE_LABELS  # noqa: E402
 
 
@@ -29,10 +33,40 @@ def query_keyword_router(row: dict[str, Any]) -> str:
     return query_only_route(str(row.get("query") or row.get("search_query_rewrite") or ""))
 
 
-PREDICTORS: dict[str, Predictor] = {
-    "always_policy": always_policy,
-    "query_keyword_router": query_keyword_router,
-}
+def risk_aware_query_router(row: dict[str, Any]) -> str:
+    return risk_aware_query_route(str(row.get("query") or row.get("search_query_rewrite") or ""))
+
+
+def load_source_map(path: Path | None) -> tuple[dict[str, str], str]:
+    if path is None:
+        return {}, "unmapped_private_source"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(payload, dict) and "cohorts" in payload:
+        cohorts = payload["cohorts"]
+        default = str(payload.get("default_cohort", "unmapped_private_source"))
+    else:
+        cohorts = payload
+        default = "unmapped_private_source"
+    if not isinstance(cohorts, dict):
+        raise ValueError("source map must be a JSON object or contain a `cohorts` object")
+    return {str(key): str(value) for key, value in cohorts.items()}, default
+
+
+def predictors(source_map: dict[str, str] | None = None, default_cohort: str = "unmapped_private_source") -> dict[str, Predictor]:
+    out: dict[str, Predictor] = {
+        "always_policy": always_policy,
+        "query_keyword_router": query_keyword_router,
+        "risk_aware_query_router": risk_aware_query_router,
+    }
+    if source_map:
+        def cohort_router(row: dict[str, Any]) -> str:
+            query = str(row.get("query") or row.get("search_query_rewrite") or "")
+            source = str(row.get("source") or "")
+            cohort = source_map.get(source, default_cohort)
+            return cohort_aware_query_route(query, cohort)
+
+        out["cohort_aware_query_router"] = cohort_router
+    return out
 
 
 def abstained(route_pred: str) -> bool:
@@ -65,9 +99,15 @@ def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
             f.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
 
 
-def export_runs(qrels: list[dict[str, Any]], out_dir: Path) -> dict[str, list[dict[str, Any]]]:
+def export_runs(
+    qrels: list[dict[str, Any]],
+    out_dir: Path,
+    *,
+    source_map: dict[str, str] | None = None,
+    default_cohort: str = "unmapped_private_source",
+) -> dict[str, list[dict[str, Any]]]:
     runs: dict[str, list[dict[str, Any]]] = {}
-    for name, predictor in PREDICTORS.items():
+    for name, predictor in predictors(source_map, default_cohort).items():
         rows = predict_rows(qrels, predictor)
         write_jsonl(out_dir / f"{name}.jsonl", rows)
         runs[name] = rows
@@ -118,10 +158,17 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--qrels", type=Path, required=True)
     parser.add_argument("--out-dir", type=Path, required=True)
+    parser.add_argument("--source-map", type=Path)
     parser.add_argument("--report-out", type=Path)
     args = parser.parse_args()
 
-    runs = export_runs(load_jsonl(args.qrels), args.out_dir)
+    source_map, default_cohort = load_source_map(args.source_map)
+    runs = export_runs(
+        load_jsonl(args.qrels),
+        args.out_dir,
+        source_map=source_map,
+        default_cohort=default_cohort,
+    )
     if args.report_out:
         args.report_out.parent.mkdir(parents=True, exist_ok=True)
         args.report_out.write_text(render_report(runs, out_dir=args.out_dir), encoding="utf-8")

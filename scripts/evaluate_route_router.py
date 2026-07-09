@@ -15,7 +15,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from ko_evidence_bench.metrics import percentile_ci  # noqa: E402
-from ko_evidence_bench.route_router import query_only_route  # noqa: E402
+from ko_evidence_bench.route_router import (  # noqa: E402
+    cohort_aware_query_route,
+    query_only_route,
+    risk_aware_query_route,
+)
 
 
 ROUTE_LABELS = [
@@ -43,16 +47,39 @@ def pct(value: float) -> str:
     return f"{100 * value:.1f}%"
 
 
-def route_rows(qrels: list[dict[str, Any]], labels: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def load_source_map(path: Path | None) -> tuple[dict[str, str], str]:
+    if path is None:
+        return {}, "unmapped_private_source"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(payload, dict) and "cohorts" in payload:
+        cohorts = payload["cohorts"]
+        default = str(payload.get("default_cohort", "unmapped_private_source"))
+    else:
+        cohorts = payload
+        default = "unmapped_private_source"
+    if not isinstance(cohorts, dict):
+        raise ValueError("source map must be a JSON object or contain a `cohorts` object")
+    return {str(key): str(value) for key, value in cohorts.items()}, default
+
+
+def route_rows(
+    qrels: list[dict[str, Any]],
+    labels: list[dict[str, Any]],
+    *,
+    source_map: dict[str, str] | None = None,
+    default_cohort: str = "unmapped_private_source",
+) -> list[dict[str, Any]]:
     qrel_by_qid = {row["qid"]: row for row in qrels}
     out: list[dict[str, Any]] = []
     for label in labels:
         qrel = qrel_by_qid.get(label["qid"])
         if not qrel:
             continue
+        raw_source = str(qrel.get("source") or "")
         out.append(
             {
                 "query": qrel.get("query", ""),
+                "cohort": (source_map or {}).get(raw_source, default_cohort),
                 "gold": label["route_gold"],
                 "should_abstain": bool(label["should_abstain"]),
             }
@@ -142,6 +169,14 @@ def query_router(row: dict[str, Any]) -> str:
     return query_only_route(row["query"])
 
 
+def risk_aware_router(row: dict[str, Any]) -> str:
+    return risk_aware_query_route(row["query"])
+
+
+def cohort_aware_router(row: dict[str, Any]) -> str:
+    return cohort_aware_query_route(row["query"], row.get("cohort"))
+
+
 def prediction_counts(rows: list[dict[str, Any]], predictor: Callable[[dict[str, Any]], str]) -> Counter[str]:
     return Counter(predictor(row) for row in rows)
 
@@ -155,11 +190,14 @@ def render_table_counts(title: str, counts: Counter[str]) -> list[str]:
     return lines
 
 
-def render_report(rows: list[dict[str, Any]], *, samples: int, seed: int) -> str:
+def render_report(rows: list[dict[str, Any]], *, samples: int, seed: int, has_source_map: bool) -> str:
     predictors = {
         "always_policy": always_policy,
         "query_keyword_router": query_router,
+        "risk_aware_query_router": risk_aware_router,
     }
+    if has_source_map:
+        predictors["cohort_aware_query_router"] = cohort_aware_router
     metrics = ["route_accuracy", "abstention_precision", "abstention_recall"]
     lines = [
         "# Private Source-Route Router Baselines",
@@ -193,9 +231,14 @@ def render_report(rows: list[dict[str, Any]], *, samples: int, seed: int) -> str
             "| system | metric | delta | 95% CI |",
             "|---|---|---:|---:|",
             f"| query_keyword_router | `route_accuracy` | {pct(delta)} | {pct(lo)} - {pct(hi)} |",
-            "",
         ]
     )
+    for name, predictor in predictors.items():
+        if name in {"always_policy", "query_keyword_router"}:
+            continue
+        delta, lo, hi = paired_delta(rows, always_policy, predictor, "route_accuracy", samples=samples, seed=seed)
+        lines.append(f"| {name} | `route_accuracy` | {pct(delta)} | {pct(lo)} - {pct(hi)} |")
+    lines.append("")
     lines.extend(render_table_counts("Gold Route Distribution", Counter(row["gold"] for row in rows)))
     lines.append("")
     for name, predictor in predictors.items():
@@ -216,13 +259,20 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--qrels", type=Path, required=True)
     parser.add_argument("--labels", type=Path, required=True)
+    parser.add_argument("--source-map", type=Path)
     parser.add_argument("--samples", type=int, default=2000)
     parser.add_argument("--seed", type=int, default=29)
     parser.add_argument("--report-out", type=Path)
     args = parser.parse_args()
 
-    rows = route_rows(load_jsonl(args.qrels), load_jsonl(args.labels))
-    report = render_report(rows, samples=args.samples, seed=args.seed)
+    source_map, default_cohort = load_source_map(args.source_map)
+    rows = route_rows(
+        load_jsonl(args.qrels),
+        load_jsonl(args.labels),
+        source_map=source_map,
+        default_cohort=default_cohort,
+    )
+    report = render_report(rows, samples=args.samples, seed=args.seed, has_source_map=bool(source_map))
     if args.report_out:
         args.report_out.parent.mkdir(parents=True, exist_ok=True)
         args.report_out.write_text(report, encoding="utf-8")

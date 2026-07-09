@@ -45,8 +45,12 @@ class StudyReportSignals:
     keyword_route_accuracy: MetricWithCi
     keyword_route_delta: MetricWithCi
     keyword_abstention_recall: MetricWithCi
+    cohort_aware_route_accuracy: MetricWithCi
+    cohort_aware_route_delta: MetricWithCi
+    cohort_aware_abstention_recall: MetricWithCi
     keyword_human_context_slice: RouteSliceSignal
     keyword_human_context_to_policy: RouteConfusionSignal
+    cohort_aware_human_context_to_policy: RouteConfusionSignal
     cohort_route_signal: CohortRouteSignal
 
 
@@ -173,6 +177,13 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
         keyword_route_accuracy=route_metric_ci(route_scorecard, "query_keyword_router", "route_accuracy"),
         keyword_route_delta=route_delta_ci(route_scorecard, "query_keyword_router", "route_accuracy"),
         keyword_abstention_recall=route_metric_ci(route_scorecard, "query_keyword_router", "abstention_recall"),
+        cohort_aware_route_accuracy=route_metric_ci(route_scorecard, "cohort_aware_query_router", "route_accuracy"),
+        cohort_aware_route_delta=route_delta_ci(route_scorecard, "cohort_aware_query_router", "route_accuracy"),
+        cohort_aware_abstention_recall=route_metric_ci(
+            route_scorecard,
+            "cohort_aware_query_router",
+            "abstention_recall",
+        ),
         keyword_human_context_slice=route_slice_signal(
             route_scorecard,
             "query_keyword_router",
@@ -184,7 +195,13 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
             "human_context_needed",
             "policy_clause",
         ),
-        cohort_route_signal=cohort_route_signal(route_cohort_scorecard, "query_keyword_router"),
+        cohort_aware_human_context_to_policy=route_confusion_signal(
+            route_scorecard,
+            "cohort_aware_query_router",
+            "human_context_needed",
+            "policy_clause",
+        ),
+        cohort_route_signal=cohort_route_signal(route_cohort_scorecard, "cohort_aware_query_router"),
     )
 
 
@@ -229,9 +246,16 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"{signals.keyword_abstention_recall.value} | silver diagnostic |"
         ),
         (
+            "| Cohort-aware routing improves source routing without raw source exposure | "
+            f"route accuracy {signals.cohort_aware_route_accuracy.value}; paired delta "
+            f"{points(signals.cohort_aware_route_delta.value)}; abstention recall "
+            f"{signals.cohort_aware_abstention_recall.value} | silver diagnostic |"
+        ),
+        (
             "| The largest silver route failure is unsafe policy-clause fallback | "
-            f"`human_context_needed` route accuracy {signals.keyword_human_context_slice.route_accuracy}; "
-            f"{signals.keyword_human_context_to_policy.count} rows still predicted `policy_clause` | "
+            f"`human_context_needed -> policy_clause` drops from "
+            f"{signals.keyword_human_context_to_policy.count} to "
+            f"{signals.cohort_aware_human_context_to_policy.count} rows | "
             "silver diagnostic |"
         ),
         (
@@ -280,6 +304,10 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"| `query_keyword_router` | {signals.keyword_route_accuracy.value} | "
             f"{signals.keyword_route_accuracy.ci} | {signals.keyword_abstention_recall.value} |"
         ),
+        (
+            f"| `cohort_aware_query_router` | {signals.cohort_aware_route_accuracy.value} | "
+            f"{signals.cohort_aware_route_accuracy.ci} | {signals.cohort_aware_abstention_recall.value} |"
+        ),
         "",
         "Paired delta vs `always_policy`:",
         "",
@@ -288,6 +316,10 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         (
             f"| `query_keyword_router` | `route_accuracy` | "
             f"{points(signals.keyword_route_delta.value)} | {signals.keyword_route_delta.ci} |"
+        ),
+        (
+            f"| `cohort_aware_query_router` | `route_accuracy` | "
+            f"{points(signals.cohort_aware_route_delta.value)} | {signals.cohort_aware_route_delta.ci} |"
         ),
         "",
         "Silver source-route slices:",
@@ -311,13 +343,18 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"{signals.keyword_human_context_to_policy.count} | "
             f"{signals.keyword_human_context_to_policy.share} |"
         ),
+        (
+            "| `cohort_aware_query_router` | `human_context_needed` | `policy_clause` | "
+            f"{signals.cohort_aware_human_context_to_policy.count} | "
+            f"{signals.cohort_aware_human_context_to_policy.share} |"
+        ),
         "",
         "Private query-cohort diagnostics:",
         "",
         "| system | route accuracy range across cohorts | max context-needed policy fallback |",
         "|---|---:|---:|",
         (
-            "| `query_keyword_router` | "
+            "| `cohort_aware_query_router` | "
             f"{signals.cohort_route_signal.route_accuracy_range} | "
             f"{signals.cohort_route_signal.max_context_policy_fallback} |"
         ),
@@ -339,6 +376,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "```bash",
         "make reproduce-table-1",
         "make reproduce-route-scorecard",
+        "make reproduce-route-cohort-scorecard",
         "make check-study-readiness",
         "make verify",
         "```",

@@ -22,8 +22,9 @@ for steering the work, but they are blocked from headline use until the
 | Cross-text reranking improves clause recovery | `clause@20` 56.4% -> 64.9%; paired delta +8.5%p | silver diagnostic |
 | Always searching policy clauses is a weak source-routing baseline | `always_policy` route accuracy 21.5% | silver diagnostic |
 | Query-language routing helps but misses most abstention-needed cases | route accuracy 31.8%; abstention recall 10.5% | silver diagnostic |
-| The largest silver route failure is unsafe policy-clause fallback | `human_context_needed` route accuracy 10.5%; 190 rows still predicted `policy_clause` | silver diagnostic |
-| Route failures vary by private query cohort | route accuracy range 24.8% - 38.3%; context-needed policy fallback up to 84.2% | silver diagnostic |
+| Cohort-aware routing improves source routing without raw source exposure | route accuracy 46.9%; paired delta +25.4%p; abstention recall 67.0% | silver diagnostic |
+| The largest silver route failure is unsafe policy-clause fallback | `human_context_needed -> policy_clause` drops from 190 to 28 rows | silver diagnostic |
+| Route failures vary by private query cohort | route accuracy range 36.2% - 55.2%; context-needed policy fallback up to 54.1% | silver diagnostic |
 | Human-gold public headline claim | 0 / 300 adjudicated labels complete | blocked |
 
 ## Retrieval Evidence
@@ -45,12 +46,14 @@ Paired delta vs `structural_pack`:
 |---|---:|---:|---:|
 | `always_policy` | 21.5% | 18.0% - 25.0% | 0.0% |
 | `query_keyword_router` | 31.8% | 27.9% - 35.8% | 10.5% |
+| `cohort_aware_query_router` | 46.9% | 42.6% - 50.9% | 67.0% |
 
 Paired delta vs `always_policy`:
 
 | candidate | metric | delta | 95% CI |
 |---|---|---:|---:|
 | `query_keyword_router` | `route_accuracy` | +10.3%p | 7.2% - 13.8% |
+| `cohort_aware_query_router` | `route_accuracy` | +25.4%p | 19.3% - 31.2% |
 
 Silver source-route slices:
 
@@ -63,12 +66,13 @@ Largest silver confusion:
 | system | gold source tier | predicted source tier | count | share of run |
 |---|---|---|---:|---:|
 | `query_keyword_router` | `human_context_needed` | `policy_clause` | 190 | 34.9% |
+| `cohort_aware_query_router` | `human_context_needed` | `policy_clause` | 28 | 5.1% |
 
 Private query-cohort diagnostics:
 
 | system | route accuracy range across cohorts | max context-needed policy fallback |
 |---|---:|---:|
-| `query_keyword_router` | 24.8% - 38.3% | 84.2% |
+| `cohort_aware_query_router` | 36.2% - 55.2% | 54.1% |
 
 ## Claim Control
 
@@ -87,6 +91,7 @@ as a final benchmark result.
 ```bash
 make reproduce-table-1
 make reproduce-route-scorecard
+make reproduce-route-cohort-scorecard
 make check-study-readiness
 make verify
 ```

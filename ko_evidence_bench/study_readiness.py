@@ -13,6 +13,7 @@ class StudyReadiness:
     best_clause20: str
     always_policy_route_acc: str
     keyword_route_acc: str
+    cohort_aware_route_acc: str
     completed_route_labels: int
     route_validation_errors: int
 
@@ -66,6 +67,11 @@ def load_study_readiness(root: Path) -> StudyReadiness:
         route_scorecard,
         name="query keyword route accuracy",
     )
+    cohort_aware_route_acc = require_percent(
+        r"\| `cohort_aware_query_router` \| [\d,]+ \| [\d,]+ \| ([\d.]+%) \|",
+        route_scorecard,
+        name="cohort-aware route accuracy",
+    )
     completed_route_labels = require_int(
         r"^- completed labels: ([\d,]+)$",
         validation,
@@ -82,6 +88,7 @@ def load_study_readiness(root: Path) -> StudyReadiness:
         best_clause20=best_clause20,
         always_policy_route_acc=always_policy_route_acc,
         keyword_route_acc=keyword_route_acc,
+        cohort_aware_route_acc=cohort_aware_route_acc,
         completed_route_labels=completed_route_labels,
         route_validation_errors=route_validation_errors,
     )
@@ -105,6 +112,7 @@ def render_study_readiness(readiness: StudyReadiness) -> str:
         f"| best checked-in `clause@20` | {readiness.best_clause20} | retrieval signal, not answer quality |",
         f"| `always_policy` route accuracy | {readiness.always_policy_route_acc} | silver baseline only |",
         f"| query-keyword route accuracy | {readiness.keyword_route_acc} | silver baseline only |",
+        f"| cohort-aware route accuracy | {readiness.cohort_aware_route_acc} | silver diagnostic only |",
         f"| completed adjudicated route labels | {readiness.completed_route_labels} | needs at least 300 |",
         f"| route validation errors | {readiness.route_validation_errors} | must be 0 before headline use |",
         "",
@@ -155,6 +163,7 @@ def render_readme_signals(readiness: StudyReadiness) -> str:
             f"| Best checked-in `clause@20` | {readiness.best_clause20} | retrieval signal only |",
             f"| `always_policy` route accuracy | {readiness.always_policy_route_acc} | silver proxy |",
             f"| query-keyword route accuracy | {readiness.keyword_route_acc} | silver proxy |",
+            f"| cohort-aware route accuracy | {readiness.cohort_aware_route_acc} | silver proxy |",
             (
                 "| Adjudicated human route labels | "
                 f"{readiness.completed_route_labels} / 300 complete | headline blocked |"

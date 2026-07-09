@@ -45,11 +45,57 @@ class ExportRouteRunsTest(unittest.TestCase):
                 json.loads(line)
                 for line in (out_dir / "query_keyword_router.jsonl").read_text(encoding="utf-8").splitlines()
             ]
+            risk_rows = [
+                json.loads(line)
+                for line in (out_dir / "risk_aware_query_router.jsonl").read_text(encoding="utf-8").splitlines()
+            ]
             self.assertEqual(route_rows[0]["route_pred"], "claims_faq")
             self.assertEqual(route_rows[1]["route_pred"], "human_context_needed")
             self.assertTrue(route_rows[1]["abstained"])
+            self.assertEqual(risk_rows[2]["route_pred"], "policy_clause")
             self.assertNotIn("query", route_rows[0])
+            self.assertFalse((out_dir / "cohort_aware_query_router.jsonl").exists())
             self.assertIn("Private Route Run Export Summary", report.read_text(encoding="utf-8"))
+
+    def test_cli_writes_cohort_aware_run_with_source_map(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            qrels = tmp_path / "qrels.jsonl"
+            source_map = tmp_path / "source_map.json"
+            out_dir = tmp_path / "runs"
+            report = tmp_path / "report.md"
+            rows = [{"qid": "q1", "query": "암 진단비 지급사유", "source": "raw-private"}]
+            qrels.write_text(
+                "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
+                encoding="utf-8",
+            )
+            source_map.write_text(
+                json.dumps({"cohorts": {"raw-private": "professional_forum_archive"}}),
+                encoding="utf-8",
+            )
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    "scripts/export_route_runs.py",
+                    "--qrels",
+                    str(qrels),
+                    "--out-dir",
+                    str(out_dir),
+                    "--source-map",
+                    str(source_map),
+                    "--report-out",
+                    str(report),
+                ],
+                cwd=ROOT,
+                check=True,
+            )
+
+            rows = [
+                json.loads(line)
+                for line in (out_dir / "cohort_aware_query_router.jsonl").read_text(encoding="utf-8").splitlines()
+            ]
+            self.assertEqual(rows[0], {"qid": "q1", "route_pred": "human_context_needed", "abstained": True})
 
 
 if __name__ == "__main__":

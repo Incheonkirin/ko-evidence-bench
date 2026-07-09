@@ -28,6 +28,7 @@ These are checked-in aggregate diagnostics, not final benchmark claims:
 | Best checked-in `clause@20` | 64.9% | retrieval signal only |
 | `always_policy` route accuracy | 21.5% | silver proxy |
 | query-keyword route accuracy | 31.8% | silver proxy |
+| cohort-aware route accuracy | 46.9% | silver proxy |
 | Adjudicated human route labels | 0 / 300 complete | headline blocked |
 
 The generated readiness report is intentionally conservative:
@@ -164,11 +165,12 @@ The current route-label inventory has 544 silver rows. It shows that an
 set, but this is still a silver proxy and requires human audit before headline
 claims.
 
-The query-only routing baseline is checked in at
+The routing baseline report is checked in at
 `reports/private_route_router_baselines.md`. On the same 544-row silver set, a
-simple keyword router reaches 31.8% route accuracy, a +10.3 percentage-point
-paired lift over `always_policy`, while still missing most abstention-needed
-questions.
+simple keyword router reaches 31.8% route accuracy, while a cohort-aware router
+that uses generic query cohorts reaches 46.9% with a +25.4 percentage-point
+paired lift over `always_policy`. These are still silver diagnostics, not final
+claims.
 
 The same silver routing comparison is also exported as qid-only route prediction
 runs and scored through `scripts/reproduce_route_scorecard.py`; see
@@ -180,6 +182,16 @@ The private query-cohort scorecard is checked in at
 `reports/private_route_cohort_scorecard_silver.md`. It groups private sources
 through a generic source map and reports cohort-level route accuracy, abstention
 recall, and context-needed policy fallback without raw source names.
+
+To regenerate those private qid-only route runs with a source map:
+
+```bash
+python3 scripts/export_route_runs.py \
+  --qrels /path/to/private_qrels.jsonl \
+  --out-dir /path/to/private_route_runs \
+  --source-map /path/to/private_source_cohort_map.json \
+  --report-out reports/private_route_run_export_summary.md
+```
 
 To start the human audit gate, build a private audit pack and publish only the
 sampling summary:

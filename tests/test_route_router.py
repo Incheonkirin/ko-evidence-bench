@@ -2,7 +2,7 @@ import importlib.util
 import unittest
 from pathlib import Path
 
-from ko_evidence_bench.route_router import query_only_route
+from ko_evidence_bench.route_router import cohort_aware_query_route, query_only_route, risk_aware_query_route
 
 
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "evaluate_route_router.py"
@@ -18,6 +18,18 @@ class RouteRouterTest(unittest.TestCase):
         self.assertEqual(query_only_route("해지환급금 얼마야"), "product_disclosure")
         self.assertEqual(query_only_route("내 보험 부담보면 보장돼?"), "human_context_needed")
         self.assertEqual(query_only_route("암 진단비 지급사유"), "policy_clause")
+
+    def test_risk_aware_and_cohort_routes(self):
+        self.assertEqual(risk_aware_query_route("수술했는데 보장받을 수 있나요"), "human_context_needed")
+        self.assertEqual(risk_aware_query_route("보험금 청구 서류 알려줘"), "claims_faq")
+        self.assertEqual(
+            cohort_aware_query_route("암 진단비 지급사유", "professional_forum_archive"),
+            "human_context_needed",
+        )
+        self.assertEqual(
+            cohort_aware_query_route("암 진단비 지급사유", "open_forum_archive"),
+            "policy_clause",
+        )
 
     def test_route_score(self):
         rows = [

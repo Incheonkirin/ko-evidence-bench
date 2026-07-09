@@ -45,7 +45,7 @@ export-route-labels:
 	python3 scripts/export_route_labels.py --qrels "$(QRELS_JSONL)" --labels-out "$(LABELS_OUT)" --report-out reports/private_route_label_summary.md
 
 export-route-runs:
-	python3 scripts/export_route_runs.py --qrels "$(QRELS_JSONL)" --out-dir "$(ROUTE_RUNS_OUT)" --report-out reports/private_route_run_export_summary.md
+	python3 scripts/export_route_runs.py --qrels "$(QRELS_JSONL)" --out-dir "$(ROUTE_RUNS_OUT)" --report-out reports/private_route_run_export_summary.md $(ARGS)
 
 build-route-audit-pack:
 	python3 scripts/build_route_audit_pack.py --qrels "$(QRELS_JSONL)" --labels "$(LABELS_JSONL)" --audit-out "$(AUDIT_OUT)" --report-out reports/private_route_audit_pack_summary.md
@@ -81,4 +81,4 @@ promote-route-audit:
 	python3 scripts/promote_route_audit.py --audit "$(AUDIT_JSONL)" --label-prefix "$(LABEL_PREFIX)" --labels-out "$(LABELS_OUT)" --report-out reports/private_promoted_route_labels.md
 
 evaluate-route-router:
-	python3 scripts/evaluate_route_router.py --qrels "$(QRELS_JSONL)" --labels "$(LABELS_JSONL)" --report-out reports/private_route_router_baselines.md
+	python3 scripts/evaluate_route_router.py --qrels "$(QRELS_JSONL)" --labels "$(LABELS_JSONL)" --report-out reports/private_route_router_baselines.md $(ARGS)

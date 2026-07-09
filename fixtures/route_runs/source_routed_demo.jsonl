@@ -1,0 +1,6 @@
+{"qid": "route-fixture-001", "route_pred": "policy_clause", "abstained": false}
+{"qid": "route-fixture-002", "route_pred": "claims_faq", "abstained": false}
+{"qid": "route-fixture-003", "route_pred": "human_context_needed", "abstained": true}
+{"qid": "route-fixture-004", "route_pred": "product_disclosure", "abstained": false}
+{"qid": "route-fixture-005", "route_pred": "official_consumer_info", "abstained": false}
+{"qid": "route-fixture-006", "route_pred": "expert_answer", "abstained": false}

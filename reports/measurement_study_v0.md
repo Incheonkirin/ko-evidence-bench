@@ -29,6 +29,8 @@ retrieve the right kind of evidence and abstain when citation is not possible.
 - Use `scripts/export_route_labels.py` to generate qid-only private route-label
   worksets and aggregate route inventories without raw text.
 - Follow `docs/route_label_protocol.md` before claiming source-route accuracy.
+- Use `scripts/reproduce_route_scorecard.py` only after promoted human labels
+  exist; fixture route scores validate plumbing, not model quality.
 
 ## Current Private-Lab Signals
 
@@ -42,6 +44,7 @@ retrieve the right kind of evidence and abstain when citation is not possible.
   and `n=300` adjudication templates.
 - Source-route review UI: static local CSV editor, no private rows checked in.
 - Source-route workflow dry-run: synthetic CSV export/import/agreement/validation/promotion passes.
+- Source-route scorecard dry-run: synthetic qid-only labels and predictions pass.
 - Source-route adjudication validation: `0/300` complete, promotion blocked
   until final labels are filled.
 - Structural pack-only `clause@20`: 56.4% with 95% CI 52.4%-60.5%.
@@ -60,6 +63,8 @@ Run:
 
 ```bash
 make reproduce-table-1
+make reproduce-route-scorecard
 ```
 
-This table is synthetic. It validates metric behavior, not model quality.
+These tables are synthetic. They validate metric behavior and qid-only scoring,
+not model quality.

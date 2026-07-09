@@ -55,6 +55,7 @@ need bootstrap confidence intervals first.
 make test
 make reproduce-table-1
 make reproduce-route-audit-workflow
+make reproduce-route-scorecard
 make verify
 ```
 
@@ -71,7 +72,12 @@ CSV export, reviewer import, agreement, adjudication validation, and qid-only
 label promotion. Its report is checked in at
 `reports/route_audit_workflow_fixture.md`.
 
-`make verify` runs tests, both reproduction commands, and a public-safety scan
+`make reproduce-route-scorecard` runs a qid-only source-route scorecard against
+synthetic labels and route predictions. This is the public dry-run for the
+private human-label path: once adjudicated route labels are promoted, the same
+metrics score route accuracy and abstention behavior without raw text.
+
+`make verify` runs tests, reproduction commands, and a public-safety scan
 for private-source leakage indicators.
 
 Private retrieval exports with query-level hit booleans can be summarized without
@@ -141,7 +147,14 @@ raw agreement and Cohen's kappa without exposing private rows.
 
 After adjudication, `scripts/validate_route_audit.py` checks label completeness
 and schema validity, and `scripts/promote_route_audit.py` exports the private
-qid-only human route labels consumed by the same scorecard scripts.
+qid-only human route labels consumed by the route scorecard:
+
+```bash
+python3 scripts/reproduce_route_scorecard.py \
+  --labels /path/to/private_human_route_labels.jsonl \
+  --run-dir /path/to/private_route_runs \
+  --out reports/private_human_route_scorecard.md
+```
 
 The current adjudication workset has been validation-checked and is still
 pending: 0 of 300 adjudicated labels are complete. That status is recorded in
@@ -178,18 +191,23 @@ Private:
 ```text
 ko_evidence_bench/
   metrics.py          # Scorecard metrics with bootstrap CIs.
+  route_score.py      # Qid-only source-route metrics.
   schemas.py          # Minimal JSONL schema validators.
 scripts/
   reproduce_table_1.py
+  reproduce_route_scorecard.py
 tools/
   route_review_ui.html
 fixtures/
   qrels.jsonl
+  route_labels.jsonl
+  route_runs/
   system_runs/
 reports/
   eval_core_inventory.md
   measurement_study_v0.md
   route_audit_workflow_fixture.md
+  route_scorecard_fixture.md
   private_544_full_cross_scorecard.md
   private_544_pack_only_scorecard.md
   private_aggregate_scorecard.md

@@ -155,13 +155,30 @@ python3 scripts/promote_route_audit.py \
   --report-out reports/private_promoted_route_labels.md
 ```
 
+Then score route-only predictions without exposing row text:
+
+```bash
+python3 scripts/reproduce_route_scorecard.py \
+  --labels /path/to/private_human_route_labels.jsonl \
+  --run-dir /path/to/private_route_runs \
+  --out reports/private_human_route_scorecard.md
+```
+
+The route run JSONL schema is intentionally small:
+
+```json
+{"qid": "private-stable-id", "route_pred": "claims_faq", "abstained": false}
+```
+
 The same workflow is reproducible without private data:
 
 ```bash
 make reproduce-route-audit-workflow
+make reproduce-route-scorecard
 ```
 
-This writes `reports/route_audit_workflow_fixture.md` from synthetic fixtures.
+These commands write `reports/route_audit_workflow_fixture.md` and
+`reports/route_scorecard_fixture.md` from synthetic fixtures.
 
 ## Public Reporting
 

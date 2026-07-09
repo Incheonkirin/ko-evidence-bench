@@ -15,6 +15,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | source-route review CSV templates | 50/50/300 rows | private reviewer CSVs generated; not yet filled |
 | source-route review UI | static local HTML | generated; no private data checked in |
 | route-audit workflow fixture | 3 synthetic rows | end-to-end dry-run passes |
+| route-only scorecard fixture | 6 synthetic rows | qid-only route scoring path passes |
 | public-safety scan | repository-wide | Makefile target and CI workflow added |
 | source-route adjudication validation | 300 rows | 0 completed; validation gate pending |
 | target human-audited source-route labels | 300-500 rows | workset exists; labels not yet created |
@@ -67,6 +68,11 @@ does not include private rows and does not depend on network access.
 by `make reproduce-route-audit-workflow`. It exercises CSV export/import,
 reviewer agreement, adjudication validation, and qid-only label promotion.
 
+`reports/route_scorecard_fixture.md` is generated from synthetic fixtures by
+`make reproduce-route-scorecard`. It proves that promoted qid-only route labels
+can be scored for route accuracy, missing predictions, abstention precision, and
+abstention recall without publishing private text.
+
 `make check-public-safety` scans the public repository for private-source
 leakage indicators. `make verify` runs tests, reproduction commands, and that
 scan. The same target is wired into GitHub Actions.
@@ -87,8 +93,9 @@ scan. The same target is wired into GitHub Actions.
 - The promotion gate is intentionally closed: the 300-row adjudication pack has
   0 completed labels and 300 validation errors from missing final route labels.
 - The always-policy baseline has only been demonstrated on synthetic fixtures,
-  plus route-only aggregate context on the silver source-route label set. It has
-  not yet been evaluated as a full retrieval run on a human-audited route set.
+  plus route-only aggregate context on the silver source-route label set. The
+  qid-only scorecard path exists, but it has not yet been run on human-audited
+  route labels.
 - Query-only routing has been evaluated only against silver labels, not
   human-audited labels.
 
@@ -98,7 +105,9 @@ The next private-lab gate is:
 
 1. Double-label the 50-row route audit seed using `docs/route_label_protocol.md`,
    then label/adjudicate the 300-row pack.
-2. Re-run the full cross-rerank comparison after human-audited labels are
+2. Promote the adjudicated qid-only route labels and run
+   `scripts/reproduce_route_scorecard.py` against private route prediction runs.
+3. Re-run the full cross-rerank comparison after human-audited labels are
    available.
-3. Generate a source-route-aware aggregate scorecard once human-audited labels
+4. Generate a source-route-aware aggregate scorecard once human-audited labels
    exist.

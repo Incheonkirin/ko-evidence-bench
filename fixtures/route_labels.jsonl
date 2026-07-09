@@ -1,0 +1,6 @@
+{"qid": "route-fixture-001", "route_gold": "policy_clause", "allowed_source_tiers": ["policy_clause"], "should_abstain": false}
+{"qid": "route-fixture-002", "route_gold": "claims_faq", "allowed_source_tiers": ["claims_faq", "policy_clause"], "should_abstain": false}
+{"qid": "route-fixture-003", "route_gold": "human_context_needed", "allowed_source_tiers": ["human_context_needed"], "should_abstain": true}
+{"qid": "route-fixture-004", "route_gold": "product_disclosure", "allowed_source_tiers": ["product_disclosure"], "should_abstain": false}
+{"qid": "route-fixture-005", "route_gold": "official_consumer_info", "allowed_source_tiers": ["official_consumer_info"], "should_abstain": false}
+{"qid": "route-fixture-006", "route_gold": "expert_answer", "allowed_source_tiers": ["expert_answer", "official_consumer_info"], "should_abstain": false}

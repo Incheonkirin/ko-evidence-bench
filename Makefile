@@ -1,4 +1,4 @@
-.PHONY: test check-public-safety verify reproduce-table-1 reproduce-route-audit-workflow summarize-private-result export-route-labels build-route-audit-pack export-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
+.PHONY: test check-public-safety verify reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard summarize-private-result export-route-labels build-route-audit-pack export-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
 
 test:
 	python3 -m unittest discover -s tests
@@ -6,13 +6,16 @@ test:
 check-public-safety:
 	python3 scripts/check_public_safety.py
 
-verify: test reproduce-table-1 reproduce-route-audit-workflow check-public-safety
+verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-route-scorecard check-public-safety
 
 reproduce-table-1:
 	python3 scripts/reproduce_table_1.py
 
 reproduce-route-audit-workflow:
 	python3 scripts/reproduce_route_audit_workflow.py reports/route_audit_workflow_fixture.md
+
+reproduce-route-scorecard:
+	python3 scripts/reproduce_route_scorecard.py --out reports/route_scorecard_fixture.md
 
 summarize-private-result:
 	python3 scripts/summarize_hit_result.py --result "$(RESULT_JSON)" --baseline "$(BASELINE)" --out reports/private_aggregate_scorecard.md

@@ -13,6 +13,22 @@ This is the public shell of a private search lab. It contains metrics, schemas,
 fixtures, and reports. It does not contain community crawls, messenger exports,
 or copyrighted policy corpora.
 
+## Current Verified Signals
+
+These are checked-in aggregate diagnostics, not final benchmark claims:
+
+| Signal | Current Evidence | Status |
+|---|---:|---|
+| Retrieval eval size | 544 silver rows | scored with bootstrap CIs |
+| Best checked-in `clause@20` | 64.9% | retrieval signal only |
+| `always_policy` route accuracy | 21.5% | silver proxy |
+| query-keyword route accuracy | 31.8% | silver proxy |
+| Adjudicated human route labels | 0 / 300 complete | headline blocked |
+
+The generated readiness report is intentionally conservative:
+`reports/study_readiness.md` currently says **NO-GO for public headline claims**
+until the 300-row human route-label workset is completed and validated.
+
 ## What This Evaluates
 
 The scorecard treats retrieval as more than "did we find a similar paragraph?"
@@ -56,6 +72,7 @@ make test
 make reproduce-table-1
 make reproduce-route-audit-workflow
 make reproduce-route-scorecard
+make check-study-readiness
 make verify
 ```
 
@@ -79,6 +96,11 @@ metrics score route accuracy and abstention behavior without raw text.
 
 `make verify` runs tests, reproduction commands, and a public-safety scan
 for private-source leakage indicators.
+
+`make check-study-readiness` regenerates
+`reports/study_readiness.md` from aggregate reports. The command fails only if
+the required evidence cannot be parsed; the report itself may correctly say
+`NO-GO` while human labels are incomplete.
 
 Private retrieval exports with query-level hit booleans can be summarized without
 publishing qids or text:
@@ -208,6 +230,7 @@ reports/
   measurement_study_v0.md
   route_audit_workflow_fixture.md
   route_scorecard_fixture.md
+  study_readiness.md
   private_544_full_cross_scorecard.md
   private_544_pack_only_scorecard.md
   private_aggregate_scorecard.md

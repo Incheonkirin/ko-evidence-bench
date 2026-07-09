@@ -19,6 +19,8 @@ retrieve the right kind of evidence and abstain when citation is not possible.
 
 ## Before Headline Claims
 
+- Regenerate `reports/study_readiness.md` and require it to say `GO` before
+  promoting any private-lab result into the README headline.
 - Expand strict silver core toward at least 500 queries.
 - Add bootstrap confidence intervals over query ids.
 - Build source-route gold labels for 300-500 queries.
@@ -64,7 +66,10 @@ Run:
 ```bash
 make reproduce-table-1
 make reproduce-route-scorecard
+make check-study-readiness
 ```
 
-These tables are synthetic. They validate metric behavior and qid-only scoring,
-not model quality.
+The first two tables are synthetic. They validate metric behavior and qid-only
+scoring, not model quality. The readiness report is generated from aggregate
+private-lab reports and currently blocks public headline claims until human
+labels are complete.

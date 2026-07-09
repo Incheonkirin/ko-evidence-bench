@@ -17,6 +17,7 @@ class AlignmentTest(unittest.TestCase):
 
         self.assertEqual(statuses["Report-first artifact"], "PASS")
         self.assertEqual(statuses["Qid-only route scorecard path"], "PASS")
+        self.assertEqual(statuses["Human-label progress gate"], "PASS")
         self.assertEqual(statuses["Human-gold route labels"], "BLOCKED")
         self.assertEqual(overall_status(items), "NO-GO FOR HEADLINE CLAIMS")
 

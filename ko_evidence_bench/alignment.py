@@ -346,6 +346,21 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The study can explain where failures accumulate instead of only reporting aggregate scores.",
         ),
         AlignmentItem(
+            area="Answer-quality audit rehearsal",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "answer_audit.py").exists()
+                and (root / "scripts" / "reproduce_answer_quality_audit.py").exists()
+                and has_text(root / "reports" / "answer_quality_audit_fixture.md", "PASS synthetic answer-quality audit rehearsal")
+                and has_text(root / "reports" / "answer_quality_audit_fixture.md", "not human-gold answer-quality evidence")
+                and has_text(root / "reports" / "answer_quality_audit_fixture.md", "not a final benchmark claim")
+                and has_text(root / "Makefile", "check-answer-quality-audit")
+                else "MISSING"
+            ),
+            evidence="synthetic qid-only labels validate answer sufficiency, correct abstention, and unsafe answers",
+            why_it_matters="Retrieval-hit metrics are not final answer-quality claims; the audit path keeps that boundary explicit.",
+        ),
+        AlignmentItem(
             area="System comparison matrix guard",
             status=(
                 "PASS"
@@ -603,7 +618,8 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "generated study draft, claim-control gates, reviewer walkthrough,",
             "containerized reproduction, screened public probes, dataset card,",
             "qualitative examples, layer attribution, system matrix guard,",
-            "full-matrix run-bundle contract, qid-only scorecards, audit workflow,",
+            "answer-quality audit rehearsal, full-matrix run-bundle contract,",
+            "qid-only scorecards, audit workflow,",
             "and public-safety checks. It is not headline-ready",
             "because source-route labels still lack independent agreement",
             "evidence and human-adjudicated coverage, and the full comparison",

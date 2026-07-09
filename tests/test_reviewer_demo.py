@@ -33,6 +33,8 @@ class ReviewerDemoTest(unittest.TestCase):
         self.assertIn("not a synonym list", report)
         self.assertIn("reports/qualitative_gallery.md", report)
         self.assertIn("reports/layer_attribution_fixture.md", report)
+        self.assertIn("reports/answer_quality_audit_fixture.md", report)
+        self.assertIn("Retrieval hit metrics are not answer-quality claims", report)
         self.assertIn("reports/system_matrix.md", report)
         self.assertIn("reports/system_matrix_bundle_fixture.md", report)
         self.assertIn("qid-only run-bundle contract", report)

@@ -31,6 +31,7 @@ for steering the work, but they are blocked from headline use until the
 | Route decisions can now be scored by surface condition | cohort-aware route-only worst surface 22.2%; missing metadata 0 | silver route diagnostic |
 | Ranked retrieval hits can now be sliced by surface condition | `structural_cross_text` clause@20 64.9%; answerable clause@20 71.3%; worst surface 44.4% | silver runtime diagnostic |
 | Human audit workset covers the stress axes before labeling | 300 matched rows; route 6 / 6, intent 9 / 9, surface 4 / 4, trap 10 / 10 values covered | workset diagnostic |
+| Answer quality needs separate labels after retrieval | 10 synthetic completed labels; task success 60.0%; unsafe answer 20.0% | fixture rehearsal only |
 | Human-gold public headline claim | 0 / 50 paired labels; 0 / 300 adjudicated labels complete | blocked |
 
 ## Retrieval Evidence
@@ -56,6 +57,17 @@ Private runtime-surface diagnostics:
 This joins private runtime hit booleans with qid-only intent/surface
 metadata. It does not publish raw ranked evidence ids, but it verifies
 whether actual retrieval hits vary across surface conditions.
+
+## Answer-Quality Evidence
+
+| artifact | current evidence | status |
+|---|---|---|
+| `reports/answer_quality_audit_fixture.md` | 10 qid-only fixture rows; 10 completed labels; task success 60.0%; unsafe answer 20.0% | fixture only; not human-gold answer quality |
+
+This is a rehearsal for labels that judge the answer state after retrieval:
+`sufficient`, `partial`, `insufficient`, `correct_abstain`, or
+`unsafe_answer`. It prevents `clause@20` and other hit metrics from being
+presented as answer-quality claims.
 
 ## System Matrix Evidence
 
@@ -208,6 +220,7 @@ make export-probe-beir
 make reproduce-probe-system-comparison
 make reproduce-probe-trap-mining
 make reproduce-surface-fragmentation-audit
+make reproduce-answer-quality-audit
 make check-audit-surface-coverage
 make reproduce-normalization-ablation
 make reproduce-intent-inventory

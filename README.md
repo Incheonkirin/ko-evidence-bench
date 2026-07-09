@@ -92,6 +92,11 @@ The system comparison ledger is `reports/system_matrix.md`. It records which
 systems are backed by checked-in evidence and which analyzer, dense, hybrid, or
 reranker comparisons are still not run.
 
+`reports/answer_quality_audit_fixture.md` rehearses a qid-only answer-quality
+audit path. It separates retrieval hits from final answer sufficiency: whether
+returned evidence was sufficient, partial, insufficient, a correct abstention,
+or an unsafe answer. The fixture is synthetic and not a human-gold result.
+
 `reports/system_matrix_bundle_fixture.md` validates the qid-only run-bundle
 contract for those missing analyzer, dense, hybrid, and reranker systems. The
 fixture bundle is synthetic and does not claim that the external systems have
@@ -102,7 +107,8 @@ that real runs must pass before the matrix can be promoted.
 
 The shortest review path is `reports/reviewer_demo.md`. It walks through the
 README figure, hero signal, claim ledger, measurement-study draft, human-gold
-rehearsal, and readiness gate in the order a reviewer should inspect them.
+rehearsal, answer-quality audit rehearsal, and readiness gate in the order a
+reviewer should inspect them.
 
 Regenerate it with `make build-reviewer-demo`; `make verify` checks that it is
 current.
@@ -172,6 +178,7 @@ make reproduce-probe-system-comparison
 make reproduce-probe-trap-mining
 make reproduce-surface-fragmentation-audit
 make build-qualitative-gallery
+make reproduce-answer-quality-audit
 make validate-system-matrix-bundle
 make build-system-matrix-report
 make build-measurement-study
@@ -318,6 +325,12 @@ layout under `probes/ko_evidence_probe_v0/beir/` and regenerates
 the synthetic side-by-side failure examples used to make the route diagnostics
 inspectable. `make verify` checks that it is current.
 
+`make reproduce-answer-quality-audit` validates and summarizes a qid-only
+answer-quality fixture. The checked-in report is
+`reports/answer_quality_audit_fixture.md`; it rehearses evidence-sufficiency
+and unsafe-answer labeling after retrieval, not human-gold answer-quality
+claims.
+
 `make validate-system-matrix-bundle` validates the qid-only run-bundle contract
 for the missing analyzer, dense, hybrid, and reranker systems against
 `fixtures/system_matrix_bundle/`. The checked-in fixture report is
@@ -421,6 +434,12 @@ diagnostic set, `structural_cross_text` reaches `clause@20 = 64.9%`,
 `answerable_clause@20 = 71.3%`, and `worst_surface_clause@20 = 44.4%` without
 publishing raw ranked evidence ids.
 
+The answer-quality audit rehearsal is checked in at
+`reports/answer_quality_audit_fixture.md`. It shows the public qid-only schema
+for labels such as `sufficient`, `partial`, `insufficient`, `correct_abstain`,
+and `unsafe_answer`. This keeps hit metrics from being mistaken for final answer
+quality; private reviewed labels are still required before making that claim.
+
 The private audit coverage report is checked in at
 `reports/private_audit_surface_coverage_300.md`. It confirms that the 300-row
 human-audit workset covers all checked silver axes: 6/6 source routes, 9/9
@@ -512,6 +531,7 @@ Private:
 ```text
 ko_evidence_bench/
   ablation.py         # Run-level rescue/regression comparisons.
+  answer_audit.py     # Qid-only answer-quality audit validation.
   beir_export.py      # Public probe BEIR-style export.
   intent_inventory.py # Aggregate intent-family inventory metrics.
   intent_surface_export.py # Qid-only intent/surface metadata export.
@@ -527,6 +547,7 @@ ko_evidence_bench/
   system_matrix_bundle.py # Qid-only full-matrix run-bundle validation.
   schemas.py          # Minimal JSONL schema validators.
 scripts/
+  reproduce_answer_quality_audit.py
   build_probe_dataset_card.py
   build_system_matrix_report.py
   build_intent_inventory.py

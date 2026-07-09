@@ -98,6 +98,14 @@ class AuditCoverageSignal:
 
 
 @dataclass(frozen=True)
+class AnswerAuditSignal:
+    rows: str
+    completed_labels: str
+    task_success_rate: str
+    unsafe_answer_rate: str
+
+
+@dataclass(frozen=True)
 class StudyReportSignals:
     readiness: StudyReadiness
     structural_pack_clause20: MetricWithCi
@@ -125,6 +133,7 @@ class StudyReportSignals:
     structural_cross_text_runtime_surface: RuntimeSurfaceSignal
     surface_fragmentation_signal: SurfaceFragmentationSignal
     audit_coverage: AuditCoverageSignal
+    answer_audit: AnswerAuditSignal
 
 
 def metric_ci(report: str, run: str, metric: str) -> MetricWithCi:
@@ -347,6 +356,15 @@ def audit_coverage_signal(report: str) -> AuditCoverageSignal:
     )
 
 
+def answer_audit_signal(report: str) -> AnswerAuditSignal:
+    return AnswerAuditSignal(
+        rows=summary_value(report, "rows"),
+        completed_labels=summary_value(report, "completed labels"),
+        task_success_rate=summary_value(report, "task success rate"),
+        unsafe_answer_rate=summary_value(report, "unsafe answer rate"),
+    )
+
+
 def points(value: str) -> str:
     return f"+{value}p"
 
@@ -361,6 +379,7 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
     runtime_surface_scorecard = read(root / "reports" / "private_runtime_surface_scorecard_silver.md")
     surface_fragmentation = read(root / "reports" / "surface_fragmentation_audit.md")
     audit_surface_coverage = read(root / "reports" / "private_audit_surface_coverage_300.md")
+    answer_quality_audit = read(root / "reports" / "answer_quality_audit_fixture.md")
     readiness = load_study_readiness(root)
 
     return StudyReportSignals(
@@ -422,6 +441,7 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
         ),
         surface_fragmentation_signal=surface_fragmentation_signal(surface_fragmentation),
         audit_coverage=audit_coverage_signal(audit_surface_coverage),
+        answer_audit=answer_audit_signal(answer_quality_audit),
     )
 
 
@@ -528,6 +548,12 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"{signals.audit_coverage.trap_coverage} values covered | workset diagnostic |"
         ),
         (
+            "| Answer quality needs separate labels after retrieval | "
+            f"{signals.answer_audit.completed_labels} synthetic completed labels; "
+            f"task success {signals.answer_audit.task_success_rate}; unsafe answer "
+            f"{signals.answer_audit.unsafe_answer_rate} | fixture rehearsal only |"
+        ),
+        (
             "| Human-gold public headline claim | "
             f"{r.agreement_paired_rows} / 50 paired labels; "
             f"{r.completed_route_labels} / 300 adjudicated labels complete | blocked |"
@@ -580,6 +606,23 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "This joins private runtime hit booleans with qid-only intent/surface",
         "metadata. It does not publish raw ranked evidence ids, but it verifies",
         "whether actual retrieval hits vary across surface conditions.",
+        "",
+        "## Answer-Quality Evidence",
+        "",
+        "| artifact | current evidence | status |",
+        "|---|---|---|",
+        (
+            "| `reports/answer_quality_audit_fixture.md` | "
+            f"{signals.answer_audit.rows} qid-only fixture rows; "
+            f"{signals.answer_audit.completed_labels} completed labels; task success "
+            f"{signals.answer_audit.task_success_rate}; unsafe answer "
+            f"{signals.answer_audit.unsafe_answer_rate} | fixture only; not human-gold answer quality |"
+        ),
+        "",
+        "This is a rehearsal for labels that judge the answer state after retrieval:",
+        "`sufficient`, `partial`, `insufficient`, `correct_abstain`, or",
+        "`unsafe_answer`. It prevents `clause@20` and other hit metrics from being",
+        "presented as answer-quality claims.",
         "",
         "## System Matrix Evidence",
         "",
@@ -834,6 +877,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "make reproduce-probe-system-comparison",
         "make reproduce-probe-trap-mining",
         "make reproduce-surface-fragmentation-audit",
+        "make reproduce-answer-quality-audit",
         "make check-audit-surface-coverage",
         "make reproduce-normalization-ablation",
         "make reproduce-intent-inventory",

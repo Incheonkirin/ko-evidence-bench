@@ -74,6 +74,21 @@ The current private aggregate report is checked in at
 `reports/private_aggregate_scorecard.md`. It is aggregate-only and should be read
 as a diagnostic, not a final benchmark.
 
+Private qrel metadata can also be converted into a qid-only source-route silver
+label set while publishing only aggregate counts:
+
+```bash
+python3 scripts/export_route_labels.py \
+  --qrels /path/to/private_qrels.jsonl \
+  --labels-out /path/to/private_route_labels.jsonl \
+  --report-out reports/private_route_label_summary.md
+```
+
+The current route-label inventory has 544 silver rows. It shows that an
+`always_policy` router would reach only 21.5% route accuracy on that private
+set, but this is still a silver proxy and requires human audit before headline
+claims.
+
 ## Public/Private Boundary
 
 Public:
@@ -107,6 +122,7 @@ reports/
   eval_core_inventory.md
   measurement_study_v0.md
   private_aggregate_scorecard.md
+  private_route_label_summary.md
 docs/
   data_statement.md
   route_label_protocol.md

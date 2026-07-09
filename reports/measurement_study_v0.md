@@ -26,7 +26,17 @@ retrieve the right kind of evidence and abstain when citation is not possible.
 - Audit whether silver labels are circular with systems under test.
 - Use `scripts/summarize_hit_result.py` to publish aggregate hit rates from
   private retrieval exports without qids or raw text.
+- Use `scripts/export_route_labels.py` to generate qid-only private route-label
+  worksets and aggregate route inventories without raw text.
 - Follow `docs/route_label_protocol.md` before claiming source-route accuracy.
+
+## Current Private-Lab Signals
+
+- Retrieval CI report: `n=229`, aggregate-only.
+- Source-route silver proxy: `n=544`, aggregate-only.
+- Naive always-policy route accuracy on the silver proxy: 21.5%.
+
+These are useful steering signals, not final benchmark claims.
 
 ## Table 1
 

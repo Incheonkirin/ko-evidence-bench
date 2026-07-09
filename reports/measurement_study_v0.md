@@ -35,6 +35,9 @@ retrieve the right kind of evidence and abstain when citation is not possible.
 - Retrieval CI report: `n=229`, aggregate-only.
 - Larger runtime-honest pack-only report: `n=544`, aggregate-only.
 - Source-route silver proxy: `n=544`, aggregate-only.
+- Source-route audit seed: `n=50`, private rows plus aggregate-only summary.
+- Source-route adjudication workset: `n=300`, private rows plus aggregate-only
+  summary.
 - Structural pack-only `clause@20`: 56.4% with 95% CI 52.4%-60.5%.
 - Naive always-policy route accuracy on the silver proxy: 21.5%.
 

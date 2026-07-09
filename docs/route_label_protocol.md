@@ -67,9 +67,40 @@ For the first 300-500 rows:
 - Adjudicate disagreements before using the label set for headline metrics.
 - Track `confidence=low` separately and exclude it from the first public table.
 
+Use `scripts/build_route_audit_pack.py` to create a private double-label seed
+and, separately, a larger adjudication workset:
+
+```bash
+python3 scripts/build_route_audit_pack.py \
+  --qrels /path/to/private_qrels.jsonl \
+  --labels /path/to/private_route_labels.jsonl \
+  --audit-out /path/to/private_route_audit_pack.jsonl \
+  --report-out reports/private_route_audit_pack_summary.md \
+  --sample-size 50
+```
+
+For the 300-row workset, use the same command with `--sample-size 300` and a
+separate private `--audit-out` path.
+
+The audit pack may contain raw private query text and must stay outside this
+public repo. Only the aggregate sampling summary should be checked in.
+
+After independent labels are filled, summarize agreement without exposing rows:
+
+```bash
+python3 scripts/summarize_route_audit.py \
+  --audit /path/to/private_route_audit_pack.jsonl \
+  --field-a reviewer_a.route_gold \
+  --field-b reviewer_b.route_gold \
+  --report-out reports/private_route_audit_agreement.md
+```
+
+If only one human label exists, compare `silver.route_gold` to
+`human_route_gold` for calibration only. Do not call that inter-annotator
+agreement.
+
 ## Public Reporting
 
 Public reports may include label counts, agreement statistics, and aggregate
 scorecard metrics. They should not include raw questions, user ids, conversation
 snippets, or platform-specific identifiers.
-

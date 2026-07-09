@@ -97,6 +97,25 @@ The current route-label inventory has 544 silver rows. It shows that an
 set, but this is still a silver proxy and requires human audit before headline
 claims.
 
+To start the human audit gate, build a private audit pack and publish only the
+sampling summary:
+
+```bash
+python3 scripts/build_route_audit_pack.py \
+  --qrels /path/to/private_qrels.jsonl \
+  --labels /path/to/private_route_labels.jsonl \
+  --audit-out /path/to/private_route_audit_pack.jsonl \
+  --report-out reports/private_route_audit_pack_summary.md \
+  --sample-size 50
+```
+
+The current private audit worksets include a 50-row double-label seed and a
+300-row adjudication pack, both stratified across source-route classes. They
+must be labeled before any human-gold route metric is reported.
+
+After independent labels are filled, `scripts/summarize_route_audit.py` reports
+raw agreement and Cohen's kappa without exposing private rows.
+
 ## Public/Private Boundary
 
 Public:
@@ -131,6 +150,8 @@ reports/
   measurement_study_v0.md
   private_544_pack_only_scorecard.md
   private_aggregate_scorecard.md
+  private_route_audit_pack_300_summary.md
+  private_route_audit_pack_summary.md
   private_route_label_summary.md
 docs/
   data_statement.md

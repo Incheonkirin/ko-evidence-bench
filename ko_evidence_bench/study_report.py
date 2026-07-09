@@ -590,6 +590,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"{r.matrix_not_run} not-run analyzer/dense/hybrid/reranker systems; "
             f"{r.matrix_blocked} human-gold gate blocked | full comparison matrix incomplete |"
         ),
+        "| `reports/system_matrix_bundle_fixture.md` | qid-only bundle contract covers 7 runnable missing systems with 0 validation errors | import rehearsal only; not external model output |",
         "",
         "This keeps the experiment scope honest. The current study has checked-in",
         "retrieval, routing, surface, and fixture evidence, but it has not yet run",
@@ -843,6 +844,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "make build-claim-ledger",
         "make build-probe-privacy-report",
         "make build-qualitative-gallery",
+        "make validate-system-matrix-bundle",
         "make build-system-matrix-report",
         "make verify",
         "make docker-demo",

@@ -92,6 +92,12 @@ The system comparison ledger is `reports/system_matrix.md`. It records which
 systems are backed by checked-in evidence and which analyzer, dense, hybrid, or
 reranker comparisons are still not run.
 
+`reports/system_matrix_bundle_fixture.md` validates the qid-only run-bundle
+contract for those missing analyzer, dense, hybrid, and reranker systems. The
+fixture bundle is synthetic and does not claim that the external systems have
+been run; it proves the import, coverage, raw-text screening, and scoring path
+that real runs must pass before the matrix can be promoted.
+
 ## Reviewer Demo
 
 The shortest review path is `reports/reviewer_demo.md`. It walks through the
@@ -166,6 +172,7 @@ make reproduce-probe-system-comparison
 make reproduce-probe-trap-mining
 make reproduce-surface-fragmentation-audit
 make build-qualitative-gallery
+make validate-system-matrix-bundle
 make build-system-matrix-report
 make build-measurement-study
 make build-alignment-report
@@ -310,6 +317,12 @@ layout under `probes/ko_evidence_probe_v0/beir/` and regenerates
 `make build-qualitative-gallery` regenerates `reports/qualitative_gallery.md`,
 the synthetic side-by-side failure examples used to make the route diagnostics
 inspectable. `make verify` checks that it is current.
+
+`make validate-system-matrix-bundle` validates the qid-only run-bundle contract
+for the missing analyzer, dense, hybrid, and reranker systems against
+`fixtures/system_matrix_bundle/`. The checked-in fixture report is
+`reports/system_matrix_bundle_fixture.md`; it is an import-contract rehearsal,
+not evidence that the private full matrix has been run.
 
 `make build-system-matrix-report` regenerates `reports/system_matrix.md`, the
 comparison ledger that separates implemented diagnostic systems from not-run
@@ -511,6 +524,7 @@ ko_evidence_bench/
   surface_fragmentation.py # Exact-seed undercount audit.
   system_matrix.py    # System-comparison matrix coverage checks.
   trap_miner.py       # Public probe trap-class diagnostics.
+  system_matrix_bundle.py # Qid-only full-matrix run-bundle validation.
   schemas.py          # Minimal JSONL schema validators.
 scripts/
   build_probe_dataset_card.py
@@ -526,6 +540,7 @@ scripts/
   reproduce_normalization_ablation.py
   reproduce_probe_trap_mining.py
   reproduce_surface_fragmentation_audit.py
+  validate_system_matrix_bundle.py
   reproduce_table_1.py
   reproduce_route_scorecard.py
   reproduce_route_surface_scorecard.py

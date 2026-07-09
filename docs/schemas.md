@@ -111,3 +111,46 @@ probes/ko_evidence_probe_v0/beir/query_metadata.jsonl
 The BEIR qrels include answerable query-evidence pairs only. Source-route,
 surface, trap, and abstention metadata remain in `query_metadata.jsonl` and the
 original `qrels.jsonl`.
+
+## System Matrix Run Bundle
+
+The full analyzer, dense, hybrid, and reranker matrix uses a qid-only run bundle
+so private text can remain outside the public repository:
+
+```text
+fixtures/system_matrix_bundle/manifest.json
+fixtures/system_matrix_bundle/runs/{system_id}.jsonl
+```
+
+The public fixture bundle is a contract rehearsal, not external model output.
+Real private bundles should use the same shape:
+
+```json
+{
+  "label_status": "private silver run bundle; not human-gold",
+  "systems": [
+    {
+      "system_id": "bm25_nori",
+      "family": "analyzer_bm25",
+      "stage": "retrieval",
+      "run": "runs/bm25_nori.jsonl"
+    }
+  ]
+}
+```
+
+Each run file uses the standard run row schema. To keep the public/private
+boundary crisp, matrix bundle run rows may contain only `qid`, `route_pred`,
+`abstained`, and `ranked`; ranked items may contain only `evidence_id`,
+`source_tier`, and optional `score`. Raw queries, source names, URLs, usernames,
+conversation text, and passage text must stay outside the bundle.
+
+Run:
+
+```bash
+make validate-system-matrix-bundle
+```
+
+The validator checks that every runnable not-yet-run system in
+`docs/system_matrix.json` has a run file, every run covers the same qids as the
+qrels, and no non-qid-only fields were included.

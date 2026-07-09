@@ -1,0 +1,8 @@
+{"qid":"surface_bundle_formal","route_pred":"policy_clause","abstained":false,"ranked":[{"evidence_id":"clause_bundle_diag","source_tier":"policy_clause"}]}
+{"qid":"surface_bundle_abbrev","route_pred":"policy_clause","abstained":false,"ranked":[{"evidence_id":"clause_bundle_diag","source_tier":"policy_clause"}]}
+{"qid":"surface_bundle_messenger","route_pred":"policy_clause","abstained":false,"ranked":[{"evidence_id":"clause_bundle_diag","source_tier":"policy_clause"}]}
+{"qid":"surface_refund_formal","route_pred":"product_disclosure","abstained":false,"ranked":[{"evidence_id":"disclosure_refund_table","source_tier":"product_disclosure"}]}
+{"qid":"surface_refund_colloquial","route_pred":"product_disclosure","abstained":false,"ranked":[{"evidence_id":"disclosure_refund_table","source_tier":"product_disclosure"}]}
+{"qid":"surface_refund_messenger","route_pred":"product_disclosure","abstained":false,"ranked":[{"evidence_id":"disclosure_refund_table","source_tier":"product_disclosure"}]}
+{"qid":"surface_underwriting_formal","route_pred":"human_context_needed","abstained":true,"ranked":[]}
+{"qid":"surface_underwriting_messenger","route_pred":"human_context_needed","abstained":true,"ranked":[]}

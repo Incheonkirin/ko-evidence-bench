@@ -32,6 +32,7 @@ headline claims.
 | Runtime-surface retrieval-hit axis | `PASS` | runtime hit booleans are sliced by surface form, intent family, and trap class without raw evidence ids | This moves surface robustness from fixture-only demos into actual retrieval-hit diagnostics. |
 | Layer attribution axis | `PASS` | failed synthetic rows are decomposed into primary diagnostic layers | The study can explain where failures accumulate instead of only reporting aggregate scores. |
 | System comparison matrix guard | `PASS` | system matrix report separates implemented diagnostics from not-run and blocked comparisons | The repo must not imply the full analyzer/dense/hybrid/reranker matrix has already been run. |
+| Full-matrix run-bundle contract | `PASS` | synthetic qid-only bundle validates import, coverage, leakage, and scoring for the missing systems | The missing full matrix now has a checked artifact contract instead of an undefined handoff. |
 | Intent-family inventory axis | `PASS` | fixture and private silver inventories treat intent families, surface forms, and trap classes as aggregate slices | This moves the flagship design from synthetic slices into the private qid-only qrel path. |
 | Normalization ablation axis | `PASS` | normalization ablation reports aggregate rescue/regression by intent family and surface | This validates normalization as measured lift, not a standalone dictionary artifact. |
 | Qid-only route scorecard path | `PASS` | private silver runs are scored through the same path as future human labels | The evaluation path is tested before human-gold labels arrive. |
@@ -53,7 +54,8 @@ The repo now has the public shell expected of a flagship measurement study:
 generated study draft, claim-control gates, reviewer walkthrough,
 containerized reproduction, screened public probes, dataset card,
 qualitative examples, layer attribution, system matrix guard,
-qid-only scorecards, audit workflow, and public-safety checks. It is not headline-ready
+full-matrix run-bundle contract, qid-only scorecards, audit workflow,
+and public-safety checks. It is not headline-ready
 because source-route labels still lack independent agreement
 evidence and human-adjudicated coverage, and the full comparison
 matrix still has not-run or blocked systems.

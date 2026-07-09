@@ -362,6 +362,22 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The repo must not imply the full analyzer/dense/hybrid/reranker matrix has already been run.",
         ),
         AlignmentItem(
+            area="Full-matrix run-bundle contract",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "system_matrix_bundle.py").exists()
+                and (root / "scripts" / "validate_system_matrix_bundle.py").exists()
+                and (root / "fixtures" / "system_matrix_bundle" / "manifest.json").exists()
+                and has_text(root / "reports" / "system_matrix_bundle_fixture.md", "PASS synthetic full-matrix run-bundle rehearsal")
+                and has_text(root / "reports" / "system_matrix_bundle_fixture.md", "required runnable systems | 7")
+                and has_text(root / "reports" / "system_matrix_bundle_fixture.md", "validation errors | 0")
+                and has_text(root / "Makefile", "check-system-matrix-bundle")
+                else "MISSING"
+            ),
+            evidence="synthetic qid-only bundle validates import, coverage, leakage, and scoring for the missing systems",
+            why_it_matters="The missing full matrix now has a checked artifact contract instead of an undefined handoff.",
+        ),
+        AlignmentItem(
             area="Intent-family inventory axis",
             status=(
                 "PASS"
@@ -587,7 +603,8 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "generated study draft, claim-control gates, reviewer walkthrough,",
             "containerized reproduction, screened public probes, dataset card,",
             "qualitative examples, layer attribution, system matrix guard,",
-            "qid-only scorecards, audit workflow, and public-safety checks. It is not headline-ready",
+            "full-matrix run-bundle contract, qid-only scorecards, audit workflow,",
+            "and public-safety checks. It is not headline-ready",
             "because source-route labels still lack independent agreement",
             "evidence and human-adjudicated coverage, and the full comparison",
             "matrix still has not-run or blocked systems.",

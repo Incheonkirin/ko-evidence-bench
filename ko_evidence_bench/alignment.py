@@ -135,6 +135,21 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="This implements the Fable axis about intent fragmentation, not token dictionaries.",
         ),
         AlignmentItem(
+            area="Intent-family inventory axis",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "intent_inventory.py").exists()
+                and (root / "scripts" / "build_intent_inventory.py").exists()
+                and has_text(root / "reports" / "intent_inventory_fixture.md", "Intent Family Summary")
+                and has_text(root / "reports" / "intent_inventory_fixture.md", "Trap-Class Distribution")
+                and has_text(root / "docs" / "schemas.md", "intent_family")
+                and has_text(root / "docs" / "schemas.md", "trap_classes")
+                else "MISSING"
+            ),
+            evidence="intent-family inventory treats surface forms and trap classes as aggregate slices",
+            why_it_matters="This makes intent families the organizing unit, matching the flagship study design.",
+        ),
+        AlignmentItem(
             area="Qid-only route scorecard path",
             status=(
                 "PASS"

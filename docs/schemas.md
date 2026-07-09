@@ -54,16 +54,26 @@ Surface-form scorecards can add two metadata fields to qrel rows:
 ```json
 {
   "qid": "surface_bundle_abbrev",
+  "intent_family": "bundled_coverage",
   "intent_id": "cancer_brain_heart_bundle",
   "surface_form": "abbreviated",
+  "trap_classes": ["bundle_expansion", "abbreviation"],
   "route_gold": "policy_clause",
   "should_abstain": false,
   "sufficient_evidence_ids": ["clause_bundle_diag"]
 }
 ```
 
+`intent_family` is the publishable organizing unit for a family of related
+information needs. Examples in this repo include bundled coverage, refund and
+termination, and underwriting-context questions.
+
 `intent_id` groups multiple phrasings of the same information need.
 `surface_form` names the phrasing condition, such as `formal`, `colloquial`,
 `abbreviated`, or `messenger_shorthand`. These fields let the public scorecard
 measure whether one intent remains retrievable across consumer, messenger, and
 formal wording without publishing raw query text.
+
+`trap_classes` are optional diagnostic slices such as `bundle_expansion`,
+`register_mismatch`, `product_table`, or `needs_private_context`. They are
+annotations, not the benchmark's organizing unit.

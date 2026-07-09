@@ -17,6 +17,7 @@ headline claims.
 | Multi-source evidence frame | `PASS` | route protocol and study draft model multiple citable source tiers | The benchmark tests evidence routing, not only policy-clause recall. |
 | Real-query substrate inventory | `PASS` | README aggregates private query substrates and cohort scorecards compare them generically | The study is grounded in real query distributions without exposing private source names. |
 | Surface-form robustness axis | `PASS` | surface-form scorecard and lift gate measure same-intent robustness across phrasing conditions | This implements the Fable axis about intent fragmentation, not token dictionaries. |
+| Intent-family inventory axis | `PASS` | intent-family inventory treats surface forms and trap classes as aggregate slices | This makes intent families the organizing unit, matching the flagship study design. |
 | Qid-only route scorecard path | `PASS` | private silver runs are scored through the same path as future human labels | The evaluation path is tested before human-gold labels arrive. |
 | Per-source route failure slices | `PASS` | route scorecards expose source-tier slices and largest route confusions | The study can explain where routing fails, not just report one aggregate number. |
 | Query-cohort route slices | `PASS` | source-map cohort scorecards compare query substrates without raw source names | The study can test whether failures differ across real query cohorts. |

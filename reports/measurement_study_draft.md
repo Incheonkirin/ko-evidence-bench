@@ -93,6 +93,7 @@ make reproduce-table-1
 make reproduce-route-scorecard
 make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
+make reproduce-intent-inventory
 make check-study-readiness
 make verify
 ```

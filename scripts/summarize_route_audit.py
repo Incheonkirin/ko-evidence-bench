@@ -38,12 +38,22 @@ def count_values(rows: list[dict[str, Any]], field: str) -> Counter[str]:
     return counts
 
 
+def disagreement_counts(labels_a: list[str], labels_b: list[str]) -> Counter[str]:
+    counts: Counter[str] = Counter()
+    for a, b in zip(labels_a, labels_b):
+        if a != b:
+            counts[f"{a} -> {b}"] += 1
+    return counts
+
+
 def table(title: str, counts: Counter[str]) -> list[str]:
     total = sum(counts.values())
     lines = [f"## {title}", "", "| value | count | share |", "|---|---:|---:|"]
     for key, value in counts.most_common():
         share = value / total if total else 0.0
         lines.append(f"| `{key}` | {value} | {pct(share)} |")
+    if not counts:
+        lines.append("| `<none>` | 0 | 0.0% |")
     return lines
 
 
@@ -53,6 +63,7 @@ def render_report(rows: list[dict[str, Any]], *, audit_path: Path, field_a: str,
     kappa = cohens_kappa(labels_a, labels_b)
     completed_a = sum(1 for row in rows if get_path(row, field_a) not in (None, ""))
     completed_b = sum(1 for row in rows if get_path(row, field_b) not in (None, ""))
+    disagreements = disagreement_counts(labels_a, labels_b)
 
     lines = [
         "# Private Route Audit Agreement Summary",
@@ -69,11 +80,14 @@ def render_report(rows: list[dict[str, Any]], *, audit_path: Path, field_a: str,
         f"- paired completed rows: {len(labels_a)}",
         f"- raw agreement: {pct(agreement)}",
         f"- Cohen's kappa: {kappa:.3f}",
+        f"- disagreement rows: {sum(disagreements.values())}",
         "",
     ]
     lines.extend(table(f"Field A Distribution: `{field_a}`", count_values(rows, field_a)))
     lines.append("")
     lines.extend(table(f"Field B Distribution: `{field_b}`", count_values(rows, field_b)))
+    lines.append("")
+    lines.extend(table("Disagreement Direction Counts", disagreements))
     lines.extend(
         [
             "",
@@ -81,6 +95,7 @@ def render_report(rows: list[dict[str, Any]], *, audit_path: Path, field_a: str,
             "",
             "- Report agreement only after both compared fields are independently labeled.",
             "- Treat silver-vs-human agreement as calibration, not inter-annotator agreement.",
+            "- Do not promote route headline claims until agreement, adjudication, and qid-only validation are complete.",
         ]
     )
     return "\n".join(lines) + "\n"

@@ -434,6 +434,24 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="Answer-quality claims need agreement evidence before adjudication and promotion.",
         ),
         AlignmentItem(
+            area="Route-label agreement workflow",
+            status=(
+                "PASS"
+                if (root / "scripts" / "summarize_route_audit.py").exists()
+                and (root / "scripts" / "reproduce_route_agreement_workflow.py").exists()
+                and has_text(
+                    root / "reports" / "route_agreement_workflow_fixture.md",
+                    "PASS synthetic source-route agreement rehearsal",
+                )
+                and has_text(root / "reports" / "route_agreement_workflow_fixture.md", "not human-gold evidence")
+                and has_text(root / "reports" / "route_agreement_workflow_fixture.md", "Cohen's kappa | 0.571")
+                and has_text(root / "Makefile", "check-route-agreement-workflow")
+                else "MISSING"
+            ),
+            evidence="synthetic two-reviewer route labels validate and produce aggregate agreement plus kappa",
+            why_it_matters="Source-route labels need independent agreement evidence before adjudication and promotion.",
+        ),
+        AlignmentItem(
             area="System comparison matrix guard",
             status=(
                 "PASS"
@@ -730,7 +748,7 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "containerized reproduction, screened public probes, dataset card,",
             "source catalog coverage, source inventory readiness, qualitative examples, layer attribution, system matrix guard,",
             "answer-quality audit rehearsal, answer-quality review workflow,",
-            "answer-quality agreement workflow, full-matrix submission handoff,",
+            "answer-quality agreement workflow, route-label agreement workflow, full-matrix submission handoff,",
             "full-matrix run-bundle contract, full-matrix promotion gate,",
             "qid-only scorecards, audit workflow,",
             "and public-safety checks. It is not headline-ready",

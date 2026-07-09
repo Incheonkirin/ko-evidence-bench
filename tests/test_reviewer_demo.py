@@ -37,6 +37,8 @@ class ReviewerDemoTest(unittest.TestCase):
         self.assertIn("not a synonym list", report)
         self.assertIn("reports/qualitative_gallery.md", report)
         self.assertIn("reports/layer_attribution_fixture.md", report)
+        self.assertIn("reports/route_agreement_workflow_fixture.md", report)
+        self.assertIn("Independent route labels can be validated", report)
         self.assertIn("reports/answer_quality_audit_fixture.md", report)
         self.assertIn("Retrieval hit metrics are not answer-quality claims", report)
         self.assertIn("reports/answer_review_workflow_fixture.md", report)

@@ -36,6 +36,7 @@ headline claims.
 | Answer-quality audit rehearsal | `PASS` | synthetic qid-only labels validate answer sufficiency, correct abstention, and unsafe answers | Retrieval-hit metrics are not final answer-quality claims; the audit path keeps that boundary explicit. |
 | Answer-quality review workflow | `PASS` | synthetic CSV export, validation, import, audit validation, and qid-only promotion are rehearsed | The remaining answer-quality work is reviewer production, not missing review plumbing. |
 | Answer-quality agreement workflow | `PASS` | synthetic two-reviewer answer labels validate and produce aggregate agreement plus kappa | Answer-quality claims need agreement evidence before adjudication and promotion. |
+| Route-label agreement workflow | `PASS` | synthetic two-reviewer route labels validate and produce aggregate agreement plus kappa | Source-route labels need independent agreement evidence before adjudication and promotion. |
 | System comparison matrix guard | `PASS` | system matrix report separates implemented diagnostics from not-run and blocked comparisons | The repo must not imply the full analyzer/dense/hybrid/reranker matrix has already been run. |
 | Full-matrix submission handoff | `PASS` | qid-only handoff templates cover every missing analyzer, dense, hybrid, and reranker run | The missing full matrix now has a concrete submission shape before validation and promotion. |
 | Full-matrix run-bundle contract | `PASS` | synthetic qid-only bundle validates import, coverage, leakage, and scoring for the missing systems | The missing full matrix now has a checked artifact contract instead of an undefined handoff. |
@@ -62,7 +63,7 @@ generated study draft, claim-control gates, reviewer walkthrough,
 containerized reproduction, screened public probes, dataset card,
 source catalog coverage, source inventory readiness, qualitative examples, layer attribution, system matrix guard,
 answer-quality audit rehearsal, answer-quality review workflow,
-answer-quality agreement workflow, full-matrix submission handoff,
+answer-quality agreement workflow, route-label agreement workflow, full-matrix submission handoff,
 full-matrix run-bundle contract, full-matrix promotion gate,
 qid-only scorecards, audit workflow,
 and public-safety checks. It is not headline-ready

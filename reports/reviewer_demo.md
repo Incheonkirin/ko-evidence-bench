@@ -22,16 +22,17 @@ a reviewer who wants to understand the study artifact before reading code.
 | 11 | `reports/surface_fragmentation_audit.md` | Check seed-counting bias. | Exact lexical seeds undercount same-intent surface variants; the output is an audit, not a synonym list. |
 | 12 | `reports/qualitative_gallery.md` | Read concrete side-by-side failure examples. | The route diagnostics are inspectable, not only aggregate tables. |
 | 13 | `reports/layer_attribution_fixture.md` | Inspect the failure-layer decomposition hook. | The study can explain where failures accumulate, not only whether a run passed. |
-| 14 | `reports/answer_quality_audit_fixture.md` | Check the answer-quality audit rehearsal. | Retrieval hit metrics are not answer-quality claims; sufficiency and unsafe answers need separate labels. |
-| 15 | `reports/answer_review_workflow_fixture.md` | Check the answer-review CSV roundtrip. | The answer-quality label path can be exported, validated, imported, and promoted without publishing private rows. |
-| 16 | `reports/answer_agreement_workflow_fixture.md` | Check the answer-agreement rehearsal. | Two reviewer fields can be validated and summarized without exposing private rows. |
-| 17 | `reports/system_matrix.md` | Check which systems are actually backed by evidence. | The full analyzer/dense/hybrid/reranker matrix is explicit and incomplete. |
-| 18 | `reports/system_matrix_submission_pack_fixture.md` + `fixtures/system_matrix_submission_template/` | Inspect the qid-only matrix handoff template. | Missing analyzer, dense, hybrid, and reranker runs have a concrete submission shape without raw text. |
-| 19 | `reports/system_matrix_bundle_fixture.md` | Inspect the qid-only run-bundle contract. | Future analyzer, dense, hybrid, and reranker runs have an import and leakage-check path. |
-| 20 | `reports/system_matrix_promotion_fixture.md` | Check the matrix promotion rehearsal. | A validated fixture bundle is still blocked from updating the matrix without scale and real-run provenance. |
-| 21 | `reports/measurement_study_draft.md` | Read the aggregate-only study draft. | The report is the product; code exists to regenerate and check it. |
-| 22 | `reports/human_gold_rehearsal_fixture.md` | Verify the synthetic completed-label path. | Once real labels exist, the promotion and scorecard path is already rehearsed. |
-| 23 | `reports/study_readiness.md` | Confirm the remaining gate. | Headline claims stay blocked until human labels are complete and validated. |
+| 14 | `reports/route_agreement_workflow_fixture.md` | Check the source-route agreement rehearsal. | Independent route labels can be validated and summarized before adjudication. |
+| 15 | `reports/answer_quality_audit_fixture.md` | Check the answer-quality audit rehearsal. | Retrieval hit metrics are not answer-quality claims; sufficiency and unsafe answers need separate labels. |
+| 16 | `reports/answer_review_workflow_fixture.md` | Check the answer-review CSV roundtrip. | The answer-quality label path can be exported, validated, imported, and promoted without publishing private rows. |
+| 17 | `reports/answer_agreement_workflow_fixture.md` | Check the answer-agreement rehearsal. | Two reviewer fields can be validated and summarized without exposing private rows. |
+| 18 | `reports/system_matrix.md` | Check which systems are actually backed by evidence. | The full analyzer/dense/hybrid/reranker matrix is explicit and incomplete. |
+| 19 | `reports/system_matrix_submission_pack_fixture.md` + `fixtures/system_matrix_submission_template/` | Inspect the qid-only matrix handoff template. | Missing analyzer, dense, hybrid, and reranker runs have a concrete submission shape without raw text. |
+| 20 | `reports/system_matrix_bundle_fixture.md` | Inspect the qid-only run-bundle contract. | Future analyzer, dense, hybrid, and reranker runs have an import and leakage-check path. |
+| 21 | `reports/system_matrix_promotion_fixture.md` | Check the matrix promotion rehearsal. | A validated fixture bundle is still blocked from updating the matrix without scale and real-run provenance. |
+| 22 | `reports/measurement_study_draft.md` | Read the aggregate-only study draft. | The report is the product; code exists to regenerate and check it. |
+| 23 | `reports/human_gold_rehearsal_fixture.md` | Verify the synthetic completed-label path. | Once real labels exist, the promotion and scorecard path is already rehearsed. |
+| 24 | `reports/study_readiness.md` | Confirm the remaining gate. | Headline claims stay blocked until human labels are complete and validated. |
 
 ## One Command
 
@@ -55,7 +56,7 @@ make docker-demo
 
 `make docker-demo` builds the local image and reruns the fixture table,
 layer attribution, readiness gate, probe privacy screen, public probe
-source-catalog check, source-inventory check, dataset card, BEIR export, system comparison, trap-mining check, surface-fragmentation audit, qualitative gallery check, answer-quality audit check, answer-review workflow check, answer-agreement workflow check, system matrix submission-pack check, system matrix bundle check, system matrix promotion check, system matrix check,
+source-catalog check, source-inventory check, dataset card, BEIR export, system comparison, trap-mining check, surface-fragmentation audit, qualitative gallery check, route-agreement workflow check, answer-quality audit check, answer-review workflow check, answer-agreement workflow check, system matrix submission-pack check, system matrix bundle check, system matrix promotion check, system matrix check,
 generated-report checks, and public-safety scan inside the container.
 
 ## Current Diagnostic Signals

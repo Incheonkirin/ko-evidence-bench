@@ -210,6 +210,7 @@ make reproduce-probe-system-comparison
 make reproduce-probe-trap-mining
 make reproduce-surface-fragmentation-audit
 make build-qualitative-gallery
+make reproduce-route-agreement-workflow
 make reproduce-answer-quality-audit
 make reproduce-answer-review-workflow
 make reproduce-answer-agreement-workflow
@@ -244,6 +245,11 @@ source_routed_demo  5  1.000  1.000  0.000  1.000  1.000  1.000
 CSV export, reviewer import, agreement, adjudication validation, and qid-only
 label promotion. Its report is checked in at
 `reports/route_audit_workflow_fixture.md`.
+
+`make reproduce-route-agreement-workflow` rehearses the independent source-route
+agreement gate directly: two synthetic reviewer payloads validate, aggregate
+agreement is summarized, and disagreement directions are counted without raw
+rows. Its report is checked in at `reports/route_agreement_workflow_fixture.md`.
 
 `make reproduce-human-gold-rehearsal` runs a synthetic completed-label rehearsal:
 adjudicated labels validate, promote into qid-only route labels, pass
@@ -622,6 +628,7 @@ ko_evidence_bench/
   system_matrix_promotion.py # Full-matrix promotion gate checks.
   schemas.py          # Minimal JSONL schema validators.
 scripts/
+  reproduce_route_agreement_workflow.py
   reproduce_answer_quality_audit.py
   reproduce_answer_review_workflow.py
   export_answer_review_csv.py
@@ -671,6 +678,7 @@ reports/
   measurement_study_v0.md
   measurement_study_draft.md
   normalization_ablation_fixture.md
+  route_agreement_workflow_fixture.md
   route_audit_workflow_fixture.md
   route_scorecard_fixture.md
   surface_scorecard_fixture.md

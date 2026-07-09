@@ -58,6 +58,16 @@ This joins private runtime hit booleans with qid-only intent/surface
 metadata. It does not publish raw ranked evidence ids, but it verifies
 whether actual retrieval hits vary across surface conditions.
 
+## Route-Label Agreement Evidence
+
+| artifact | current evidence | status |
+|---|---|---|
+| `reports/route_agreement_workflow_fixture.md` | two synthetic route-reviewer fields validate; paired rows 3; raw agreement 66.7%; kappa 0.571 | route-agreement rehearsal only; real reviewer labels still required |
+
+This is a rehearsal for the human-gold source-route gate. It proves the
+repo can validate two independent route-reviewer payloads and summarize
+agreement before adjudication, without exposing private rows.
+
 ## Answer-Quality Evidence
 
 | artifact | current evidence | status |
@@ -240,6 +250,7 @@ make reproduce-probe-system-comparison
 make reproduce-probe-trap-mining
 make reproduce-surface-fragmentation-audit
 make reproduce-answer-quality-audit
+make reproduce-route-agreement-workflow
 make reproduce-answer-review-workflow
 make reproduce-answer-agreement-workflow
 make build-system-matrix-submission-pack

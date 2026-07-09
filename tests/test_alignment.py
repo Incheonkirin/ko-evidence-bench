@@ -36,6 +36,7 @@ class AlignmentTest(unittest.TestCase):
         self.assertIn("Multi-source evidence frame", report)
         self.assertIn("Real-query substrate inventory", report)
         self.assertIn("Surface-form robustness axis", report)
+        self.assertIn("lift gate measure", report)
         self.assertIn("Per-source route failure slices", report)
         self.assertIn("Query-cohort route slices", report)
         self.assertIn("Cohort-aware routing baseline", report)

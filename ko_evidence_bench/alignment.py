@@ -249,10 +249,12 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             area="Human-gold route labels",
             status="PASS" if readiness.headline_ready else "BLOCKED",
             evidence=(
+                f"{readiness.agreement_paired_rows}/50 paired labels; "
+                f"kappa {readiness.agreement_kappa:.3f}; "
                 f"{readiness.completed_route_labels}/300 adjudicated labels complete; "
                 f"{readiness.route_validation_errors} validation errors"
             ),
-            why_it_matters="This is the required gate before public headline claims.",
+            why_it_matters="Agreement quality and adjudicated coverage are required before public headline claims.",
         ),
         AlignmentItem(
             area="Public/private boundary",
@@ -314,12 +316,14 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "The repo now has the public shell expected of a flagship measurement study:",
             "generated study draft, claim-control gates, qid-only scorecards, audit",
             "workflow, and public-safety checks. It is not headline-ready because the",
-            "source-route labels are still silver rather than human-adjudicated.",
+            "source-route labels still lack independent agreement evidence and",
+            "human-adjudicated coverage.",
             "",
             "## Next Gate",
             "",
-            "Complete the 300-row adjudicated route-label workset, validate it with zero",
-            "errors, promote qid-only human labels, and rerun the route scorecard and",
+            "Double-label at least 50 route rows, report agreement and kappa, complete",
+            "the 300-row adjudicated route-label workset, validate it with zero errors,",
+            "promote qid-only human labels, and rerun the route scorecard and",
             "measurement-study draft.",
             "",
         ]

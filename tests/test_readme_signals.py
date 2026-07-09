@@ -16,6 +16,8 @@ class ReadmeSignalsTest(unittest.TestCase):
 
         self.assertIn("544 silver rows", block)
         self.assertIn("64.9%", block)
+        self.assertIn("0 / 50 paired", block)
+        self.assertIn("kappa 0.000", block)
         self.assertIn("NO-GO for public headline claims", block)
 
     def test_sync_script_replaces_marked_block(self):

@@ -67,6 +67,10 @@ For the first 300-500 rows:
 - Adjudicate disagreements before using the label set for headline metrics.
 - Track `confidence=low` separately and exclude it from the first public table.
 
+The public readiness gate requires at least 50 paired independent labels and
+Cohen's kappa of at least 0.600 before human-gold headline claims can be
+considered.
+
 Use `scripts/build_route_audit_pack.py` to create a private double-label seed
 and, separately, a larger adjudication workset:
 

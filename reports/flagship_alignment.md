@@ -25,7 +25,7 @@ headline claims.
 | Cohort-aware routing baseline | `PASS` | cohort-aware router is exported, scored, and guarded by a silver lift gate | The repo shows a measured routing improvement, not only an evaluation shell. |
 | Human audit workflow | `PASS` | review UI plus synthetic audit workflow dry-run | The remaining work is label production, not missing audit plumbing. |
 | Human-label progress gate | `PASS` | 300-row brief, priority batch, merge dry-run, progress, and CSV validation are summarized without raw rows | The remaining human task can be prioritized, started, merged, and tracked before import. |
-| Human-gold route labels | `BLOCKED` | 0/300 adjudicated labels complete; 300 validation errors | This is the required gate before public headline claims. |
+| Human-gold route labels | `BLOCKED` | 0/50 paired labels; kappa 0.000; 0/300 adjudicated labels complete; 300 validation errors | Agreement quality and adjudicated coverage are required before public headline claims. |
 | Public/private boundary | `PASS` | data statement plus public-safety scan | The private logs ground the work without leaking raw rows. |
 | CI verification | `PASS` | make verify in GitHub Actions | The repo continuously checks reports, claims, fixtures, and safety. |
 
@@ -34,10 +34,12 @@ headline claims.
 The repo now has the public shell expected of a flagship measurement study:
 generated study draft, claim-control gates, qid-only scorecards, audit
 workflow, and public-safety checks. It is not headline-ready because the
-source-route labels are still silver rather than human-adjudicated.
+source-route labels still lack independent agreement evidence and
+human-adjudicated coverage.
 
 ## Next Gate
 
-Complete the 300-row adjudicated route-label workset, validate it with zero
-errors, promote qid-only human labels, and rerun the route scorecard and
+Double-label at least 50 route rows, report agreement and kappa, complete
+the 300-row adjudicated route-label workset, validate it with zero errors,
+promote qid-only human labels, and rerun the route scorecard and
 measurement-study draft.

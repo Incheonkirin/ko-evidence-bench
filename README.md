@@ -29,12 +29,14 @@ These are checked-in aggregate diagnostics, not final benchmark claims:
 | `always_policy` route accuracy | 21.5% | silver proxy |
 | query-keyword route accuracy | 31.8% | silver proxy |
 | cohort-aware route accuracy | 46.9% | silver proxy |
+| Double-label agreement seed | 0 / 50 paired; kappa 0.000 | headline blocked |
 | Adjudicated human route labels | 0 / 300 complete | headline blocked |
 
 The generated readiness report is intentionally conservative:
 `reports/study_readiness.md` currently says
-**NO-GO for public headline claims** until the 300-row
-human route-label workset is completed and validated.
+**NO-GO for public headline claims** until the 50-row
+double-label seed and 300-row human route-label workset are completed
+and validated.
 <!-- END: current-verified-signals -->
 
 ## What This Evaluates

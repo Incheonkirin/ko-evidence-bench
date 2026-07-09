@@ -25,7 +25,7 @@ for steering the work, but they are blocked from headline use until the
 | Cohort-aware routing improves source routing without raw source exposure | route accuracy 46.9%; paired delta +25.4%p; abstention recall 67.0% | silver diagnostic |
 | The largest silver route failure is unsafe policy-clause fallback | `human_context_needed -> policy_clause` drops from 190 to 28 rows | silver diagnostic |
 | Route failures vary by private query cohort | route accuracy range 36.2% - 55.2%; context-needed policy fallback up to 54.1% | silver diagnostic |
-| Human-gold public headline claim | 0 / 300 adjudicated labels complete | blocked |
+| Human-gold public headline claim | 0 / 50 paired labels; 0 / 300 adjudicated labels complete | blocked |
 
 ## Retrieval Evidence
 
@@ -79,12 +79,15 @@ Private query-cohort diagnostics:
 | gate | current value | required before headline use |
 |---|---:|---:|
 | retrieval eval rows | 544 | >= 500 |
+| paired double-label rows | 0 | >= 50 |
+| double-label Cohen's kappa | 0.000 | >= 0.600 |
 | completed adjudicated route labels | 0 | >= 300 |
 | route validation errors | 300 | 0 |
 
 The retrieval rows meet the diagnostic-size threshold, but source-route labels
-are not human-adjudicated yet. Therefore this draft should not be presented
-as a final benchmark result.
+do not yet have enough independent agreement evidence or adjudicated
+human-gold coverage. Therefore this draft should not be presented as a
+final benchmark result.
 
 ## Reproduction
 
@@ -105,9 +108,10 @@ the public repository.
 
 ## Next Evidence
 
-1. Complete the 300-row adjudicated source-route workset.
-2. Validate it with zero route-label errors.
-3. Promote qid-only human labels and re-run the same route scorecard path.
-4. Re-run retrieval comparisons sliced by human-gold source route.
-5. Replace this draft's diagnostic claims with human-audited findings only
+1. Double-label at least 50 source-route rows and report agreement/kappa.
+2. Complete the 300-row adjudicated source-route workset.
+3. Validate it with zero route-label errors.
+4. Promote qid-only human labels and re-run the same route scorecard path.
+5. Re-run retrieval comparisons sliced by human-gold source route.
+6. Replace this draft's diagnostic claims with human-audited findings only
    if `reports/study_readiness.md` changes to GO.

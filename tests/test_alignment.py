@@ -46,7 +46,8 @@ class AlignmentTest(unittest.TestCase):
         self.assertIn("Cohort-aware routing baseline", report)
         self.assertIn("silver lift gate", report)
         self.assertIn("CSV validation", report)
-        self.assertIn("source-route labels are still silver", report)
+        self.assertIn("lack independent agreement evidence", report)
+        self.assertIn("kappa 0.000", report)
 
     def test_build_script_check_mode(self):
         with tempfile.TemporaryDirectory() as tmp:

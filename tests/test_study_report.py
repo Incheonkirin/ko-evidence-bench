@@ -25,7 +25,9 @@ class StudyReportTest(unittest.TestCase):
         self.assertIn("Silver source-route slices", report)
         self.assertIn("route accuracy range 36.2% - 55.2%", report)
         self.assertIn("context-needed policy fallback up to 54.1%", report)
+        self.assertIn("0 / 50 paired labels", report)
         self.assertIn("0 / 300 adjudicated labels complete", report)
+        self.assertIn("double-label Cohen's kappa", report)
 
     def test_build_script_check_mode(self):
         with tempfile.TemporaryDirectory() as tmp:

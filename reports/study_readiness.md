@@ -15,19 +15,23 @@ diagnostics as final benchmark results before human route labels exist.
 | `always_policy` route accuracy | 21.5% | silver baseline only |
 | query-keyword route accuracy | 31.8% | silver baseline only |
 | cohort-aware route accuracy | 46.9% | silver diagnostic only |
+| paired double-label rows | 0 | needs at least 50 |
+| double-label raw agreement | 0.0% | audit quality signal |
+| double-label Cohen's kappa | 0.000 | needs at least 0.600 |
 | completed adjudicated route labels | 0 | needs at least 300 |
 | route validation errors | 300 | must be 0 before headline use |
 
 ## Decision
 
 Do not use the private-lab numbers as final public benchmark claims yet.
-The blocking gate is human-adjudicated source-route labels: the current
-checked-in validation report still has incomplete labels and validation
-errors.
+The blocking gate is human-adjudicated source-route labels with
+independent agreement evidence: the current checked-in reports still
+lack paired reviewer labels, complete adjudicated labels, or both.
 
 ## Next Required Evidence
 
-1. Complete and validate the 300-row adjudicated route-label workset.
-2. Promote qid-only human labels and run the route scorecard on private route runs.
-3. Re-run the retrieval scorecard with human-gold source-route slices.
-4. Only then write the README/report headline around human-audited numbers.
+1. Double-label at least 50 route rows and report raw agreement plus Cohen's kappa.
+2. Complete and validate the 300-row adjudicated route-label workset.
+3. Promote qid-only human labels and run the route scorecard on private route runs.
+4. Re-run the retrieval scorecard with human-gold source-route slices.
+5. Only then write the README/report headline around human-audited numbers.

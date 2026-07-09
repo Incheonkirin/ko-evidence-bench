@@ -266,6 +266,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         ),
         (
             "| Human-gold public headline claim | "
+            f"{r.agreement_paired_rows} / 50 paired labels; "
             f"{r.completed_route_labels} / 300 adjudicated labels complete | blocked |"
         ),
         "",
@@ -364,12 +365,15 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "| gate | current value | required before headline use |",
         "|---|---:|---:|",
         f"| retrieval eval rows | {r.retrieval_n} | >= 500 |",
+        f"| paired double-label rows | {r.agreement_paired_rows} | >= 50 |",
+        f"| double-label Cohen's kappa | {r.agreement_kappa:.3f} | >= 0.600 |",
         f"| completed adjudicated route labels | {r.completed_route_labels} | >= 300 |",
         f"| route validation errors | {r.route_validation_errors} | 0 |",
         "",
         "The retrieval rows meet the diagnostic-size threshold, but source-route labels",
-        "are not human-adjudicated yet. Therefore this draft should not be presented",
-        "as a final benchmark result.",
+        "do not yet have enough independent agreement evidence or adjudicated",
+        "human-gold coverage. Therefore this draft should not be presented as a",
+        "final benchmark result.",
         "",
         "## Reproduction",
         "",
@@ -390,11 +394,12 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "",
         "## Next Evidence",
         "",
-        "1. Complete the 300-row adjudicated source-route workset.",
-        "2. Validate it with zero route-label errors.",
-        "3. Promote qid-only human labels and re-run the same route scorecard path.",
-        "4. Re-run retrieval comparisons sliced by human-gold source route.",
-        "5. Replace this draft's diagnostic claims with human-audited findings only",
+        "1. Double-label at least 50 source-route rows and report agreement/kappa.",
+        "2. Complete the 300-row adjudicated source-route workset.",
+        "3. Validate it with zero route-label errors.",
+        "4. Promote qid-only human labels and re-run the same route scorecard path.",
+        "5. Re-run retrieval comparisons sliced by human-gold source route.",
+        "6. Replace this draft's diagnostic claims with human-audited findings only",
         "   if `reports/study_readiness.md` changes to GO.",
         "",
     ]

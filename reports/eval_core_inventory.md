@@ -16,6 +16,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | source-route cohort scorecard | 544 rows x 4 runs | scored by generic private query cohort; raw source names hidden |
 | source-route human-audit seed | 50 rows | private audit pack generated; not yet labeled |
 | source-route adjudication pack | 300 rows | private audit pack generated; not yet labeled |
+| source-route agreement summary | 50-row seed | generated; currently 0 paired reviewer rows |
 | source-route review CSV templates | 50/50/300 rows | private reviewer CSVs generated; not yet filled |
 | source-route review brief | 300-row CSV | generated; aggregate-only reviewer work summary |
 | source-route priority review batch | 50-row private CSV | generated; aggregate-only batch summary checked in |
@@ -91,6 +92,11 @@ private query text.
 `reports/private_route_audit_pack_300_summary.md` was generated from a private
 300-row adjudication pack. It reports only the sampling distribution. The human
 labels are not filled yet.
+
+`reports/private_route_audit_agreement_pending.md` summarizes independent
+reviewer agreement on the private 50-row seed. It currently has 0 paired
+reviewer rows and Cohen's kappa 0.000, so it blocks headline claims until at
+least 50 paired labels exist and agreement quality is reported.
 
 `reports/private_route_audit_validation_pending.md` validates the 300-row
 adjudication pack and confirms that no adjudicated labels are complete yet.
@@ -198,8 +204,8 @@ scan. The same target is wired into GitHub Actions.
   silver qrels rather than human-audited labels.
 - Source-route labels exist only as a silver proxy. They have not yet been
   double-labeled or adjudicated.
-- A 50-row double-label seed and 300-row adjudication pack exist, but no human
-  agreement metric exists yet.
+- A 50-row double-label seed and 300-row adjudication pack exist. The agreement
+  report exists, but it has 0 paired reviewer rows and no usable kappa yet.
 - Reviewer-editable CSV templates exist, but no completed reviewer import has
   been performed yet.
 - Reviewer CSV validation exists and fails as intended on the current unfilled

@@ -84,13 +84,15 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
                 if (root / "scripts" / "check_route_review_progress.py").exists()
                 and (root / "scripts" / "build_route_review_brief.py").exists()
                 and (root / "scripts" / "build_route_review_batch.py").exists()
+                and (root / "scripts" / "merge_route_review_batch.py").exists()
                 and (root / "reports" / "private_route_review_brief_300_adjudicated.md").exists()
                 and (root / "reports" / "private_route_review_batch_priority_50_summary.md").exists()
+                and (root / "reports" / "private_route_review_batch_merge_priority_50_summary.md").exists()
                 and (root / "reports" / "private_route_review_progress_300_adjudicated.md").exists()
                 else "MISSING"
             ),
-            evidence="300-row brief, priority batch, and progress are summarized without raw rows",
-            why_it_matters="The remaining human task can be prioritized, started, and tracked before import.",
+            evidence="300-row brief, priority batch, merge dry-run, and progress are summarized without raw rows",
+            why_it_matters="The remaining human task can be prioritized, started, merged, and tracked before import.",
         ),
         AlignmentItem(
             area="Human-gold route labels",

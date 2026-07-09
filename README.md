@@ -39,6 +39,9 @@ The private lab currently has:
 - 56,293 additional community Q&A archive rows.
 - Silver retrieval diagnostics where `structural_cross_rrf` reached
   `clause@10 = 83.4%` on a strict silver core of `n=229`.
+- Runtime-honest pack-only diagnostics on a larger silver qrel set of `n=544`,
+  where `structural_pack` reached `clause@20 = 56.4%` with a 95% bootstrap CI of
+  `52.4% - 60.5%`.
 
 These numbers are context, not final benchmark claims. Public headline numbers
 need bootstrap confidence intervals first.
@@ -73,6 +76,11 @@ python3 scripts/summarize_hit_result.py \
 The current private aggregate report is checked in at
 `reports/private_aggregate_scorecard.md`. It is aggregate-only and should be read
 as a diagnostic, not a final benchmark.
+
+A larger pack-only diagnostic report is checked in at
+`reports/private_544_pack_only_scorecard.md`. It verifies that the 500+ qrel set
+can be scored by the existing retrieval stack, but it does not replace the
+human-audited route/evidence benchmark.
 
 Private qrel metadata can also be converted into a qid-only source-route silver
 label set while publishing only aggregate counts:
@@ -121,6 +129,7 @@ fixtures/
 reports/
   eval_core_inventory.md
   measurement_study_v0.md
+  private_544_pack_only_scorecard.md
   private_aggregate_scorecard.md
   private_route_label_summary.md
 docs/

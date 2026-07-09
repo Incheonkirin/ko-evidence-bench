@@ -22,6 +22,7 @@ class ClaimLedgerTest(unittest.TestCase):
         self.assertIn("OUT OF SCOPE", statuses)
         self.assertIn("Clause recovery", areas)
         self.assertIn("Human-gold benchmark", areas)
+        self.assertIn("Full system comparison matrix", areas)
         self.assertIn("General Korean IR", areas)
 
     def test_rendered_ledger_names_allowed_and_forbidden_wording(self):
@@ -33,6 +34,7 @@ class ClaimLedgerTest(unittest.TestCase):
         self.assertIn("This is a final benchmark result", report)
         self.assertIn("The results represent all Korean retrieval", report)
         self.assertIn("300 validation errors", report)
+        self.assertIn("comparison matrix is complete", report)
 
     def test_build_script_check_mode(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -21,6 +21,11 @@ class StudyReadinessTest(unittest.TestCase):
         self.assertEqual(readiness.agreement_kappa, 0.0)
         self.assertEqual(readiness.completed_route_labels, 0)
         self.assertEqual(readiness.route_validation_errors, 300)
+        self.assertEqual(readiness.matrix_systems, 15)
+        self.assertEqual(readiness.matrix_implemented, 7)
+        self.assertEqual(readiness.matrix_not_run, 7)
+        self.assertEqual(readiness.matrix_blocked, 1)
+        self.assertEqual(readiness.matrix_validation_issues, 0)
         self.assertFalse(readiness.headline_ready)
 
     def test_render_names_the_gate_without_private_text(self):
@@ -30,6 +35,8 @@ class StudyReadinessTest(unittest.TestCase):
         self.assertIn("human-adjudicated source-route labels", report)
         self.assertIn("paired double-label rows", report)
         self.assertIn("Cohen's kappa", report)
+        self.assertIn("system matrix not-run systems", report)
+        self.assertIn("full analyzer/dense/hybrid/reranker comparison matrix", report)
         self.assertNotIn("raw queries", report)
 
 

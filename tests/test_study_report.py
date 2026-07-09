@@ -42,6 +42,8 @@ class StudyReportTest(unittest.TestCase):
         self.assertIn("Table-2-style decomposition hook", report)
         self.assertIn("Human audit workset covers the stress axes before labeling", report)
         self.assertIn("Human Audit Coverage", report)
+        self.assertIn("system matrix not-run systems", report)
+        self.assertIn("missing analyzer/dense/hybrid/reranker runs", report)
         self.assertIn("4 / 4", report)
         self.assertIn("10 / 10", report)
         self.assertIn("0 / 50 paired labels", report)

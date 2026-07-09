@@ -24,6 +24,10 @@ class HeroSignalTest(unittest.TestCase):
         self.assertEqual(signals.cohort_context_policy, 28)
         self.assertEqual(signals.completed_labels, 0)
         self.assertEqual(signals.validation_errors, 300)
+        self.assertEqual(signals.matrix_systems, 15)
+        self.assertEqual(signals.matrix_implemented, 7)
+        self.assertEqual(signals.matrix_not_run, 7)
+        self.assertEqual(signals.matrix_blocked, 1)
 
     def test_rendered_artifacts_keep_claim_gate_visible(self):
         signals = load_signals(ROOT)
@@ -34,8 +38,11 @@ class HeroSignalTest(unittest.TestCase):
         self.assertIn("Unsafe policy fallback", markdown)
         self.assertIn("162 fewer silver fallback errors", markdown)
         self.assertIn("Human-gold gate", markdown)
+        self.assertIn("System matrix gate", markdown)
+        self.assertIn("full comparison matrix incomplete", markdown)
         self.assertIn("Diagnostic signal heatmap", svg)
         self.assertIn("0/300 labels", svg)
+        self.assertIn("7 not-run systems", svg)
 
     def test_build_script_check_mode(self):
         with tempfile.TemporaryDirectory() as tmp:

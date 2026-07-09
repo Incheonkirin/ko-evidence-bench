@@ -6,6 +6,8 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
+from .system_matrix import load_matrix, matrix_summary, validate_matrix
+
 
 @dataclass(frozen=True)
 class StudyReadiness:
@@ -19,6 +21,11 @@ class StudyReadiness:
     agreement_kappa: float
     completed_route_labels: int
     route_validation_errors: int
+    matrix_systems: int
+    matrix_implemented: int
+    matrix_not_run: int
+    matrix_blocked: int
+    matrix_validation_issues: int
 
     @property
     def headline_ready(self) -> bool:
@@ -28,6 +35,9 @@ class StudyReadiness:
             and self.agreement_kappa >= 0.6
             and self.completed_route_labels >= 300
             and self.route_validation_errors == 0
+            and self.matrix_not_run == 0
+            and self.matrix_blocked == 0
+            and self.matrix_validation_issues == 0
         )
 
     @property
@@ -67,6 +77,9 @@ def load_study_readiness(root: Path) -> StudyReadiness:
     route_scorecard = read(root / "reports" / "private_route_scorecard_silver.md")
     agreement = read(root / "reports" / "private_route_audit_agreement_pending.md")
     validation = read(root / "reports" / "private_route_audit_validation_pending.md")
+    matrix = load_matrix(root / "docs" / "system_matrix.json")
+    matrix_issues = validate_matrix(matrix, root=root)
+    matrix_counts = matrix_summary(matrix)
 
     retrieval_n = require_int(r"^- source result n: ([\d,]+)$", full_cross, name="retrieval n")
     best_clause20 = require_percent(
@@ -126,6 +139,11 @@ def load_study_readiness(root: Path) -> StudyReadiness:
         agreement_kappa=agreement_kappa,
         completed_route_labels=completed_route_labels,
         route_validation_errors=route_validation_errors,
+        matrix_systems=int(matrix_counts["systems"]),
+        matrix_implemented=int(matrix_counts["implemented"]),
+        matrix_not_run=int(matrix_counts["not_run"]),
+        matrix_blocked=int(matrix_counts["blocked"]),
+        matrix_validation_issues=len(matrix_issues),
     )
 
 
@@ -153,6 +171,10 @@ def render_study_readiness(readiness: StudyReadiness) -> str:
         f"| double-label Cohen's kappa | {readiness.agreement_kappa:.3f} | needs at least 0.600 |",
         f"| completed adjudicated route labels | {readiness.completed_route_labels} | needs at least 300 |",
         f"| route validation errors | {readiness.route_validation_errors} | must be 0 before headline use |",
+        f"| system matrix implemented systems | {readiness.matrix_implemented} / {readiness.matrix_systems} | diagnostic coverage only |",
+        f"| system matrix not-run systems | {readiness.matrix_not_run} | must be 0 for full comparison claims |",
+        f"| system matrix blocked systems | {readiness.matrix_blocked} | must be 0 for headline use |",
+        f"| system matrix validation issues | {readiness.matrix_validation_issues} | must be 0 |",
         "",
         "## Decision",
         "",
@@ -169,9 +191,9 @@ def render_study_readiness(readiness: StudyReadiness) -> str:
         lines.extend(
             [
                 "Do not use the private-lab numbers as final public benchmark claims yet.",
-                "The blocking gate is human-adjudicated source-route labels with",
-                "independent agreement evidence: the current checked-in reports still",
-                "lack paired reviewer labels, complete adjudicated labels, or both.",
+                "The blocking gates are human-adjudicated source-route labels and",
+                "complete system-matrix coverage: the current checked-in reports still",
+                "lack paired reviewer labels, complete adjudicated labels, or the full analyzer/dense/hybrid/reranker comparison matrix.",
                 "",
             ]
         )
@@ -183,7 +205,8 @@ def render_study_readiness(readiness: StudyReadiness) -> str:
             "2. Complete and validate the 300-row adjudicated route-label workset.",
             "3. Promote qid-only human labels and run the route scorecard on private route runs.",
             "4. Re-run the retrieval scorecard with human-gold source-route slices.",
-            "5. Only then write the README/report headline around human-audited numbers.",
+            "5. Run the missing analyzer, dense, hybrid, and reranker comparisons or narrow the claim.",
+            "6. Only then write the README/report headline around human-audited numbers.",
             "",
         ]
     )
@@ -212,12 +235,17 @@ def render_readme_signals(readiness: StudyReadiness) -> str:
                 "| Adjudicated human route labels | "
                 f"{readiness.completed_route_labels} / 300 complete | headline blocked |"
             ),
+            (
+                "| Full system comparison matrix | "
+                f"{readiness.matrix_implemented} / {readiness.matrix_systems} implemented; "
+                f"{readiness.matrix_not_run} not run; {readiness.matrix_blocked} blocked | headline blocked |"
+            ),
             "",
             "The generated readiness report is intentionally conservative:",
             "`reports/study_readiness.md` currently says",
             f"**{readiness.status} for public headline claims** until the 50-row",
-            "double-label seed and 300-row human route-label workset are completed",
-            "and validated.",
+            "double-label seed, 300-row human route-label workset, and full system",
+            "comparison matrix are completed and validated.",
             "<!-- END: current-verified-signals -->",
         ]
     )

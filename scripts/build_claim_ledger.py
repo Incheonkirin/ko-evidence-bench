@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from scripts.build_hero_signal import HeroSignals, load_signals  # noqa: E402
+from ko_evidence_bench.system_matrix import load_matrix, matrix_summary  # noqa: E402
 
 
 @dataclass(frozen=True)
@@ -25,6 +26,7 @@ class ClaimRow:
 
 def claim_rows(signals: HeroSignals) -> list[ClaimRow]:
     fallback_drop = signals.keyword_context_policy - signals.cohort_context_policy
+    matrix = matrix_summary(load_matrix(ROOT / "docs" / "system_matrix.json"))
     return [
         ClaimRow(
             claim_area="Clause recovery",
@@ -82,6 +84,17 @@ def claim_rows(signals: HeroSignals) -> list[ClaimRow]:
             ),
             do_not_say="The private-lab numbers are final public benchmark claims.",
             next_evidence="Double-label 50 rows, complete 300 adjudications, validate with zero errors.",
+        ),
+        ClaimRow(
+            claim_area="Full system comparison matrix",
+            status="BLOCKED",
+            allowed_wording=(
+                f"The system matrix is explicit and incomplete: {matrix['implemented']}/"
+                f"{matrix['systems']} systems are implemented, {matrix['not_run']} are not run, "
+                f"and {matrix['blocked']} {'is' if matrix['blocked'] == 1 else 'are'} blocked."
+            ),
+            do_not_say="The analyzer, dense, hybrid, and reranker comparison matrix is complete.",
+            next_evidence="Run the missing systems or narrow the claim to the implemented diagnostics.",
         ),
         ClaimRow(
             claim_area="General Korean IR",

@@ -170,11 +170,14 @@ need to complete independent labels, agreement, adjudication, and validation.
 | double-label Cohen's kappa | 0.000 | >= 0.600 |
 | completed adjudicated route labels | 0 | >= 300 |
 | route validation errors | 300 | 0 |
+| system matrix not-run systems | 7 | 0 or narrow the claim |
+| system matrix blocked systems | 1 | 0 |
+| system matrix validation issues | 0 | 0 |
 
 The retrieval rows meet the diagnostic-size threshold, but source-route labels
-do not yet have enough independent agreement evidence or adjudicated
-human-gold coverage. Therefore this draft should not be presented as a
-final benchmark result.
+and the full system matrix do not yet have enough evidence: independent
+agreement, adjudicated human-gold coverage, and the missing analyzer/dense/hybrid/reranker runs still block headline use. Therefore this draft should
+not be presented as a final benchmark result.
 
 ## Reproduction
 
@@ -217,6 +220,7 @@ route runs and raw qrels stay outside the public repository.
 2. Complete the 300-row adjudicated source-route workset.
 3. Validate it with zero route-label errors.
 4. Promote qid-only human labels and re-run the same route scorecard path.
-5. Re-run retrieval comparisons sliced by human-gold source route.
-6. Replace this draft's diagnostic claims with human-audited findings only
+5. Run the missing analyzer/dense/hybrid/reranker comparisons or narrow the claim.
+6. Re-run retrieval comparisons sliced by human-gold source route.
+7. Replace this draft's diagnostic claims with human-audited findings only
    if `reports/study_readiness.md` changes to GO.

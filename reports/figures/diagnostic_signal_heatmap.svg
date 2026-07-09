@@ -17,6 +17,6 @@
 <rect x="514" y="304" width="430" height="140" rx="8" fill="#6b7280"/>
 <text x="532" y="338" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Claim-control gate</text>
 <text x="532" y="386" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff">0/300 labels</text>
-<text x="532" y="422" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="500" fill="#eef2f7">0/50 paired; kappa 0.000</text>
-<text x="36" y="482" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="400" fill="#4a5568">n=544 silver rows. Public headline use waits for zero validation errors; current errors=300.</text>
+<text x="532" y="422" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="500" fill="#eef2f7">7 not-run systems; 1 blocked</text>
+<text x="36" y="482" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="400" fill="#4a5568">n=544 silver rows. Headline use waits for labels plus matrix completion; validation errors=300.</text>
 </svg>

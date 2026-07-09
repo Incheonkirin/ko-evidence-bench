@@ -20,13 +20,17 @@ diagnostics as final benchmark results before human route labels exist.
 | double-label Cohen's kappa | 0.000 | needs at least 0.600 |
 | completed adjudicated route labels | 0 | needs at least 300 |
 | route validation errors | 300 | must be 0 before headline use |
+| system matrix implemented systems | 7 / 15 | diagnostic coverage only |
+| system matrix not-run systems | 7 | must be 0 for full comparison claims |
+| system matrix blocked systems | 1 | must be 0 for headline use |
+| system matrix validation issues | 0 | must be 0 |
 
 ## Decision
 
 Do not use the private-lab numbers as final public benchmark claims yet.
-The blocking gate is human-adjudicated source-route labels with
-independent agreement evidence: the current checked-in reports still
-lack paired reviewer labels, complete adjudicated labels, or both.
+The blocking gates are human-adjudicated source-route labels and
+complete system-matrix coverage: the current checked-in reports still
+lack paired reviewer labels, complete adjudicated labels, or the full analyzer/dense/hybrid/reranker comparison matrix.
 
 ## Next Required Evidence
 
@@ -34,4 +38,5 @@ lack paired reviewer labels, complete adjudicated labels, or both.
 2. Complete and validate the 300-row adjudicated route-label workset.
 3. Promote qid-only human labels and run the route scorecard on private route runs.
 4. Re-run the retrieval scorecard with human-gold source-route slices.
-5. Only then write the README/report headline around human-audited numbers.
+5. Run the missing analyzer, dense, hybrid, and reranker comparisons or narrow the claim.
+6. Only then write the README/report headline around human-audited numbers.

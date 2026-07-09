@@ -11,6 +11,9 @@ from dataclasses import dataclass
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from ko_evidence_bench.system_matrix import load_matrix, matrix_summary  # noqa: E402
 
 
 @dataclass(frozen=True)
@@ -32,6 +35,10 @@ class HeroSignals:
     kappa: str
     completed_labels: int
     validation_errors: int
+    matrix_systems: int
+    matrix_implemented: int
+    matrix_not_run: int
+    matrix_blocked: int
 
 
 def read(path: Path) -> str:
@@ -69,6 +76,7 @@ def load_signals(root: Path) -> HeroSignals:
     runtime_surface = read(root / "reports" / "private_runtime_surface_scorecard_silver.md")
     agreement = read(root / "reports" / "private_route_audit_agreement_pending.md")
     validation = read(root / "reports" / "private_route_audit_validation_pending.md")
+    matrix_counts = matrix_summary(load_matrix(root / "docs" / "system_matrix.json"))
 
     retrieval_n = require_int(r"^- source result n: ([\d,]+)$", full_cross, name="retrieval n")
     pack_clause20 = require_percent(
@@ -144,6 +152,10 @@ def load_signals(root: Path) -> HeroSignals:
         kappa=kappa,
         completed_labels=completed_labels,
         validation_errors=validation_errors,
+        matrix_systems=int(matrix_counts["systems"]),
+        matrix_implemented=int(matrix_counts["implemented"]),
+        matrix_not_run=int(matrix_counts["not_run"]),
+        matrix_blocked=int(matrix_counts["blocked"]),
     )
 
 
@@ -234,10 +246,10 @@ def render_svg(signals: HeroSignals) -> str:
             "#6b7280",
             "Claim-control gate",
             f"{signals.completed_labels}/300 labels",
-            f"{signals.paired_rows}/50 paired; kappa {signals.kappa}",
+            f"{signals.matrix_not_run} not-run systems; {signals.matrix_blocked} blocked",
         )
     )
-    rows.append(svg_text(36, 482, f"n={signals.retrieval_n} silver rows. Public headline use waits for zero validation errors; current errors={signals.validation_errors}.", size=15, fill="#4a5568"))
+    rows.append(svg_text(36, 482, f"n={signals.retrieval_n} silver rows. Headline use waits for labels plus matrix completion; validation errors={signals.validation_errors}.", size=15, fill="#4a5568"))
     rows.append("</svg>")
     return "\n".join(rows) + "\n"
 
@@ -289,14 +301,20 @@ def render_markdown(signals: HeroSignals, figure_path: Path) -> str:
                 f"{signals.completed_labels}/300 adjudicated labels | "
                 f"kappa {signals.kappa}; {signals.validation_errors} validation errors |"
             ),
+            (
+                "| System matrix gate | "
+                f"{signals.matrix_implemented}/{signals.matrix_systems} systems implemented | "
+                f"{signals.matrix_not_run} not run; {signals.matrix_blocked} blocked | "
+                "full comparison matrix incomplete |"
+            ),
             "",
             "## Use Notes",
             "",
             "- The figure and table are generated from aggregate reports only.",
             "- These are private-lab silver diagnostics, not final benchmark claims.",
             "- The strongest portfolio version starts here but waits for completed",
-            "  human labels before changing the README language from diagnostic to",
-            "  headline.",
+            "  human labels and full matrix coverage before changing the README",
+            "  language from diagnostic to headline.",
             "",
         ]
     )

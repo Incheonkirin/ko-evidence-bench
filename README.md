@@ -31,12 +31,13 @@ These are checked-in aggregate diagnostics, not final benchmark claims:
 | cohort-aware route accuracy | 46.9% | silver proxy |
 | Double-label agreement seed | 0 / 50 paired; kappa 0.000 | headline blocked |
 | Adjudicated human route labels | 0 / 300 complete | headline blocked |
+| Full system comparison matrix | 7 / 15 implemented; 7 not run; 1 blocked | headline blocked |
 
 The generated readiness report is intentionally conservative:
 `reports/study_readiness.md` currently says
 **NO-GO for public headline claims** until the 50-row
-double-label seed and 300-row human route-label workset are completed
-and validated.
+double-label seed, 300-row human route-label workset, and full system
+comparison matrix are completed and validated.
 <!-- END: current-verified-signals -->
 
 ## Diagnostic Figure

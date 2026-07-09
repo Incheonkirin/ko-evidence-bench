@@ -9,6 +9,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | strict silver retrieval core with existing run export | 229 | scored; CI report available |
 | assembled partial qrels file | 544 rows | pack-only retrieval scored; CI report available |
 | source-route silver proxy labels | 544 rows | generated from private qrel metadata; aggregate report available |
+| source-route router baselines | 544 rows | always-policy and query-only router scored on silver labels |
 | source-route human-audit seed | 50 rows | private audit pack generated; not yet labeled |
 | source-route adjudication pack | 300 rows | private audit pack generated; not yet labeled |
 | target human-audited source-route labels | 300-500 rows | workset exists; labels not yet created |
@@ -27,6 +28,10 @@ deltas.
 `reports/private_route_label_summary.md` was generated from the 544-row private
 qrel metadata file. It exports only aggregate source-route counts and baseline
 context. The private qid-only label file is kept outside this public repo.
+
+`reports/private_route_router_baselines.md` was generated from the same 544-row
+silver labels. It compares `always_policy` against a query-only keyword router
+using aggregate route and abstention metrics with bootstrap CIs.
 
 `reports/private_route_audit_pack_summary.md` was generated from a private
 50-row route audit seed. It reports only the sampling distribution. The audit
@@ -48,6 +53,8 @@ labels are not filled yet.
 - The always-policy baseline has only been demonstrated on synthetic fixtures,
   plus route-only aggregate context on the silver source-route label set. It has
   not yet been evaluated as a full retrieval run on a human-audited route set.
+- Query-only routing has been evaluated only against silver labels, not
+  human-audited labels.
 
 ## Next Gate
 

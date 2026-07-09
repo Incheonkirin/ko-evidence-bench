@@ -40,6 +40,8 @@ retrieve the right kind of evidence and abstain when citation is not possible.
   summary.
 - Structural pack-only `clause@20`: 56.4% with 95% CI 52.4%-60.5%.
 - Naive always-policy route accuracy on the silver proxy: 21.5%.
+- Query-only keyword router route accuracy on the silver proxy: 31.8%, a
+  +10.3 percentage-point paired lift over always-policy.
 
 These are useful steering signals, not final benchmark claims.
 

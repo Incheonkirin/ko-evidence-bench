@@ -97,6 +97,12 @@ The current route-label inventory has 544 silver rows. It shows that an
 set, but this is still a silver proxy and requires human audit before headline
 claims.
 
+The query-only routing baseline is checked in at
+`reports/private_route_router_baselines.md`. On the same 544-row silver set, a
+simple keyword router reaches 31.8% route accuracy, a +10.3 percentage-point
+paired lift over `always_policy`, while still missing most abstention-needed
+questions.
+
 To start the human audit gate, build a private audit pack and publish only the
 sampling summary:
 
@@ -153,6 +159,7 @@ reports/
   private_route_audit_pack_300_summary.md
   private_route_audit_pack_summary.md
   private_route_label_summary.md
+  private_route_router_baselines.md
 docs/
   data_statement.md
   route_label_protocol.md

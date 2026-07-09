@@ -129,6 +129,14 @@ must be labeled before any human-gold route metric is reported.
 After independent labels are filled, `scripts/summarize_route_audit.py` reports
 raw agreement and Cohen's kappa without exposing private rows.
 
+After adjudication, `scripts/validate_route_audit.py` checks label completeness
+and schema validity, and `scripts/promote_route_audit.py` exports the private
+qid-only human route labels consumed by the same scorecard scripts.
+
+The current adjudication workset has been validation-checked and is still
+pending: 0 of 300 adjudicated labels are complete. That status is recorded in
+`reports/private_route_audit_validation_pending.md`.
+
 ## Public/Private Boundary
 
 Public:
@@ -166,6 +174,7 @@ reports/
   private_aggregate_scorecard.md
   private_route_audit_pack_300_summary.md
   private_route_audit_pack_summary.md
+  private_route_audit_validation_pending.md
   private_route_label_summary.md
   private_route_router_baselines.md
 docs/

@@ -38,6 +38,8 @@ retrieve the right kind of evidence and abstain when citation is not possible.
 - Source-route audit seed: `n=50`, private rows plus aggregate-only summary.
 - Source-route adjudication workset: `n=300`, private rows plus aggregate-only
   summary.
+- Source-route adjudication validation: `0/300` complete, promotion blocked
+  until final labels are filled.
 - Structural pack-only `clause@20`: 56.4% with 95% CI 52.4%-60.5%.
 - Structural cross-text `clause@20`: 64.9% with 95% CI 60.8%-68.8%.
 - Structural cross-text paired lift over structural pack-only on `clause@20`:

@@ -12,6 +12,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | source-route router baselines | 544 rows | always-policy and query-only router scored on silver labels |
 | source-route human-audit seed | 50 rows | private audit pack generated; not yet labeled |
 | source-route adjudication pack | 300 rows | private audit pack generated; not yet labeled |
+| source-route adjudication validation | 300 rows | 0 completed; validation gate pending |
 | target human-audited source-route labels | 300-500 rows | workset exists; labels not yet created |
 
 ## What Is Verified Now
@@ -46,6 +47,9 @@ private query text.
 300-row adjudication pack. It reports only the sampling distribution. The human
 labels are not filled yet.
 
+`reports/private_route_audit_validation_pending.md` validates the 300-row
+adjudication pack and confirms that no adjudicated labels are complete yet.
+
 ## What Is Not Yet Verified
 
 - The 500+ qrels set has been scored with full cross-rerank, but still against
@@ -54,6 +58,8 @@ labels are not filled yet.
   double-labeled or adjudicated.
 - A 50-row double-label seed and 300-row adjudication pack exist, but no human
   agreement metric exists yet.
+- The promotion gate is intentionally closed: the 300-row adjudication pack has
+  0 completed labels and 300 validation errors from missing final route labels.
 - The always-policy baseline has only been demonstrated on synthetic fixtures,
   plus route-only aggregate context on the silver source-route label set. It has
   not yet been evaluated as a full retrieval run on a human-audited route set.

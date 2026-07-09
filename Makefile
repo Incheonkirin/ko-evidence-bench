@@ -1,4 +1,4 @@
-.PHONY: test reproduce-table-1 summarize-private-result export-route-labels build-route-audit-pack summarize-route-audit evaluate-route-router
+.PHONY: test reproduce-table-1 summarize-private-result export-route-labels build-route-audit-pack summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
 
 test:
 	python3 -m unittest discover -s tests
@@ -17,6 +17,12 @@ build-route-audit-pack:
 
 summarize-route-audit:
 	python3 scripts/summarize_route_audit.py --audit "$(AUDIT_JSONL)" --field-a "$(FIELD_A)" --field-b "$(FIELD_B)" --report-out reports/private_route_audit_agreement.md
+
+validate-route-audit:
+	python3 scripts/validate_route_audit.py --audit "$(AUDIT_JSONL)" --label-prefix "$(LABEL_PREFIX)" --require-complete --report-out reports/private_route_audit_validation.md
+
+promote-route-audit:
+	python3 scripts/promote_route_audit.py --audit "$(AUDIT_JSONL)" --label-prefix "$(LABEL_PREFIX)" --labels-out "$(LABELS_OUT)" --report-out reports/private_promoted_route_labels.md
 
 evaluate-route-router:
 	python3 scripts/evaluate_route_router.py --qrels "$(QRELS_JSONL)" --labels "$(LABELS_JSONL)" --report-out reports/private_route_router_baselines.md

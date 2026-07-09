@@ -30,6 +30,18 @@ HUMAN_FIELDS = {
 }
 
 
+def reviewer_template() -> dict[str, Any]:
+    return {
+        "route_gold": "",
+        "allowed_source_tiers": [],
+        "should_abstain": None,
+        "confidence": "",
+        "rationale_code": "",
+        "labeler": "",
+        "notes": "",
+    }
+
+
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     with path.open(encoding="utf-8") as f:
@@ -140,6 +152,9 @@ def build_audit_rows(
                     "confidence": label["confidence"],
                     "rationale_code": label["rationale_code"],
                 },
+                "reviewer_a": reviewer_template(),
+                "reviewer_b": reviewer_template(),
+                "adjudicated": reviewer_template(),
                 **HUMAN_FIELDS,
             }
         )
@@ -192,6 +207,9 @@ def render_report(
         "| `human_confidence` | high, medium, or low |",
         "| `human_rationale_code` | compact reason for the route decision |",
         "| `human_notes` | brief adjudication note |",
+        "| `reviewer_a.*` | first independent reviewer labels |",
+        "| `reviewer_b.*` | second independent reviewer labels |",
+        "| `adjudicated.*` | final labels after disagreement review |",
         "",
     ]
     lines.extend(table("Sampled Route Distribution", route_counts))

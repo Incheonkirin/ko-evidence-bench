@@ -99,6 +99,27 @@ If only one human label exists, compare `silver.route_gold` to
 `human_route_gold` for calibration only. Do not call that inter-annotator
 agreement.
 
+After adjudication, validate the final label payload:
+
+```bash
+python3 scripts/validate_route_audit.py \
+  --audit /path/to/private_route_audit_pack.jsonl \
+  --label-prefix adjudicated \
+  --require-complete \
+  --report-out reports/private_route_audit_validation.md
+```
+
+Promote only validated adjudicated rows into the qid-only label file consumed by
+route/evidence scorecards:
+
+```bash
+python3 scripts/promote_route_audit.py \
+  --audit /path/to/private_route_audit_pack.jsonl \
+  --label-prefix adjudicated \
+  --labels-out /path/to/private_human_route_labels.jsonl \
+  --report-out reports/private_promoted_route_labels.md
+```
+
 ## Public Reporting
 
 Public reports may include label counts, agreement statistics, and aggregate

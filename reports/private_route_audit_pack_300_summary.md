@@ -21,6 +21,9 @@ outside the public repository.
 | `human_confidence` | high, medium, or low |
 | `human_rationale_code` | compact reason for the route decision |
 | `human_notes` | brief adjudication note |
+| `reviewer_a.*` | first independent reviewer labels |
+| `reviewer_b.*` | second independent reviewer labels |
+| `adjudicated.*` | final labels after disagreement review |
 
 ## Sampled Route Distribution
 

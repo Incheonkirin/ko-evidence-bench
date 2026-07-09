@@ -30,6 +30,16 @@ walkthrough only, run:
 make build-reviewer-demo
 ```
 
+Containerized review path:
+
+```bash
+make docker-demo
+```
+
+`make docker-demo` builds the local image and reruns the fixture table,
+readiness gate, generated-report checks, and public-safety scan inside
+the container.
+
 ## Current Diagnostic Signals
 
 | signal | value | claim status |

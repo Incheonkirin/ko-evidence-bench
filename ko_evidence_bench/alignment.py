@@ -95,6 +95,20 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="A reviewer can understand the study artifact before reading framework code.",
         ),
         AlignmentItem(
+            area="Containerized reproduction path",
+            status=(
+                "PASS"
+                if (root / "Dockerfile").exists()
+                and (root / ".dockerignore").exists()
+                and has_text(root / "Makefile", "docker-demo")
+                and has_text(root / "README.md", "make docker-demo")
+                and has_text(root / "reports" / "reviewer_demo.md", "make docker-demo")
+                else "MISSING"
+            ),
+            evidence="Dockerfile plus make docker-demo reruns the fixture table and claim-control checks",
+            why_it_matters="A reviewer can reproduce the public demo without first configuring a Python environment.",
+        ),
+        AlignmentItem(
             area="README signal drift guard",
             status=(
                 "PASS"
@@ -430,10 +444,11 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "## Interpretation",
             "",
             "The repo now has the public shell expected of a flagship measurement study:",
-            "generated study draft, claim-control gates, reviewer walkthrough, qid-only",
-            "scorecards, audit workflow, and public-safety checks. It is not",
-            "headline-ready because the source-route labels still lack independent",
-            "agreement evidence and human-adjudicated coverage.",
+            "generated study draft, claim-control gates, reviewer walkthrough,",
+            "containerized reproduction, qid-only scorecards, audit workflow, and",
+            "public-safety checks. It is not headline-ready because the source-route",
+            "labels still lack independent agreement evidence and human-adjudicated",
+            "coverage.",
             "",
             "## Next Gate",
             "",

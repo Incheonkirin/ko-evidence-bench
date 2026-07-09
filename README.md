@@ -122,6 +122,15 @@ make build-alignment-report
 make verify
 ```
 
+Containerized demo:
+
+```bash
+make docker-demo
+```
+
+This builds the local image and reruns the fixture table, readiness gate,
+generated-report checks, and public-safety scan inside the container.
+
 Expected output is a small scorecard over synthetic fixture runs:
 
 ```text
@@ -189,6 +198,11 @@ turns without publishing raw rows or source identifiers.
 
 `make verify` runs tests, reproduction commands, and a public-safety scan
 for private-source leakage indicators.
+
+`make docker-demo` builds the local `ko-evidence-bench:local` image and runs a
+short containerized reproduction path. It is intended for reviewers who want to
+check the fixture table and claim-control reports without setting up a Python
+environment first.
 
 `make check-study-readiness` regenerates
 `reports/study_readiness.md` from aggregate reports. The command fails only if

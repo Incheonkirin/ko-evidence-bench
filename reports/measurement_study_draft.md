@@ -172,11 +172,13 @@ make check-study-readiness
 make build-hero-signal
 make build-claim-ledger
 make verify
+make docker-demo
 ```
 
 The public commands reproduce synthetic fixtures and regenerate aggregate
-claim-control reports. Private qid-only route runs and raw qrels stay outside
-the public repository.
+claim-control reports. `make docker-demo` runs a short containerized
+reproduction path for reviewers. Private qid-only route runs and raw qrels
+stay outside the public repository.
 
 ## Next Evidence
 

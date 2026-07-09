@@ -393,6 +393,26 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The missing full matrix now has a checked artifact contract instead of an undefined handoff.",
         ),
         AlignmentItem(
+            area="Full-matrix promotion gate",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "system_matrix_promotion.py").exists()
+                and (root / "scripts" / "rehearse_system_matrix_promotion.py").exists()
+                and has_text(
+                    root / "reports" / "system_matrix_promotion_fixture.md",
+                    "BLOCKED synthetic promotion rehearsal; no matrix update",
+                )
+                and has_text(
+                    root / "reports" / "system_matrix_promotion_fixture.md",
+                    "Do not update `docs/system_matrix.json` from this fixture.",
+                )
+                and has_text(root / "Makefile", "check-system-matrix-promotion")
+                else "MISSING"
+            ),
+            evidence="promotion gates reject the synthetic bundle until scale and real-run provenance exist",
+            why_it_matters="The repo can accept future full-matrix runs without pretending fixture outputs are model evidence.",
+        ),
+        AlignmentItem(
             area="Intent-family inventory axis",
             status=(
                 "PASS"
@@ -619,7 +639,7 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "containerized reproduction, screened public probes, dataset card,",
             "qualitative examples, layer attribution, system matrix guard,",
             "answer-quality audit rehearsal, full-matrix run-bundle contract,",
-            "qid-only scorecards, audit workflow,",
+            "full-matrix promotion gate, qid-only scorecards, audit workflow,",
             "and public-safety checks. It is not headline-ready",
             "because source-route labels still lack independent agreement",
             "evidence and human-adjudicated coverage, and the full comparison",

@@ -103,6 +103,11 @@ fixture bundle is synthetic and does not claim that the external systems have
 been run; it proves the import, coverage, raw-text screening, and scoring path
 that real runs must pass before the matrix can be promoted.
 
+`reports/system_matrix_promotion_fixture.md` rehearses the next gate: whether a
+validated run bundle is allowed to update the system matrix. The checked-in
+fixture is intentionally blocked because it is synthetic, below the private-run
+row threshold, and not external model output.
+
 ## Reviewer Demo
 
 The shortest review path is `reports/reviewer_demo.md`. It walks through the
@@ -180,6 +185,7 @@ make reproduce-surface-fragmentation-audit
 make build-qualitative-gallery
 make reproduce-answer-quality-audit
 make validate-system-matrix-bundle
+make rehearse-system-matrix-promotion
 make build-system-matrix-report
 make build-measurement-study
 make build-alignment-report
@@ -336,6 +342,11 @@ for the missing analyzer, dense, hybrid, and reranker systems against
 `fixtures/system_matrix_bundle/`. The checked-in fixture report is
 `reports/system_matrix_bundle_fixture.md`; it is an import-contract rehearsal,
 not evidence that the private full matrix has been run.
+
+`make rehearse-system-matrix-promotion` applies promotion gates to that bundle:
+schema validity, required-system coverage, run completeness, qid-only leakage
+screening, minimum row count, and real-run provenance. The checked-in fixture is
+expected to be blocked from promotion.
 
 `make build-system-matrix-report` regenerates `reports/system_matrix.md`, the
 comparison ledger that separates implemented diagnostic systems from not-run
@@ -545,9 +556,11 @@ ko_evidence_bench/
   system_matrix.py    # System-comparison matrix coverage checks.
   trap_miner.py       # Public probe trap-class diagnostics.
   system_matrix_bundle.py # Qid-only full-matrix run-bundle validation.
+  system_matrix_promotion.py # Full-matrix promotion gate checks.
   schemas.py          # Minimal JSONL schema validators.
 scripts/
   reproduce_answer_quality_audit.py
+  rehearse_system_matrix_promotion.py
   build_probe_dataset_card.py
   build_system_matrix_report.py
   build_intent_inventory.py

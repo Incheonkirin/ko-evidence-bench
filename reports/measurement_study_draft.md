@@ -75,6 +75,7 @@ presented as answer-quality claims.
 |---|---|---|
 | `reports/system_matrix.md` | 14 implemented diagnostic/fixture systems; 7 not-run analyzer/dense/hybrid/reranker systems; 1 human-gold gate blocked | full comparison matrix incomplete |
 | `reports/system_matrix_bundle_fixture.md` | qid-only bundle contract covers 7 runnable missing systems with 0 validation errors | import rehearsal only; not external model output |
+| `reports/system_matrix_promotion_fixture.md` | mechanical gates pass, but fixture promotion is blocked by 8 rows and fixture provenance | no matrix update from synthetic evidence |
 
 This keeps the experiment scope honest. The current study has checked-in
 retrieval, routing, surface, and fixture evidence, but it has not yet run
@@ -232,6 +233,7 @@ make build-claim-ledger
 make build-probe-privacy-report
 make build-qualitative-gallery
 make validate-system-matrix-bundle
+make rehearse-system-matrix-promotion
 make build-system-matrix-report
 make verify
 make docker-demo

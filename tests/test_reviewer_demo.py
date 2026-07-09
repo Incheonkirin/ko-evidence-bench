@@ -38,6 +38,8 @@ class ReviewerDemoTest(unittest.TestCase):
         self.assertIn("reports/system_matrix.md", report)
         self.assertIn("reports/system_matrix_bundle_fixture.md", report)
         self.assertIn("qid-only run-bundle contract", report)
+        self.assertIn("reports/system_matrix_promotion_fixture.md", report)
+        self.assertIn("blocked from updating the matrix", report)
         self.assertIn("reports/human_gold_rehearsal_fixture.md", report)
         self.assertIn("reports/study_readiness.md", report)
         self.assertIn("What Not To Infer", report)

@@ -34,6 +34,7 @@ headline claims.
 | Answer-quality audit rehearsal | `PASS` | synthetic qid-only labels validate answer sufficiency, correct abstention, and unsafe answers | Retrieval-hit metrics are not final answer-quality claims; the audit path keeps that boundary explicit. |
 | System comparison matrix guard | `PASS` | system matrix report separates implemented diagnostics from not-run and blocked comparisons | The repo must not imply the full analyzer/dense/hybrid/reranker matrix has already been run. |
 | Full-matrix run-bundle contract | `PASS` | synthetic qid-only bundle validates import, coverage, leakage, and scoring for the missing systems | The missing full matrix now has a checked artifact contract instead of an undefined handoff. |
+| Full-matrix promotion gate | `PASS` | promotion gates reject the synthetic bundle until scale and real-run provenance exist | The repo can accept future full-matrix runs without pretending fixture outputs are model evidence. |
 | Intent-family inventory axis | `PASS` | fixture and private silver inventories treat intent families, surface forms, and trap classes as aggregate slices | This moves the flagship design from synthetic slices into the private qid-only qrel path. |
 | Normalization ablation axis | `PASS` | normalization ablation reports aggregate rescue/regression by intent family and surface | This validates normalization as measured lift, not a standalone dictionary artifact. |
 | Qid-only route scorecard path | `PASS` | private silver runs are scored through the same path as future human labels | The evaluation path is tested before human-gold labels arrive. |
@@ -56,7 +57,7 @@ generated study draft, claim-control gates, reviewer walkthrough,
 containerized reproduction, screened public probes, dataset card,
 qualitative examples, layer attribution, system matrix guard,
 answer-quality audit rehearsal, full-matrix run-bundle contract,
-qid-only scorecards, audit workflow,
+full-matrix promotion gate, qid-only scorecards, audit workflow,
 and public-safety checks. It is not headline-ready
 because source-route labels still lack independent agreement
 evidence and human-adjudicated coverage, and the full comparison

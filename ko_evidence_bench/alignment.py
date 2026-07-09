@@ -380,6 +380,23 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The remaining answer-quality work is reviewer production, not missing review plumbing.",
         ),
         AlignmentItem(
+            area="Answer-quality agreement workflow",
+            status=(
+                "PASS"
+                if (root / "scripts" / "summarize_answer_audit.py").exists()
+                and (root / "scripts" / "reproduce_answer_agreement_workflow.py").exists()
+                and has_text(
+                    root / "reports" / "answer_agreement_workflow_fixture.md",
+                    "PASS synthetic answer-quality agreement rehearsal",
+                )
+                and has_text(root / "reports" / "answer_agreement_workflow_fixture.md", "not human-gold evidence")
+                and has_text(root / "Makefile", "check-answer-agreement-workflow")
+                else "MISSING"
+            ),
+            evidence="synthetic two-reviewer answer labels validate and produce aggregate agreement plus kappa",
+            why_it_matters="Answer-quality claims need agreement evidence before adjudication and promotion.",
+        ),
+        AlignmentItem(
             area="System comparison matrix guard",
             status=(
                 "PASS"
@@ -658,7 +675,7 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "containerized reproduction, screened public probes, dataset card,",
             "qualitative examples, layer attribution, system matrix guard,",
             "answer-quality audit rehearsal, answer-quality review workflow,",
-            "full-matrix run-bundle contract, full-matrix promotion gate,",
+            "answer-quality agreement workflow, full-matrix run-bundle contract, full-matrix promotion gate,",
             "qid-only scorecards, audit workflow,",
             "and public-safety checks. It is not headline-ready",
             "because source-route labels still lack independent agreement",

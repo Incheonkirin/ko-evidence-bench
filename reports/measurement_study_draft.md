@@ -64,6 +64,7 @@ whether actual retrieval hits vary across surface conditions.
 |---|---|---|
 | `reports/answer_quality_audit_fixture.md` | 10 qid-only fixture rows; 10 completed labels; task success 60.0%; unsafe answer 20.0% | fixture only; not human-gold answer quality |
 | `reports/answer_review_workflow_fixture.md` | CSV export, validation, import, qid-only validation, and promotion path passes on 10 synthetic rows | workflow rehearsal only; real reviewer labels still required |
+| `reports/answer_agreement_workflow_fixture.md` | two synthetic reviewer fields validate; paired rows 10; raw agreement 80.0%; kappa 0.733 | agreement rehearsal only; not inter-annotator evidence |
 
 This is a rehearsal for labels that judge the answer state after retrieval:
 `sufficient`, `partial`, `insufficient`, `correct_abstain`, or
@@ -224,6 +225,7 @@ make reproduce-probe-trap-mining
 make reproduce-surface-fragmentation-audit
 make reproduce-answer-quality-audit
 make reproduce-answer-review-workflow
+make reproduce-answer-agreement-workflow
 make check-audit-surface-coverage
 make reproduce-normalization-ablation
 make reproduce-intent-inventory

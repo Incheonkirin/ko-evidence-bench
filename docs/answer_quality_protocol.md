@@ -101,3 +101,24 @@ make reproduce-answer-review-workflow
 
 It proves the export, CSV validation, import, qid-only validation, and promotion
 path on synthetic rows only. It does not create human-gold labels.
+
+After two independent reviewer fields exist, summarize agreement without
+publishing rows:
+
+```bash
+python3 scripts/summarize_answer_audit.py \
+  --audit /path/to/private_answer_audit.reviewers.jsonl \
+  --field-a reviewer_a.answer_label \
+  --field-b reviewer_b.answer_label \
+  --report-out reports/private_answer_audit_agreement.md
+```
+
+The public rehearsal is:
+
+```bash
+make reproduce-answer-agreement-workflow
+```
+
+Agreement is not adjudication. Human-gold answer-quality claims still require
+adjudicated labels, qid-only validation, and promotion after agreement is
+reported.

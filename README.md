@@ -101,6 +101,10 @@ or an unsafe answer. The fixture is synthetic and not a human-gold result.
 path for those answer-quality labels: export, validate, import, qid-only audit
 validation, and promotion. It uses synthetic rows only.
 
+`reports/answer_agreement_workflow_fixture.md` rehearses aggregate agreement
+reporting for two answer-quality reviewer fields. It validates both reviewer
+payloads and reports raw agreement plus Cohen's kappa on synthetic labels only.
+
 `reports/system_matrix_bundle_fixture.md` validates the qid-only run-bundle
 contract for those missing analyzer, dense, hybrid, and reranker systems. The
 fixture bundle is synthetic and does not claim that the external systems have
@@ -189,6 +193,7 @@ make reproduce-surface-fragmentation-audit
 make build-qualitative-gallery
 make reproduce-answer-quality-audit
 make reproduce-answer-review-workflow
+make reproduce-answer-agreement-workflow
 make validate-system-matrix-bundle
 make rehearse-system-matrix-promotion
 make build-system-matrix-report
@@ -346,6 +351,11 @@ claims.
 roundtrip for answer-quality labels. The checked-in report is
 `reports/answer_review_workflow_fixture.md`; it proves workflow plumbing, not
 human review.
+
+`make reproduce-answer-agreement-workflow` rehearses answer-quality agreement
+reporting across two reviewer fields. The checked-in report is
+`reports/answer_agreement_workflow_fixture.md`; it is synthetic and not
+inter-annotator evidence.
 
 `make validate-system-matrix-bundle` validates the qid-only run-bundle contract
 for the missing analyzer, dense, hybrid, and reranker systems against
@@ -535,6 +545,10 @@ private CSV with `scripts/export_answer_review_csv.py`, validate it with
 `scripts/import_answer_review_csv.py`. Public reports should include only
 aggregate progress and validation summaries.
 
+After two answer-quality reviewer fields exist, summarize agreement with
+`scripts/summarize_answer_audit.py`. Treat the result as inter-annotator
+agreement only when both fields were independently labeled by reviewers.
+
 ## Public/Private Boundary
 
 Public:
@@ -580,6 +594,8 @@ scripts/
   export_answer_review_csv.py
   validate_answer_review_csv.py
   import_answer_review_csv.py
+  summarize_answer_audit.py
+  reproduce_answer_agreement_workflow.py
   rehearse_system_matrix_promotion.py
   build_probe_dataset_card.py
   build_system_matrix_report.py

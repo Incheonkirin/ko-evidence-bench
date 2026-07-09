@@ -255,6 +255,7 @@ reports/
   route_scorecard_fixture.md
   private_route_scorecard_silver.md
   private_route_run_export_summary.md
+  private_route_review_brief_300_adjudicated.md
   private_route_review_progress_300_adjudicated.md
   study_readiness.md
   private_544_full_cross_scorecard.md

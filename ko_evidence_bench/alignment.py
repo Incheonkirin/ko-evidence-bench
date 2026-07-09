@@ -82,11 +82,13 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             status=(
                 "PASS"
                 if (root / "scripts" / "check_route_review_progress.py").exists()
+                and (root / "scripts" / "build_route_review_brief.py").exists()
+                and (root / "reports" / "private_route_review_brief_300_adjudicated.md").exists()
                 and (root / "reports" / "private_route_review_progress_300_adjudicated.md").exists()
                 else "MISSING"
             ),
-            evidence="300-row adjudication CSV progress is summarized without raw rows",
-            why_it_matters="The remaining human task can be tracked before import and promotion.",
+            evidence="300-row adjudication CSV brief and progress are summarized without raw rows",
+            why_it_matters="The remaining human task can be prioritized and tracked before import and promotion.",
         ),
         AlignmentItem(
             area="Human-gold route labels",

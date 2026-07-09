@@ -111,6 +111,10 @@ Reviewers fill these CSV columns:
 Progress can be checked before importing the private CSV:
 
 ```bash
+python3 scripts/build_route_review_brief.py \
+  --csv /path/to/private_reviewer_a.csv \
+  --report-out reports/private_route_review_brief.md
+
 python3 scripts/check_route_review_progress.py \
   --csv /path/to/private_reviewer_a.csv \
   --report-out reports/private_route_review_progress.md

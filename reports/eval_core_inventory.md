@@ -14,6 +14,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | source-route adjudication pack | 300 rows | private audit pack generated; not yet labeled |
 | source-route review CSV templates | 50/50/300 rows | private reviewer CSVs generated; not yet filled |
 | source-route review UI | static local HTML | generated; no private data checked in |
+| route-audit workflow fixture | 3 synthetic rows | end-to-end dry-run passes |
 | source-route adjudication validation | 300 rows | 0 completed; validation gate pending |
 | target human-audited source-route labels | 300-500 rows | workset exists; labels not yet created |
 
@@ -61,6 +62,10 @@ public repo because they contain raw private query/context fields.
 `tools/route_review_ui.html` is a static local reviewer for those CSV files. It
 does not include private rows and does not depend on network access.
 
+`reports/route_audit_workflow_fixture.md` is generated from synthetic fixtures
+by `make reproduce-route-audit-workflow`. It exercises CSV export/import,
+reviewer agreement, adjudication validation, and qid-only label promotion.
+
 ## What Is Not Yet Verified
 
 - The 500+ qrels set has been scored with full cross-rerank, but still against
@@ -72,6 +77,8 @@ does not include private rows and does not depend on network access.
 - Reviewer-editable CSV templates exist, but no completed reviewer import has
   been performed yet.
 - A local static review UI exists, but no reviewed CSV has been imported yet.
+- The full route-audit workflow is verified only on synthetic fixtures; private
+  human labels are still pending.
 - The promotion gate is intentionally closed: the 300-row adjudication pack has
   0 completed labels and 300 validation errors from missing final route labels.
 - The always-policy baseline has only been demonstrated on synthetic fixtures,

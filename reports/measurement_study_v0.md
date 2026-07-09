@@ -41,6 +41,7 @@ retrieve the right kind of evidence and abstain when citation is not possible.
 - Source-route reviewer CSV templates: `n=50` reviewer A, `n=50` reviewer B,
   and `n=300` adjudication templates.
 - Source-route review UI: static local CSV editor, no private rows checked in.
+- Source-route workflow dry-run: synthetic CSV export/import/agreement/validation/promotion passes.
 - Source-route adjudication validation: `0/300` complete, promotion blocked
   until final labels are filled.
 - Structural pack-only `clause@20`: 56.4% with 95% CI 52.4%-60.5%.

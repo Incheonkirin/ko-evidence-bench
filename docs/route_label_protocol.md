@@ -155,6 +155,14 @@ python3 scripts/promote_route_audit.py \
   --report-out reports/private_promoted_route_labels.md
 ```
 
+The same workflow is reproducible without private data:
+
+```bash
+make reproduce-route-audit-workflow
+```
+
+This writes `reports/route_audit_workflow_fixture.md` from synthetic fixtures.
+
 ## Public Reporting
 
 Public reports may include label counts, agreement statistics, and aggregate

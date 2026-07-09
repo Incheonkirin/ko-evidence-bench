@@ -1,10 +1,13 @@
-.PHONY: test reproduce-table-1 summarize-private-result export-route-labels build-route-audit-pack export-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
+.PHONY: test reproduce-table-1 reproduce-route-audit-workflow summarize-private-result export-route-labels build-route-audit-pack export-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
 
 test:
 	python3 -m unittest discover -s tests
 
 reproduce-table-1:
 	python3 scripts/reproduce_table_1.py
+
+reproduce-route-audit-workflow:
+	python3 scripts/reproduce_route_audit_workflow.py reports/route_audit_workflow_fixture.md
 
 summarize-private-result:
 	python3 scripts/summarize_hit_result.py --result "$(RESULT_JSON)" --baseline "$(BASELINE)" --out reports/private_aggregate_scorecard.md

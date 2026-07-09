@@ -24,6 +24,9 @@ retrieve the right kind of evidence and abstain when citation is not possible.
 - Build source-route gold labels for 300-500 queries.
 - Compare against `always_policy` and simple rule baselines.
 - Audit whether silver labels are circular with systems under test.
+- Use `scripts/summarize_hit_result.py` to publish aggregate hit rates from
+  private retrieval exports without qids or raw text.
+- Follow `docs/route_label_protocol.md` before claiming source-route accuracy.
 
 ## Table 1
 

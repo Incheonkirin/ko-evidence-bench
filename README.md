@@ -58,6 +58,22 @@ always_policy  5  0.200  1.000  0.400  0.000  0.000  1.000
 source_routed_demo  5  1.000  1.000  0.000  1.000  1.000  1.000
 ```
 
+Private retrieval exports with query-level hit booleans can be summarized without
+publishing qids or text:
+
+```bash
+python3 scripts/summarize_hit_result.py \
+  --result /path/to/private_result.json \
+  --baseline structural_pack \
+  --run structural_pack \
+  --run structural_cross_rrf \
+  --out reports/private_aggregate_scorecard.md
+```
+
+The current private aggregate report is checked in at
+`reports/private_aggregate_scorecard.md`. It is aggregate-only and should be read
+as a diagnostic, not a final benchmark.
+
 ## Public/Private Boundary
 
 Public:
@@ -88,9 +104,12 @@ fixtures/
   qrels.jsonl
   system_runs/
 reports/
+  eval_core_inventory.md
   measurement_study_v0.md
+  private_aggregate_scorecard.md
 docs/
   data_statement.md
+  route_label_protocol.md
   schemas.md
 tests/
 ```

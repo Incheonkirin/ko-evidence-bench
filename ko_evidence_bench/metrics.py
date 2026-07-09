@@ -27,6 +27,17 @@ def _topk(run: dict[str, Any], k: int) -> list[dict[str, Any]]:
     return list(run.get("ranked", []))[:k]
 
 
+def percentile_ci(values: list[float], *, alpha: float = 0.05) -> tuple[float, float]:
+    """Return a percentile interval from precomputed bootstrap values."""
+
+    if not values:
+        return 0.0, 0.0
+    vals = sorted(values)
+    lo_idx = max(0, int((alpha / 2) * len(vals)))
+    hi_idx = min(len(vals) - 1, int((1 - alpha / 2) * len(vals)))
+    return vals[lo_idx], vals[hi_idx]
+
+
 def score_run(
     qrels: Iterable[dict[str, Any]],
     run_rows: Iterable[dict[str, Any]],
@@ -116,13 +127,75 @@ def bootstrap_ci(
     run_by_qid = {row["qid"]: row for row in run_rows}
     vals: list[float] = []
     for _ in range(samples):
-        sample = [rng.choice(qrels) for _ in qrels]
-        sample_runs = [run_by_qid[q["qid"]] for q in sample if q["qid"] in run_by_qid]
-        vals.append(score_run(sample, sample_runs, k=k)[metric])
+        sample_qrels: list[dict[str, Any]] = []
+        sample_runs: list[dict[str, Any]] = []
+        for idx, qrel in enumerate(rng.choice(qrels) for _ in qrels):
+            original_qid = qrel["qid"]
+            boot_qid = f"{original_qid}__bootstrap_{idx}"
+            sample_qrels.append({**qrel, "qid": boot_qid})
+            if original_qid in run_by_qid:
+                sample_runs.append({**run_by_qid[original_qid], "qid": boot_qid})
+        vals.append(score_run(sample_qrels, sample_runs, k=k)[metric])
     vals.sort()
-    lo = vals[int(0.025 * len(vals))]
-    hi = vals[int(0.975 * len(vals))]
-    return lo, hi
+    return percentile_ci(vals)
+
+
+def summarize_hit_rows(rows: list[dict[str, Any]], metric: str) -> dict[str, float]:
+    """Summarize boolean hit rows from a private retrieval result export."""
+
+    hits = sum(1 for row in rows if bool(row.get(metric)))
+    n = len(rows)
+    return {"n": float(n), "hits": float(hits), "rate": _safe_div(hits, n)}
+
+
+def bootstrap_hit_ci(
+    rows: list[dict[str, Any]],
+    metric: str,
+    *,
+    samples: int = 2000,
+    seed: int = 13,
+) -> tuple[float, float]:
+    """Bootstrap a CI over query-level boolean hits."""
+
+    if not rows:
+        return 0.0, 0.0
+    rng = random.Random(seed)
+    vals: list[float] = []
+    for _ in range(samples):
+        sample = [rng.choice(rows) for _ in rows]
+        vals.append(summarize_hit_rows(sample, metric)["rate"])
+    return percentile_ci(vals)
+
+
+def paired_delta_ci(
+    baseline_rows: list[dict[str, Any]],
+    candidate_rows: list[dict[str, Any]],
+    metric: str,
+    *,
+    samples: int = 2000,
+    seed: int = 13,
+) -> tuple[float, float, float]:
+    """Bootstrap a paired candidate-baseline delta over shared qids."""
+
+    base_by_qid = {row["qid"]: row for row in baseline_rows}
+    cand_by_qid = {row["qid"]: row for row in candidate_rows}
+    qids = sorted(base_by_qid.keys() & cand_by_qid.keys())
+    if not qids:
+        return 0.0, 0.0, 0.0
+
+    deltas = [
+        float(bool(cand_by_qid[qid].get(metric))) - float(bool(base_by_qid[qid].get(metric)))
+        for qid in qids
+    ]
+    observed = sum(deltas) / len(deltas)
+
+    rng = random.Random(seed)
+    vals: list[float] = []
+    for _ in range(samples):
+        sample = [rng.choice(deltas) for _ in deltas]
+        vals.append(sum(sample) / len(sample))
+    lo, hi = percentile_ci(vals)
+    return observed, lo, hi
 
 
 def score_runs(

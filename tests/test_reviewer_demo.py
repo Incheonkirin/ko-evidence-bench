@@ -20,6 +20,8 @@ class ReviewerDemoTest(unittest.TestCase):
         self.assertIn("reports/claim_ledger.md", report)
         self.assertIn("probes/ko_evidence_probe_v0", report)
         self.assertIn("reports/probe_privacy_report.md", report)
+        self.assertIn("reports/probe_system_comparison.md", report)
+        self.assertIn("source-route-aware retrieval", report)
         self.assertIn("reports/qualitative_gallery.md", report)
         self.assertIn("reports/layer_attribution_fixture.md", report)
         self.assertIn("reports/system_matrix.md", report)

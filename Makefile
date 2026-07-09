@@ -1,6 +1,6 @@
 DOCKER_IMAGE ?= ko-evidence-bench:local
 
-.PHONY: test check-public-safety check-study-readiness check-readme-signals check-router-lift check-surface-lift build-hero-signal check-hero-signal build-claim-ledger check-claim-ledger build-reviewer-demo check-reviewer-demo build-probe-privacy-report check-probe-privacy build-qualitative-gallery check-qualitative-gallery build-system-matrix-report check-system-matrix-report build-measurement-study check-measurement-study build-alignment-report check-alignment-report verify docker-build docker-demo reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard reproduce-layer-attribution check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile summarize-private-result export-route-labels export-intent-surface-qrels export-route-runs build-route-audit-pack export-route-review-csv build-route-review-brief build-route-review-batch merge-route-review-batch check-route-review-progress validate-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
+.PHONY: test check-public-safety check-study-readiness check-readme-signals check-router-lift check-surface-lift build-hero-signal check-hero-signal build-claim-ledger check-claim-ledger build-reviewer-demo check-reviewer-demo build-probe-privacy-report check-probe-privacy reproduce-probe-system-comparison check-probe-system-comparison build-qualitative-gallery check-qualitative-gallery build-system-matrix-report check-system-matrix-report build-measurement-study check-measurement-study build-alignment-report check-alignment-report verify docker-build docker-demo reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard reproduce-layer-attribution check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile summarize-private-result export-route-labels export-intent-surface-qrels export-route-runs build-route-audit-pack export-route-review-csv build-route-review-brief build-route-review-batch merge-route-review-batch check-route-review-progress validate-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
 
 test:
 	python3 -m unittest discover -s tests
@@ -44,6 +44,12 @@ build-probe-privacy-report:
 check-probe-privacy:
 	python3 scripts/check_probe_privacy.py --out reports/probe_privacy_report.md --check
 
+reproduce-probe-system-comparison:
+	python3 scripts/reproduce_probe_system_comparison.py --out reports/probe_system_comparison.md
+
+check-probe-system-comparison:
+	python3 scripts/reproduce_probe_system_comparison.py --out reports/probe_system_comparison.md --check
+
 build-qualitative-gallery:
 	python3 scripts/build_qualitative_gallery.py --out reports/qualitative_gallery.md
 
@@ -68,14 +74,14 @@ build-alignment-report:
 check-alignment-report:
 	python3 scripts/build_alignment_report.py --out reports/flagship_alignment.md --check
 
-verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard reproduce-layer-attribution check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile check-study-readiness check-readme-signals check-router-lift check-surface-lift check-hero-signal check-claim-ledger check-reviewer-demo check-probe-privacy check-qualitative-gallery check-system-matrix-report check-measurement-study check-alignment-report check-public-safety
+verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard reproduce-layer-attribution check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile check-study-readiness check-readme-signals check-router-lift check-surface-lift check-hero-signal check-claim-ledger check-reviewer-demo check-probe-privacy check-probe-system-comparison check-qualitative-gallery check-system-matrix-report check-measurement-study check-alignment-report check-public-safety
 
 docker-build:
 	docker build -t $(DOCKER_IMAGE) .
 
 docker-demo:
 	docker build -t $(DOCKER_IMAGE) .
-	docker run --rm $(DOCKER_IMAGE) make reproduce-table-1 reproduce-layer-attribution check-study-readiness check-hero-signal check-claim-ledger check-reviewer-demo check-probe-privacy check-qualitative-gallery check-system-matrix-report check-measurement-study check-alignment-report check-public-safety
+	docker run --rm $(DOCKER_IMAGE) make reproduce-table-1 reproduce-layer-attribution check-study-readiness check-hero-signal check-claim-ledger check-reviewer-demo check-probe-privacy check-probe-system-comparison check-qualitative-gallery check-system-matrix-report check-measurement-study check-alignment-report check-public-safety
 
 reproduce-table-1:
 	python3 scripts/reproduce_table_1.py

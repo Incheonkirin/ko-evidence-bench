@@ -544,7 +544,11 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "",
         "| artifact | current evidence | status |",
         "|---|---|---|",
-        "| `reports/system_matrix.md` | 7 implemented diagnostic/fixture systems; 7 not-run analyzer/dense/hybrid/reranker systems; 1 human-gold gate blocked | full comparison matrix incomplete |",
+        (
+            f"| `reports/system_matrix.md` | {r.matrix_implemented} implemented diagnostic/fixture systems; "
+            f"{r.matrix_not_run} not-run analyzer/dense/hybrid/reranker systems; "
+            f"{r.matrix_blocked} human-gold gate blocked | full comparison matrix incomplete |"
+        ),
         "",
         "This keeps the experiment scope honest. The current study has checked-in",
         "retrieval, routing, surface, and fixture evidence, but it has not yet run",
@@ -765,6 +769,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "make reproduce-route-surface-scorecard",
         "make reproduce-runtime-surface-scorecard",
         "make reproduce-layer-attribution",
+        "make reproduce-probe-system-comparison",
         "make check-audit-surface-coverage",
         "make reproduce-normalization-ablation",
         "make reproduce-intent-inventory",

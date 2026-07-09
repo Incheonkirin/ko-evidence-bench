@@ -22,7 +22,7 @@ n-gram overlap against configured reference material.
 | intents | 8 |
 | surface forms | 4 |
 | source routes | 7 |
-| text fields scanned | 272 |
+| text fields scanned | 279 |
 | max reference n-gram overlap | 0 |
 
 ## Failures

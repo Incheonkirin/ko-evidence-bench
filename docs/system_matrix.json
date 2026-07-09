@@ -80,6 +80,39 @@
       "claim_scope": "fixture"
     },
     {
+      "system_id": "probe_literal_lexical",
+      "family": "public_probe_retrieval",
+      "method": "literal lexical BM25 over synthetic Korean probe text",
+      "stage": "retrieval",
+      "current_status": "implemented",
+      "label_status": "synthetic_fixture",
+      "evidence": "reports/probe_system_comparison.md",
+      "rows": 13,
+      "claim_scope": "fixture"
+    },
+    {
+      "system_id": "probe_normalized_lexical",
+      "family": "public_probe_retrieval",
+      "method": "surface-expanded lexical BM25 over synthetic Korean probe text",
+      "stage": "retrieval",
+      "current_status": "implemented",
+      "label_status": "synthetic_fixture",
+      "evidence": "reports/probe_system_comparison.md",
+      "rows": 13,
+      "claim_scope": "fixture"
+    },
+    {
+      "system_id": "probe_route_aware_rerank",
+      "family": "public_probe_retrieval",
+      "method": "surface expansion plus source-route-aware reranking and abstention",
+      "stage": "reranking",
+      "current_status": "implemented",
+      "label_status": "synthetic_fixture",
+      "evidence": "reports/probe_system_comparison.md",
+      "rows": 13,
+      "claim_scope": "fixture"
+    },
+    {
       "system_id": "bm25_nori",
       "family": "analyzer_bm25",
       "method": "BM25 with Korean analyzer variant",

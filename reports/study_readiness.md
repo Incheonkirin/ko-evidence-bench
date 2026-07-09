@@ -20,7 +20,7 @@ diagnostics as final benchmark results before human route labels exist.
 | double-label Cohen's kappa | 0.000 | needs at least 0.600 |
 | completed adjudicated route labels | 0 | needs at least 300 |
 | route validation errors | 300 | must be 0 before headline use |
-| system matrix implemented systems | 7 / 15 | diagnostic coverage only |
+| system matrix implemented systems | 10 / 18 | diagnostic coverage only |
 | system matrix not-run systems | 7 | must be 0 for full comparison claims |
 | system matrix blocked systems | 1 | must be 0 for headline use |
 | system matrix validation issues | 0 | must be 0 |

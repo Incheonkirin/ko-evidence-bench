@@ -17,6 +17,7 @@ headline claims.
 | Reviewer demo path | `PASS` | generated 3-minute walkthrough links findings, claim controls, rehearsal, and readiness | A reviewer can understand the study artifact before reading framework code. |
 | Containerized reproduction path | `PASS` | Dockerfile plus make docker-demo reruns the fixture table and claim-control checks | A reviewer can reproduce the public demo without first configuring a Python environment. |
 | Public probe set and privacy screen | `PASS` | synthetic queries, intent-level qrels, evidence snippets, and privacy-screen report | The released instrument is a screened probe set, not a dictionary or private-data dump. |
+| Runnable public probe systems | `PASS` | literal, surface-expanded, and route-aware probe systems run on the same public fixture | The public probe is executable evidence, not only a static dataset or dictionary. |
 | Qualitative failure gallery | `PASS` | synthetic side-by-side ranking examples generated from the public probe package | Reviewers can inspect concrete failure modes instead of only aggregate metrics. |
 | README signal drift guard | `PASS` | scripts/sync_readme_signals.py --check | The first-screen numbers are generated from checked-in evidence. |
 | Dictionary scope guard | `PASS` | README scope statement rejects a dictionary-first framing | The flagship has to be a measurement artifact, not a user-dictionary repo. |

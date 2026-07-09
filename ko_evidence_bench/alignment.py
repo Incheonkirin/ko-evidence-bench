@@ -125,6 +125,21 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The released instrument is a screened probe set, not a dictionary or private-data dump.",
         ),
         AlignmentItem(
+            area="Runnable public probe systems",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "probe_systems.py").exists()
+                and (root / "scripts" / "reproduce_probe_system_comparison.py").exists()
+                and has_text(root / "reports" / "probe_system_comparison.md", "Public Probe System Comparison")
+                and has_text(root / "reports" / "probe_system_comparison.md", "probe_route_aware_rerank")
+                and has_text(root / "reports" / "system_matrix.md", "probe_route_aware_rerank")
+                and has_text(root / "Makefile", "check-probe-system-comparison")
+                else "MISSING"
+            ),
+            evidence="literal, surface-expanded, and route-aware probe systems run on the same public fixture",
+            why_it_matters="The public probe is executable evidence, not only a static dataset or dictionary.",
+        ),
+        AlignmentItem(
             area="Qualitative failure gallery",
             status=(
                 "PASS"

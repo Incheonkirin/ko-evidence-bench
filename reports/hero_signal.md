@@ -15,7 +15,7 @@ claim-control gate kept visible.
 | Unsafe policy fallback | 190 context-needed rows | 28 context-needed rows | 162 fewer silver fallback errors |
 | Surface robustness | overall clause@20 64.9% | worst surface 44.4% | 20.5%p spread remains |
 | Human-gold gate | 0/50 paired labels | 0/300 adjudicated labels | kappa 0.000; 300 validation errors |
-| System matrix gate | 7/15 systems implemented | 7 not run; 1 blocked | full comparison matrix incomplete |
+| System matrix gate | 10/18 systems implemented | 7 not run; 1 blocked | full comparison matrix incomplete |
 
 ## Use Notes
 

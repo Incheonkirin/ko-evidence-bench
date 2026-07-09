@@ -135,6 +135,17 @@
       "claim_scope": "fixture"
     },
     {
+      "system_id": "probe_trap_miner",
+      "family": "trap_mining",
+      "method": "rule-based trap-class miner over public synthetic probe queries",
+      "stage": "diagnostic",
+      "current_status": "implemented",
+      "label_status": "synthetic_fixture",
+      "evidence": "reports/probe_trap_mining.md",
+      "rows": 13,
+      "claim_scope": "fixture"
+    },
+    {
       "system_id": "bm25_nori",
       "family": "analyzer_bm25",
       "method": "BM25 with Korean analyzer variant",

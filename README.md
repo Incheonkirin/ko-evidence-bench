@@ -31,7 +31,7 @@ These are checked-in aggregate diagnostics, not final benchmark claims:
 | cohort-aware route accuracy | 46.9% | silver proxy |
 | Double-label agreement seed | 0 / 50 paired; kappa 0.000 | headline blocked |
 | Adjudicated human route labels | 0 / 300 complete | headline blocked |
-| Full system comparison matrix | 12 / 20 implemented; 7 not run; 1 blocked | headline blocked |
+| Full system comparison matrix | 13 / 21 implemented; 7 not run; 1 blocked | headline blocked |
 
 The generated readiness report is intentionally conservative:
 `reports/study_readiness.md` currently says
@@ -64,6 +64,10 @@ package: literal lexical retrieval, surface-expanded lexical retrieval,
 dependency-free semantic scoring, hybrid fusion, and a source-route-aware
 reranker with abstention. This is still a synthetic fixture, but it makes the
 comparison path executable instead of only descriptive.
+
+`reports/probe_trap_mining.md` mines trap-class candidates from the same public
+probe queries and compares them with qrel annotations. It is a diagnostic dry
+run for failure mining, not a synonym dictionary.
 
 The qualitative example gallery is `reports/qualitative_gallery.md`. It shows
 synthetic side-by-side source-routing failures over the same public probe set.
@@ -141,6 +145,7 @@ make build-claim-ledger
 make build-reviewer-demo
 make build-probe-privacy-report
 make reproduce-probe-system-comparison
+make reproduce-probe-trap-mining
 make build-qualitative-gallery
 make build-system-matrix-report
 make build-measurement-study
@@ -263,6 +268,11 @@ literal lexical, surface-expanded lexical, semantic-centroid, hybrid-fusion, and
 source-route-aware retrieval systems. The checked-in report is
 `reports/probe_system_comparison.md`; it is a fixture-system comparison, not the
 full private analyzer/dense/hybrid/reranker matrix.
+
+`make reproduce-probe-trap-mining` mines trap-class candidates from the public
+probe queries and compares them with the qrel annotations. The checked-in report
+is `reports/probe_trap_mining.md`; it is a checked diagnostic for
+analyzer/intent failure mining, not a dictionary generator.
 
 `make build-qualitative-gallery` regenerates `reports/qualitative_gallery.md`,
 the synthetic side-by-side failure examples used to make the route diagnostics

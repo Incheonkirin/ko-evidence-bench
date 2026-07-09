@@ -60,7 +60,7 @@ whether actual retrieval hits vary across surface conditions.
 
 | artifact | current evidence | status |
 |---|---|---|
-| `reports/system_matrix.md` | 12 implemented diagnostic/fixture systems; 7 not-run analyzer/dense/hybrid/reranker systems; 1 human-gold gate blocked | full comparison matrix incomplete |
+| `reports/system_matrix.md` | 13 implemented diagnostic/fixture systems; 7 not-run analyzer/dense/hybrid/reranker systems; 1 human-gold gate blocked | full comparison matrix incomplete |
 
 This keeps the experiment scope honest. The current study has checked-in
 retrieval, routing, surface, and fixture evidence, but it has not yet run

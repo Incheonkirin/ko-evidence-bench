@@ -13,12 +13,12 @@ has already been run.
 
 | item | value |
 |---|---:|
-| matrix systems | 20 |
-| implemented systems | 12 |
+| matrix systems | 21 |
+| implemented systems | 13 |
 | not-run systems | 7 |
 | blocked systems | 1 |
-| system families | 10 |
-| implemented diagnostic rows | 2801 |
+| system families | 11 |
+| implemented diagnostic rows | 2814 |
 
 ## Matrix
 
@@ -36,6 +36,7 @@ has already been run.
 | `probe_semantic_centroid` | `public_probe_retrieval` | `retrieval` | `implemented` | 13 | `fixture` | `reports/probe_system_comparison.md` |
 | `probe_hybrid_lexical_semantic` | `public_probe_retrieval` | `retrieval` | `implemented` | 13 | `fixture` | `reports/probe_system_comparison.md` |
 | `probe_route_aware_rerank` | `public_probe_retrieval` | `reranking` | `implemented` | 13 | `fixture` | `reports/probe_system_comparison.md` |
+| `probe_trap_miner` | `trap_mining` | `diagnostic` | `implemented` | 13 | `fixture` | `reports/probe_trap_mining.md` |
 | `bm25_nori` | `analyzer_bm25` | `retrieval` | `not_run` | 0 | `missing_for_full_matrix` | `not yet run` |
 | `bm25_kiwi` | `analyzer_bm25` | `retrieval` | `not_run` | 0 | `missing_for_full_matrix` | `not yet run` |
 | `bm25_mecab` | `analyzer_bm25` | `retrieval` | `not_run` | 0 | `missing_for_full_matrix` | `not yet run` |

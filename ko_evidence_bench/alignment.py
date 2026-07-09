@@ -142,6 +142,21 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The public probe is executable evidence, not only a static dataset or dictionary.",
         ),
         AlignmentItem(
+            area="Trap-mining diagnostic",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "trap_miner.py").exists()
+                and (root / "scripts" / "reproduce_probe_trap_mining.py").exists()
+                and has_text(root / "reports" / "probe_trap_mining.md", "Public Probe Trap Mining")
+                and has_text(root / "reports" / "probe_trap_mining.md", "not a synonym dictionary")
+                and has_text(root / "reports" / "probe_trap_mining.md", "Extra Diagnostic Traps")
+                and has_text(root / "Makefile", "check-probe-trap-mining")
+                else "MISSING"
+            ),
+            evidence="public probe queries are mined for trap classes and compared with qrel annotations",
+            why_it_matters="Analyzer and intent-fragmentation failures are measured as diagnostics, not shipped as a dictionary.",
+        ),
+        AlignmentItem(
             area="Qualitative failure gallery",
             status=(
                 "PASS"

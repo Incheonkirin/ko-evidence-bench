@@ -12,10 +12,10 @@ retrieve the right kind of evidence and abstain when citation is not possible.
 
 | Asset | Count | Public Use |
 |---|---:|---|
-| Samsung Life policy clause passages | 36,983 | aggregate metrics only |
+| Insurer policy clause passages | 36,983 | aggregate metrics only |
 | Derived community query candidates | 165,970 | aggregate distribution only |
-| KakaoTalk meaningful messages | 7,324 | synthetic live-stress fixtures only |
-| Aha archive rows | 56,293 | aggregate/expert-language analysis only |
+| Messenger conversation messages | 7,324 | synthetic live-stress fixtures only |
+| Community Q&A archive rows | 56,293 | aggregate/expert-language analysis only |
 
 ## Before Headline Claims
 

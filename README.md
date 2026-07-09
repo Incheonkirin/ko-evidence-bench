@@ -10,7 +10,7 @@ live in clause language. This repo scores whether a retrieval system crossed
 that gap, and whether it stopped when it could not.
 
 This is the public shell of a private search lab. It contains metrics, schemas,
-fixtures, and reports. It does not contain community crawls, KakaoTalk exports,
+fixtures, and reports. It does not contain community crawls, messenger exports,
 or copyrighted policy corpora.
 
 ## What This Evaluates
@@ -33,10 +33,10 @@ text.
 
 The private lab currently has:
 
-- 36,983 Samsung Life policy clause passages from 111 products.
+- 36,983 insurer policy clause passages from 111 products.
 - 165,970 derived real-user query candidates from community crawls.
-- 7,324 meaningful KakaoTalk open-chat messages after obvious system-message filtering.
-- 56,293 additional Aha expert-QA archive rows.
+- 7,324 meaningful messenger-conversation messages after obvious system-message filtering.
+- 56,293 additional community Q&A archive rows.
 - Silver retrieval diagnostics where `structural_cross_rrf` reached
   `clause@10 = 83.4%` on a strict silver core of `n=229`.
 
@@ -71,8 +71,8 @@ Public:
 Private:
 
 - Raw community crawl text.
-- Raw KakaoTalk messages.
-- Raw Aha content.
+- Raw messenger messages.
+- Raw community Q&A content.
 - Copyrighted policy clauses.
 - Any row that can identify a user, product contract, or conversation.
 

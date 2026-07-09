@@ -1,0 +1,10 @@
+This synthetic reference file stands in for private source snippets during
+public CI. It is intentionally not copied from any private row.
+
+The user asks a long community-style question about claim documents and a
+separate product table. The wording here should not appear verbatim inside the
+public probe set.
+
+Another synthetic private-like note discusses a historical treatment record and
+contract-specific underwriting context. Public probes should remain short,
+templated, and independently written.

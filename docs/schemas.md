@@ -77,3 +77,20 @@ formal wording without publishing raw query text.
 `trap_classes` are optional diagnostic slices such as `bundle_expansion`,
 `register_mismatch`, `product_table`, or `needs_private_context`. They are
 annotations, not the benchmark's organizing unit.
+
+## Public Probe Package
+
+The public probe package uses three JSONL files:
+
+```text
+probes/ko_evidence_probe_v0/queries.jsonl
+probes/ko_evidence_probe_v0/qrels.jsonl
+probes/ko_evidence_probe_v0/evidence.jsonl
+```
+
+`queries.jsonl` contains synthetic query text and intent metadata. `qrels.jsonl`
+contains the source-route label and sufficient evidence ids for the same qid.
+`evidence.jsonl` contains synthetic evidence snippets keyed by `evidence_id`.
+
+Every row must use `provenance = "synthetic_public_fixture"` and pass
+`make check-probe-privacy` before publication.

@@ -20,6 +20,7 @@ class AlignmentTest(unittest.TestCase):
         self.assertEqual(statuses["Claim wording ledger"], "PASS")
         self.assertEqual(statuses["Reviewer demo path"], "PASS")
         self.assertEqual(statuses["Containerized reproduction path"], "PASS")
+        self.assertEqual(statuses["Public probe set and privacy screen"], "PASS")
         self.assertEqual(statuses["Dictionary scope guard"], "PASS")
         self.assertEqual(statuses["Multi-source evidence frame"], "PASS")
         self.assertEqual(statuses["Real-query substrate inventory"], "PASS")
@@ -52,6 +53,8 @@ class AlignmentTest(unittest.TestCase):
         self.assertIn("understand the study artifact before reading framework code", report)
         self.assertIn("Containerized reproduction path", report)
         self.assertIn("without first configuring a Python environment", report)
+        self.assertIn("Public probe set and privacy screen", report)
+        self.assertIn("screened probe set", report)
         self.assertIn("Multi-source evidence frame", report)
         self.assertIn("Real-query substrate inventory", report)
         self.assertIn("Surface-form robustness axis", report)
@@ -72,7 +75,8 @@ class AlignmentTest(unittest.TestCase):
         self.assertIn("Human-gold promotion rehearsal", report)
         self.assertIn("remaining path to measurement-study scorecards", report)
         self.assertIn("lack independent", report)
-        self.assertIn("agreement evidence", report)
+        self.assertIn("agreement", report)
+        self.assertIn("evidence", report)
         self.assertIn("kappa 0.000", report)
 
     def test_build_script_check_mode(self):

@@ -13,6 +13,7 @@ class DockerDemoTest(unittest.TestCase):
         self.assertIn("apt-get install -y --no-install-recommends make", dockerfile)
         self.assertIn('CMD ["make", "verify"]', dockerfile)
         self.assertIn("COPY reports ./reports", dockerfile)
+        self.assertIn("COPY probes ./probes", dockerfile)
 
     def test_makefile_has_containerized_reviewer_demo(self):
         makefile = (ROOT / "Makefile").read_text(encoding="utf-8")
@@ -21,6 +22,7 @@ class DockerDemoTest(unittest.TestCase):
         self.assertIn("docker-build:", makefile)
         self.assertIn("docker-demo:", makefile)
         self.assertIn("docker run --rm $(DOCKER_IMAGE)", makefile)
+        self.assertIn("check-probe-privacy", makefile)
         self.assertIn("check-public-safety", makefile)
 
     def test_public_docs_explain_docker_demo(self):

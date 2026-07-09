@@ -51,6 +51,13 @@ The public wording guard is `reports/claim_ledger.md`: it says which diagnostic
 claims are currently allowed, which claims are blocked, and what evidence is
 needed next.
 
+## Public Probe Set
+
+The public synthetic probe package is `probes/ko_evidence_probe_v0/`. It
+contains query variants, intent-level qrels, and synthetic evidence snippets.
+`reports/probe_privacy_report.md` records the schema and privacy screen for
+that package.
+
 ## Reviewer Demo
 
 The shortest review path is `reports/reviewer_demo.md`. It walks through the
@@ -117,6 +124,7 @@ make check-study-readiness
 make build-hero-signal
 make build-claim-ledger
 make build-reviewer-demo
+make build-probe-privacy-report
 make build-measurement-study
 make build-alignment-report
 make verify
@@ -129,7 +137,8 @@ make docker-demo
 ```
 
 This builds the local image and reruns the fixture table, readiness gate,
-generated-report checks, and public-safety scan inside the container.
+generated-report checks, probe privacy screen, and public-safety scan inside
+the container.
 
 Expected output is a small scorecard over synthetic fixture runs:
 
@@ -220,6 +229,10 @@ out-of-scope claims. `make verify` checks that it is current.
 `make build-reviewer-demo` regenerates `reports/reviewer_demo.md`, the
 3-minute public walkthrough for reading the repository as a measurement-study
 artifact. `make verify` checks that it is current.
+
+`make build-probe-privacy-report` regenerates
+`reports/probe_privacy_report.md`, the schema and privacy screen for the public
+synthetic probe package. `make verify` checks that it is current.
 
 `make build-measurement-study` regenerates the aggregate-only study draft from
 checked-in reports. `make verify` checks that the committed draft is current.

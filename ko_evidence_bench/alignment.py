@@ -109,6 +109,22 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="A reviewer can reproduce the public demo without first configuring a Python environment.",
         ),
         AlignmentItem(
+            area="Public probe set and privacy screen",
+            status=(
+                "PASS"
+                if (root / "probes" / "ko_evidence_probe_v0" / "queries.jsonl").exists()
+                and (root / "probes" / "ko_evidence_probe_v0" / "qrels.jsonl").exists()
+                and (root / "probes" / "ko_evidence_probe_v0" / "evidence.jsonl").exists()
+                and (root / "scripts" / "check_probe_privacy.py").exists()
+                and has_text(root / "reports" / "probe_privacy_report.md", "Status: **PASS**")
+                and has_text(root / "Makefile", "check-probe-privacy")
+                and has_text(root / "README.md", "probes/ko_evidence_probe_v0")
+                else "MISSING"
+            ),
+            evidence="synthetic queries, intent-level qrels, evidence snippets, and privacy-screen report",
+            why_it_matters="The released instrument is a screened probe set, not a dictionary or private-data dump.",
+        ),
+        AlignmentItem(
             area="README signal drift guard",
             status=(
                 "PASS"
@@ -445,10 +461,10 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "",
             "The repo now has the public shell expected of a flagship measurement study:",
             "generated study draft, claim-control gates, reviewer walkthrough,",
-            "containerized reproduction, qid-only scorecards, audit workflow, and",
-            "public-safety checks. It is not headline-ready because the source-route",
-            "labels still lack independent agreement evidence and human-adjudicated",
-            "coverage.",
+            "containerized reproduction, screened public probes, qid-only scorecards,",
+            "audit workflow, and public-safety checks. It is not headline-ready",
+            "because the source-route labels still lack independent agreement",
+            "evidence and human-adjudicated coverage.",
             "",
             "## Next Gate",
             "",

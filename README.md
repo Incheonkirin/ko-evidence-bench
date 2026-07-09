@@ -31,7 +31,7 @@ These are checked-in aggregate diagnostics, not final benchmark claims:
 | cohort-aware route accuracy | 46.9% | silver proxy |
 | Double-label agreement seed | 0 / 50 paired; kappa 0.000 | headline blocked |
 | Adjudicated human route labels | 0 / 300 complete | headline blocked |
-| Full system comparison matrix | 13 / 21 implemented; 7 not run; 1 blocked | headline blocked |
+| Full system comparison matrix | 14 / 22 implemented; 7 not run; 1 blocked | headline blocked |
 
 The generated readiness report is intentionally conservative:
 `reports/study_readiness.md` currently says
@@ -68,6 +68,11 @@ comparison path executable instead of only descriptive.
 `reports/probe_trap_mining.md` mines trap-class candidates from the same public
 probe queries and compares them with qrel annotations. It is a diagnostic dry
 run for failure mining, not a synonym dictionary.
+
+`reports/surface_fragmentation_audit.md` checks how much exact lexical seed
+counting misses when the same intent appears as formal wording, abbreviation,
+colloquial phrasing, or messenger shorthand. It is an audit of counting bias,
+not a production synonym list.
 
 The qualitative example gallery is `reports/qualitative_gallery.md`. It shows
 synthetic side-by-side source-routing failures over the same public probe set.
@@ -146,6 +151,7 @@ make build-reviewer-demo
 make build-probe-privacy-report
 make reproduce-probe-system-comparison
 make reproduce-probe-trap-mining
+make reproduce-surface-fragmentation-audit
 make build-qualitative-gallery
 make build-system-matrix-report
 make build-measurement-study
@@ -273,6 +279,11 @@ full private analyzer/dense/hybrid/reranker matrix.
 probe queries and compares them with the qrel annotations. The checked-in report
 is `reports/probe_trap_mining.md`; it is a checked diagnostic for
 analyzer/intent failure mining, not a dictionary generator.
+
+`make reproduce-surface-fragmentation-audit` measures exact lexical seed
+undercounting on the public probe package. The checked-in report is
+`reports/surface_fragmentation_audit.md`; it treats surface expansion as an
+evaluation diagnostic, not a synonym product.
 
 `make build-qualitative-gallery` regenerates `reports/qualitative_gallery.md`,
 the synthetic side-by-side failure examples used to make the route diagnostics
@@ -474,7 +485,9 @@ ko_evidence_bench/
   route_surface.py    # Route/abstention metrics by surface metadata.
   substrate_profile.py # Aggregate query-substrate profiling.
   surface.py          # Surface-form robustness metrics.
+  surface_fragmentation.py # Exact-seed undercount audit.
   system_matrix.py    # System-comparison matrix coverage checks.
+  trap_miner.py       # Public probe trap-class diagnostics.
   schemas.py          # Minimal JSONL schema validators.
 scripts/
   build_system_matrix_report.py
@@ -486,6 +499,8 @@ scripts/
   reproduce_human_gold_rehearsal.py
   reproduce_layer_attribution.py
   reproduce_normalization_ablation.py
+  reproduce_probe_trap_mining.py
+  reproduce_surface_fragmentation_audit.py
   reproduce_table_1.py
   reproduce_route_scorecard.py
   reproduce_route_surface_scorecard.py

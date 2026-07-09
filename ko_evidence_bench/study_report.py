@@ -77,6 +77,17 @@ class RuntimeSurfaceSignal:
 
 
 @dataclass(frozen=True)
+class SurfaceFragmentationSignal:
+    qrel_rows: str
+    seed_rows: str
+    expanded_rows: str
+    seed_recall: str
+    expanded_recall: str
+    aggregate_undercount: str
+    max_undercount: str
+
+
+@dataclass(frozen=True)
 class AuditCoverageSignal:
     audit_rows: str
     matched_rows: str
@@ -112,6 +123,7 @@ class StudyReportSignals:
     cohort_aware_route_surface: RouteSurfaceSignal
     structural_pack_runtime_surface: RuntimeSurfaceSignal
     structural_cross_text_runtime_surface: RuntimeSurfaceSignal
+    surface_fragmentation_signal: SurfaceFragmentationSignal
     audit_coverage: AuditCoverageSignal
 
 
@@ -292,6 +304,26 @@ def runtime_surface_signal(report: str, system: str) -> RuntimeSurfaceSignal:
     )
 
 
+def summary_value(report: str, item: str) -> str:
+    pattern = rf"\| {re.escape(item)} \| ([^|]+?) \|"
+    match = re.search(pattern, report)
+    if not match:
+        raise ValueError(f"missing summary item: {item}")
+    return match.group(1).strip()
+
+
+def surface_fragmentation_signal(report: str) -> SurfaceFragmentationSignal:
+    return SurfaceFragmentationSignal(
+        qrel_rows=summary_value(report, "qrel intent rows"),
+        seed_rows=summary_value(report, "exact-seed rows"),
+        expanded_rows=summary_value(report, "expanded-surface rows"),
+        seed_recall=summary_value(report, "exact-seed recall"),
+        expanded_recall=summary_value(report, "expanded-surface recall"),
+        aggregate_undercount=summary_value(report, "aggregate undercount factor"),
+        max_undercount=summary_value(report, "max per-intent undercount factor"),
+    )
+
+
 def audit_coverage_axis(report: str, axis: str) -> str:
     pattern = rf"\| `{re.escape(axis)}` \| ([\d,]+) \| ([\d,]+) \| 0 \| [\d,]+ \| [\d,]+ \| `PASS` \|"
     match = re.search(pattern, report)
@@ -327,6 +359,7 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
     intent_surface_export = read(root / "reports" / "private_intent_surface_export_summary.md")
     route_surface_scorecard = read(root / "reports" / "private_route_surface_scorecard_silver.md")
     runtime_surface_scorecard = read(root / "reports" / "private_runtime_surface_scorecard_silver.md")
+    surface_fragmentation = read(root / "reports" / "surface_fragmentation_audit.md")
     audit_surface_coverage = read(root / "reports" / "private_audit_surface_coverage_300.md")
     readiness = load_study_readiness(root)
 
@@ -387,6 +420,7 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
             runtime_surface_scorecard,
             "structural_cross_text",
         ),
+        surface_fragmentation_signal=surface_fragmentation_signal(surface_fragmentation),
         audit_coverage=audit_coverage_signal(audit_surface_coverage),
     )
 
@@ -465,6 +499,13 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"{signals.intent_surface_signal.top_family_share}; top surface "
             f"`{signals.intent_surface_signal.top_surface}` "
             f"{signals.intent_surface_signal.top_surface_share} | silver metadata |"
+        ),
+        (
+            "| Exact lexical seed counting misses same-intent surface variants | "
+            f"{signals.surface_fragmentation_signal.seed_rows} exact-seed rows vs "
+            f"{signals.surface_fragmentation_signal.qrel_rows} qrel intent rows; "
+            f"undercount {signals.surface_fragmentation_signal.aggregate_undercount} | "
+            "public fixture diagnostic |"
         ),
         (
             "| Route decisions can now be scored by surface condition | "
@@ -679,6 +720,25 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "These slices are useful for stress-test design, but still require human",
         "review before public frequency claims.",
         "",
+        "## Surface Fragmentation Audit",
+        "",
+        "| artifact | exact-seed rows | qrel intent rows | expanded-surface rows | seed recall | undercount | status |",
+        "|---|---:|---:|---:|---:|---:|---|",
+        (
+            "| `reports/surface_fragmentation_audit.md` | "
+            f"{signals.surface_fragmentation_signal.seed_rows} | "
+            f"{signals.surface_fragmentation_signal.qrel_rows} | "
+            f"{signals.surface_fragmentation_signal.expanded_rows} | "
+            f"{signals.surface_fragmentation_signal.seed_recall} | "
+            f"{signals.surface_fragmentation_signal.aggregate_undercount} | public fixture; not a synonym list |"
+        ),
+        "",
+        "This public audit turns the undercounting critique into a checked",
+        "measurement path: exact lexical seeds are compared against qrel-level",
+        "intent membership across formal, abbreviated, colloquial, and",
+        "messenger-style surface forms. It does not publish or recommend a",
+        "production synonym list.",
+        "",
         "## Route Surface Evidence",
         "",
         "| system | route accuracy | abstention recall | avg intent route spread | worst surface route accuracy | missing metadata |",
@@ -770,6 +830,8 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "make reproduce-runtime-surface-scorecard",
         "make reproduce-layer-attribution",
         "make reproduce-probe-system-comparison",
+        "make reproduce-probe-trap-mining",
+        "make reproduce-surface-fragmentation-audit",
         "make check-audit-surface-coverage",
         "make reproduce-normalization-ablation",
         "make reproduce-intent-inventory",

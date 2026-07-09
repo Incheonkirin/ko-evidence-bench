@@ -24,8 +24,8 @@ class HeroSignalTest(unittest.TestCase):
         self.assertEqual(signals.cohort_context_policy, 28)
         self.assertEqual(signals.completed_labels, 0)
         self.assertEqual(signals.validation_errors, 300)
-        self.assertEqual(signals.matrix_systems, 21)
-        self.assertEqual(signals.matrix_implemented, 13)
+        self.assertEqual(signals.matrix_systems, 22)
+        self.assertEqual(signals.matrix_implemented, 14)
         self.assertEqual(signals.matrix_not_run, 7)
         self.assertEqual(signals.matrix_blocked, 1)
 

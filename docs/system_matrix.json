@@ -146,6 +146,17 @@
       "claim_scope": "fixture"
     },
     {
+      "system_id": "surface_fragmentation_audit",
+      "family": "surface_fragmentation",
+      "method": "exact-seed undercount audit over public synthetic probe queries",
+      "stage": "diagnostic",
+      "current_status": "implemented",
+      "label_status": "synthetic_fixture",
+      "evidence": "reports/surface_fragmentation_audit.md",
+      "rows": 9,
+      "claim_scope": "fixture"
+    },
+    {
       "system_id": "bm25_nori",
       "family": "analyzer_bm25",
       "method": "BM25 with Korean analyzer variant",

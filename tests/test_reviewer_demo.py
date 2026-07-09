@@ -24,6 +24,8 @@ class ReviewerDemoTest(unittest.TestCase):
         self.assertIn("source-route-aware retrieval", report)
         self.assertIn("reports/probe_trap_mining.md", report)
         self.assertIn("not as dictionary entries", report)
+        self.assertIn("reports/surface_fragmentation_audit.md", report)
+        self.assertIn("not a synonym list", report)
         self.assertIn("reports/qualitative_gallery.md", report)
         self.assertIn("reports/layer_attribution_fixture.md", report)
         self.assertIn("reports/system_matrix.md", report)

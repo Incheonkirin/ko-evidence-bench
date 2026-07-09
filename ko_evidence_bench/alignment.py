@@ -157,6 +157,21 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="Analyzer and intent-fragmentation failures are measured as diagnostics, not shipped as a dictionary.",
         ),
         AlignmentItem(
+            area="Surface-fragmentation undercount audit",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "surface_fragmentation.py").exists()
+                and (root / "scripts" / "reproduce_surface_fragmentation_audit.py").exists()
+                and has_text(root / "reports" / "surface_fragmentation_audit.md", "Surface Fragmentation Audit")
+                and has_text(root / "reports" / "surface_fragmentation_audit.md", "aggregate undercount factor")
+                and has_text(root / "reports" / "surface_fragmentation_audit.md", "not a production synonym list")
+                and has_text(root / "Makefile", "check-surface-fragmentation-audit")
+                else "MISSING"
+            ),
+            evidence="public probe intents compare exact lexical seed counts with qrel-level surface variants",
+            why_it_matters="The repo measures the user's undercount critique instead of turning aliases into a dictionary.",
+        ),
+        AlignmentItem(
             area="Qualitative failure gallery",
             status=(
                 "PASS"

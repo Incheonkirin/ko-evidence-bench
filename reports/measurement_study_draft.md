@@ -27,6 +27,7 @@ for steering the work, but they are blocked from headline use until the
 | Route failures vary by private query cohort | route accuracy range 36.2% - 55.2%; context-needed policy fallback up to 54.1% | silver diagnostic |
 | Real-query substrates need separate stress slices | community contexts avg 835.5 chars with 44.3% long contexts; live-style turns median 17.0 chars with 80.6% short messages; eval queries 94.5% short | substrate diagnostic |
 | Private qrels now have silver intent/surface slices | 544 qid-only rows; top silver family `refund_termination` 47.1%; top surface `formal` 55.9% | silver metadata |
+| Exact lexical seed counting misses same-intent surface variants | 4 exact-seed rows vs 9 qrel intent rows; undercount 2.2x | public fixture diagnostic |
 | Route decisions can now be scored by surface condition | cohort-aware route-only worst surface 22.2%; missing metadata 0 | silver route diagnostic |
 | Ranked retrieval hits can now be sliced by surface condition | `structural_cross_text` clause@20 64.9%; answerable clause@20 71.3%; worst surface 44.4% | silver runtime diagnostic |
 | Human audit workset covers the stress axes before labeling | 300 matched rows; route 6 / 6, intent 9 / 9, surface 4 / 4, trap 10 / 10 values covered | workset diagnostic |
@@ -60,7 +61,7 @@ whether actual retrieval hits vary across surface conditions.
 
 | artifact | current evidence | status |
 |---|---|---|
-| `reports/system_matrix.md` | 13 implemented diagnostic/fixture systems; 7 not-run analyzer/dense/hybrid/reranker systems; 1 human-gold gate blocked | full comparison matrix incomplete |
+| `reports/system_matrix.md` | 14 implemented diagnostic/fixture systems; 7 not-run analyzer/dense/hybrid/reranker systems; 1 human-gold gate blocked | full comparison matrix incomplete |
 
 This keeps the experiment scope honest. The current study has checked-in
 retrieval, routing, surface, and fixture evidence, but it has not yet run
@@ -124,6 +125,18 @@ The qid-only metadata export lets the same private qrels be sliced by
 intent family, surface form, and trap class without publishing raw text.
 These slices are useful for stress-test design, but still require human
 review before public frequency claims.
+
+## Surface Fragmentation Audit
+
+| artifact | exact-seed rows | qrel intent rows | expanded-surface rows | seed recall | undercount | status |
+|---|---:|---:|---:|---:|---:|---|
+| `reports/surface_fragmentation_audit.md` | 4 | 9 | 9 | 44.4% | 2.2x | public fixture; not a synonym list |
+
+This public audit turns the undercounting critique into a checked
+measurement path: exact lexical seeds are compared against qrel-level
+intent membership across formal, abbreviated, colloquial, and
+messenger-style surface forms. It does not publish or recommend a
+production synonym list.
 
 ## Route Surface Evidence
 
@@ -191,6 +204,8 @@ make reproduce-route-surface-scorecard
 make reproduce-runtime-surface-scorecard
 make reproduce-layer-attribution
 make reproduce-probe-system-comparison
+make reproduce-probe-trap-mining
+make reproduce-surface-fragmentation-audit
 make check-audit-surface-coverage
 make reproduce-normalization-ablation
 make reproduce-intent-inventory

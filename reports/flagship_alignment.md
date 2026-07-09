@@ -19,6 +19,7 @@ headline claims.
 | Public probe set and privacy screen | `PASS` | synthetic queries, intent-level qrels, evidence snippets, and privacy-screen report | The released instrument is a screened probe set, not a dictionary or private-data dump. |
 | Runnable public probe systems | `PASS` | lexical, semantic, hybrid, and route-aware probe systems run on the same public fixture | The public probe is executable evidence, not only a static dataset or dictionary. |
 | Trap-mining diagnostic | `PASS` | public probe queries are mined for trap classes and compared with qrel annotations | Analyzer and intent-fragmentation failures are measured as diagnostics, not shipped as a dictionary. |
+| Surface-fragmentation undercount audit | `PASS` | public probe intents compare exact lexical seed counts with qrel-level surface variants | The repo measures the user's undercount critique instead of turning aliases into a dictionary. |
 | Qualitative failure gallery | `PASS` | synthetic side-by-side ranking examples generated from the public probe package | Reviewers can inspect concrete failure modes instead of only aggregate metrics. |
 | README signal drift guard | `PASS` | scripts/sync_readme_signals.py --check | The first-screen numbers are generated from checked-in evidence. |
 | Dictionary scope guard | `PASS` | README scope statement rejects a dictionary-first framing | The flagship has to be a measurement artifact, not a user-dictionary repo. |

@@ -734,6 +734,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "make reproduce-table-1",
         "make reproduce-route-scorecard",
         "make reproduce-route-cohort-scorecard",
+        "make reproduce-human-gold-rehearsal",
         "make reproduce-surface-scorecard",
         "make reproduce-route-surface-scorecard",
         "make reproduce-runtime-surface-scorecard",

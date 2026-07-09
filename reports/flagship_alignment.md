@@ -29,6 +29,7 @@ headline claims.
 | Human audit workflow | `PASS` | review UI plus synthetic audit workflow dry-run | The remaining work is label production, not missing audit plumbing. |
 | Human-label progress gate | `PASS` | 300-row brief, priority batch, merge dry-run, progress, and CSV validation are summarized without raw rows | The remaining human task can be prioritized, started, merged, and tracked before import. |
 | Human-audit coverage gate | `PASS` | 300-row private audit workset covers route, intent-family, surface-form, and trap-class axes | The human-gold workset must preserve the Fable surface/intent design before reviewers spend time. |
+| Human-gold promotion rehearsal | `PASS` | synthetic completed labels validate, promote, and feed route plus route-surface scorecards | Once real labels are finished, the remaining path to measurement-study scorecards is already rehearsed. |
 | Human-gold route labels | `BLOCKED` | 0/50 paired labels; kappa 0.000; 0/300 adjudicated labels complete; 300 validation errors | Agreement quality and adjudicated coverage are required before public headline claims. |
 | Public/private boundary | `PASS` | data statement plus public-safety scan | The private logs ground the work without leaking raw rows. |
 | CI verification | `PASS` | make verify in GitHub Actions | The repo continuously checks reports, claims, fixtures, and safety. |

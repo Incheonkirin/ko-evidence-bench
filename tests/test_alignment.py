@@ -31,6 +31,7 @@ class AlignmentTest(unittest.TestCase):
         self.assertEqual(statuses["Cohort-aware routing baseline"], "PASS")
         self.assertEqual(statuses["Human-label progress gate"], "PASS")
         self.assertEqual(statuses["Human-audit coverage gate"], "PASS")
+        self.assertEqual(statuses["Human-gold promotion rehearsal"], "PASS")
         self.assertEqual(statuses["Human-gold route labels"], "BLOCKED")
         self.assertEqual(overall_status(items), "NO-GO FOR HEADLINE CLAIMS")
 
@@ -56,6 +57,8 @@ class AlignmentTest(unittest.TestCase):
         self.assertIn("CSV validation", report)
         self.assertIn("Human-audit coverage gate", report)
         self.assertIn("surface/intent design", report)
+        self.assertIn("Human-gold promotion rehearsal", report)
+        self.assertIn("remaining path to measurement-study scorecards", report)
         self.assertIn("lack independent agreement evidence", report)
         self.assertIn("kappa 0.000", report)
 

@@ -81,6 +81,7 @@ need bootstrap confidence intervals first.
 make test
 make reproduce-table-1
 make reproduce-route-audit-workflow
+make reproduce-human-gold-rehearsal
 make reproduce-route-scorecard
 make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
@@ -109,6 +110,12 @@ source_routed_demo  5  1.000  1.000  0.000  1.000  1.000  1.000
 CSV export, reviewer import, agreement, adjudication validation, and qid-only
 label promotion. Its report is checked in at
 `reports/route_audit_workflow_fixture.md`.
+
+`make reproduce-human-gold-rehearsal` runs a synthetic completed-label rehearsal:
+adjudicated labels validate, promote into qid-only route labels, pass
+stress-axis coverage, and feed both route and route-surface scorecards. Its
+report is checked in at `reports/human_gold_rehearsal_fixture.md`. This checks
+the path real labels will use; it is not a human-gold result.
 
 `make reproduce-route-scorecard` runs a qid-only source-route scorecard against
 synthetic labels and route predictions. This is the public dry-run for the
@@ -359,6 +366,7 @@ scripts/
   build_intent_inventory.py
   export_intent_surface_qrels.py
   profile_query_substrates.py
+  reproduce_human_gold_rehearsal.py
   reproduce_normalization_ablation.py
   reproduce_table_1.py
   reproduce_route_scorecard.py
@@ -376,6 +384,7 @@ fixtures/
 reports/
   eval_core_inventory.md
   flagship_alignment.md
+  human_gold_rehearsal_fixture.md
   intent_inventory_fixture.md
   measurement_study_v0.md
   measurement_study_draft.md

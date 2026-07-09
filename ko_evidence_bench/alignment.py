@@ -306,6 +306,20 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The human-gold workset must preserve the Fable surface/intent design before reviewers spend time.",
         ),
         AlignmentItem(
+            area="Human-gold promotion rehearsal",
+            status=(
+                "PASS"
+                if (root / "scripts" / "reproduce_human_gold_rehearsal.py").exists()
+                and has_text(root / "Makefile", "reproduce-human-gold-rehearsal")
+                and has_text(root / "reports" / "human_gold_rehearsal_fixture.md", "Status: **PASS**")
+                and has_text(root / "reports" / "human_gold_rehearsal_fixture.md", "promoted qid-only labels")
+                and has_text(root / "reports" / "human_gold_rehearsal_fixture.md", "Route-Surface Rehearsal")
+                else "MISSING"
+            ),
+            evidence="synthetic completed labels validate, promote, and feed route plus route-surface scorecards",
+            why_it_matters="Once real labels are finished, the remaining path to measurement-study scorecards is already rehearsed.",
+        ),
+        AlignmentItem(
             area="Human-gold route labels",
             status="PASS" if readiness.headline_ready else "BLOCKED",
             evidence=(

@@ -7,7 +7,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | asset | current count | status |
 |---|---:|---|
 | strict silver retrieval core with existing run export | 229 | scored; CI report available |
-| assembled partial qrels file | 544 rows | pack-only retrieval scored; CI report available |
+| assembled partial qrels file | 544 rows | pack-only and full cross-rerank scored; CI reports available |
 | source-route silver proxy labels | 544 rows | generated from private qrel metadata; aggregate report available |
 | source-route router baselines | 544 rows | always-policy and query-only router scored on silver labels |
 | source-route human-audit seed | 50 rows | private audit pack generated; not yet labeled |
@@ -24,6 +24,10 @@ paired deltas for two system variants.
 runtime-honest pack-only retrieval run. It verifies that the larger qrel set can
 be connected to the existing retrieval stack, with aggregate CIs and paired
 deltas.
+
+`reports/private_544_full_cross_scorecard.md` was generated from a 544-row
+runtime-honest full cross-rerank run. It compares pack-only, cross-text, and
+cross-RRF variants with aggregate CIs and paired deltas.
 
 `reports/private_route_label_summary.md` was generated from the 544-row private
 qrel metadata file. It exports only aggregate source-route counts and baseline
@@ -44,8 +48,8 @@ labels are not filled yet.
 
 ## What Is Not Yet Verified
 
-- The 500+ qrels set has only been scored in pack-only mode. Full cross-rerank
-  comparison on the same set is not yet verified.
+- The 500+ qrels set has been scored with full cross-rerank, but still against
+  silver qrels rather than human-audited labels.
 - Source-route labels exist only as a silver proxy. They have not yet been
   double-labeled or adjudicated.
 - A 50-row double-label seed and 300-row adjudication pack exist, but no human
@@ -62,7 +66,7 @@ The next private-lab gate is:
 
 1. Double-label the 50-row route audit seed using `docs/route_label_protocol.md`,
    then label/adjudicate the 300-row pack.
-2. Run the full cross-rerank comparison on the 544 qrels set, or document the
-   resource limit if it is too slow for the current machine.
+2. Re-run the full cross-rerank comparison after human-audited labels are
+   available.
 3. Generate a source-route-aware aggregate scorecard once human-audited labels
    exist.

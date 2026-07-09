@@ -39,6 +39,9 @@ retrieve the right kind of evidence and abstain when citation is not possible.
 - Source-route adjudication workset: `n=300`, private rows plus aggregate-only
   summary.
 - Structural pack-only `clause@20`: 56.4% with 95% CI 52.4%-60.5%.
+- Structural cross-text `clause@20`: 64.9% with 95% CI 60.8%-68.8%.
+- Structural cross-text paired lift over structural pack-only on `clause@20`:
+  +8.5 percentage points with 95% CI +5.9 to +11.2.
 - Naive always-policy route accuracy on the silver proxy: 21.5%.
 - Query-only keyword router route accuracy on the silver proxy: 31.8%, a
   +10.3 percentage-point paired lift over always-policy.

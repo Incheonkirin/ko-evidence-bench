@@ -42,6 +42,9 @@ The private lab currently has:
 - Runtime-honest pack-only diagnostics on a larger silver qrel set of `n=544`,
   where `structural_pack` reached `clause@20 = 56.4%` with a 95% bootstrap CI of
   `52.4% - 60.5%`.
+- Runtime-honest full cross-rerank diagnostics on the same `n=544` set, where
+  `structural_cross_text` reached `clause@20 = 64.9%` with a 95% bootstrap CI of
+  `60.8% - 68.8%`.
 
 These numbers are context, not final benchmark claims. Public headline numbers
 need bootstrap confidence intervals first.
@@ -81,6 +84,10 @@ A larger pack-only diagnostic report is checked in at
 `reports/private_544_pack_only_scorecard.md`. It verifies that the 500+ qrel set
 can be scored by the existing retrieval stack, but it does not replace the
 human-audited route/evidence benchmark.
+
+The full rerank diagnostic report is checked in at
+`reports/private_544_full_cross_scorecard.md`. It compares pack-only, cross-text,
+and cross-RRF variants on the same 544-row silver set.
 
 Private qrel metadata can also be converted into a qid-only source-route silver
 label set while publishing only aggregate counts:
@@ -154,6 +161,7 @@ fixtures/
 reports/
   eval_core_inventory.md
   measurement_study_v0.md
+  private_544_full_cross_scorecard.md
   private_544_pack_only_scorecard.md
   private_aggregate_scorecard.md
   private_route_audit_pack_300_summary.md

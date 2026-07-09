@@ -59,6 +59,12 @@ contains query variants, intent-level qrels, and synthetic evidence snippets.
 `reports/probe_privacy_report.md` records the schema and privacy screen for
 that package.
 
+`probes/ko_evidence_probe_v0/DATASET_CARD.md` is generated from the probe
+JSONL files. It records the release status, intended use, non-goals, file
+layout, row counts, route labels, surface forms, and trap-class distribution so
+the probe can be reviewed as a small reusable IR artifact, not as a dictionary
+or private-data dump.
+
 `reports/probe_system_comparison.md` runs public probe systems over that
 package: literal lexical retrieval, surface-expanded lexical retrieval,
 dependency-free semantic scoring, hybrid fusion, and a source-route-aware
@@ -154,6 +160,7 @@ make build-hero-signal
 make build-claim-ledger
 make build-reviewer-demo
 make build-probe-privacy-report
+make build-probe-dataset-card
 make export-probe-beir
 make reproduce-probe-system-comparison
 make reproduce-probe-trap-mining
@@ -274,6 +281,11 @@ artifact. `make verify` checks that it is current.
 `make build-probe-privacy-report` regenerates
 `reports/probe_privacy_report.md`, the schema and privacy screen for the public
 synthetic probe package. `make verify` checks that it is current.
+
+`make build-probe-dataset-card` regenerates
+`probes/ko_evidence_probe_v0/DATASET_CARD.md` and
+`reports/probe_dataset_card.md` from the public probe files. `make verify`
+checks that the release-facing card is current.
 
 `make reproduce-probe-system-comparison` runs the public synthetic probe through
 literal lexical, surface-expanded lexical, semantic-centroid, hybrid-fusion, and
@@ -501,6 +513,7 @@ ko_evidence_bench/
   trap_miner.py       # Public probe trap-class diagnostics.
   schemas.py          # Minimal JSONL schema validators.
 scripts/
+  build_probe_dataset_card.py
   build_system_matrix_report.py
   build_intent_inventory.py
   build_claim_ledger.py

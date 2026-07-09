@@ -125,6 +125,21 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The released instrument is a screened probe set, not a dictionary or private-data dump.",
         ),
         AlignmentItem(
+            area="Public probe dataset card",
+            status=(
+                "PASS"
+                if (root / "scripts" / "build_probe_dataset_card.py").exists()
+                and (root / "probes" / "ko_evidence_probe_v0" / "DATASET_CARD.md").exists()
+                and has_text(root / "probes" / "ko_evidence_probe_v0" / "DATASET_CARD.md", "synthetic public fixture")
+                and has_text(root / "probes" / "ko_evidence_probe_v0" / "DATASET_CARD.md", "Not Intended Use")
+                and has_text(root / "reports" / "probe_dataset_card.md", "dataset card generated from public probe files")
+                and has_text(root / "Makefile", "check-probe-dataset-card")
+                else "MISSING"
+            ),
+            evidence="generated dataset card records intended use, non-goals, distributions, and privacy notes",
+            why_it_matters="The public probe is packaged like a reusable IR artifact instead of a loose fixture folder.",
+        ),
+        AlignmentItem(
             area="BEIR-style public probe export",
             status=(
                 "PASS"
@@ -570,9 +585,9 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "",
             "The repo now has the public shell expected of a flagship measurement study:",
             "generated study draft, claim-control gates, reviewer walkthrough,",
-            "containerized reproduction, screened public probes, qualitative",
-            "examples, layer attribution, system matrix guard, qid-only scorecards,",
-            "audit workflow, and public-safety checks. It is not headline-ready",
+            "containerized reproduction, screened public probes, dataset card,",
+            "qualitative examples, layer attribution, system matrix guard,",
+            "qid-only scorecards, audit workflow, and public-safety checks. It is not headline-ready",
             "because source-route labels still lack independent agreement",
             "evidence and human-adjudicated coverage, and the full comparison",
             "matrix still has not-run or blocked systems.",

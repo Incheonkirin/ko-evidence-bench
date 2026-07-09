@@ -86,11 +86,15 @@ The public probe package uses three JSONL files:
 probes/ko_evidence_probe_v0/queries.jsonl
 probes/ko_evidence_probe_v0/qrels.jsonl
 probes/ko_evidence_probe_v0/evidence.jsonl
+probes/ko_evidence_probe_v0/DATASET_CARD.md
 ```
 
 `queries.jsonl` contains synthetic query text and intent metadata. `qrels.jsonl`
 contains the source-route label and sufficient evidence ids for the same qid.
 `evidence.jsonl` contains synthetic evidence snippets keyed by `evidence_id`.
+`DATASET_CARD.md` is generated from those JSONL files and records release
+status, intended use, non-goals, row counts, surface forms, routes, and
+trap-class distributions.
 
 Every row must use `provenance = "synthetic_public_fixture"` and pass
 `make check-probe-privacy` before publication.

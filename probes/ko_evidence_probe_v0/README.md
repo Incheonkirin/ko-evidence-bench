@@ -12,6 +12,8 @@ conversation messages, or policy corpora.
   metadata.
 - `qrels.jsonl`: intent-level source-route labels and sufficient evidence ids.
 - `evidence.jsonl`: synthetic evidence snippets grouped by source tier.
+- `DATASET_CARD.md`: generated release-facing card with row counts,
+  distributions, intended use, non-goals, and privacy notes.
 - `beir/`: BEIR-style retrieval subset exported from the same probe rows.
 
 ## Design
@@ -33,6 +35,19 @@ The screen validates schema consistency, qid/evidence joins, source-tier values,
 synthetic provenance, common PII patterns, private-source indicators, and
 long n-gram overlap against a synthetic source-reference fixture. Private labs
 can run the same script with private reference files outside this repo.
+
+## Dataset Card
+
+Run:
+
+```bash
+make build-probe-dataset-card
+```
+
+The generated `DATASET_CARD.md` is a release-control artifact. It describes
+what the probe is for, what it should not be used for, and how the public files
+fit together. It is not a human-gold benchmark claim and not a synonym
+dictionary.
 
 ## BEIR-Style Export
 

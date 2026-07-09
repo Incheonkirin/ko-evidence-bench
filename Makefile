@@ -1,7 +1,12 @@
-.PHONY: test reproduce-table-1 reproduce-route-audit-workflow summarize-private-result export-route-labels build-route-audit-pack export-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
+.PHONY: test check-public-safety verify reproduce-table-1 reproduce-route-audit-workflow summarize-private-result export-route-labels build-route-audit-pack export-route-review-csv import-route-review-csv summarize-route-audit validate-route-audit promote-route-audit evaluate-route-router
 
 test:
 	python3 -m unittest discover -s tests
+
+check-public-safety:
+	python3 scripts/check_public_safety.py
+
+verify: test reproduce-table-1 reproduce-route-audit-workflow check-public-safety
 
 reproduce-table-1:
 	python3 scripts/reproduce_table_1.py

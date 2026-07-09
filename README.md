@@ -55,6 +55,7 @@ need bootstrap confidence intervals first.
 make test
 make reproduce-table-1
 make reproduce-route-audit-workflow
+make verify
 ```
 
 Expected output is a small scorecard over synthetic fixture runs:
@@ -69,6 +70,9 @@ source_routed_demo  5  1.000  1.000  0.000  1.000  1.000  1.000
 CSV export, reviewer import, agreement, adjudication validation, and qid-only
 label promotion. Its report is checked in at
 `reports/route_audit_workflow_fixture.md`.
+
+`make verify` runs tests, both reproduction commands, and a public-safety scan
+for private-source leakage indicators.
 
 Private retrieval exports with query-level hit booleans can be summarized without
 publishing qids or text:

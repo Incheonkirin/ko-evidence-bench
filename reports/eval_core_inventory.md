@@ -15,6 +15,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | source-route review CSV templates | 50/50/300 rows | private reviewer CSVs generated; not yet filled |
 | source-route review UI | static local HTML | generated; no private data checked in |
 | route-audit workflow fixture | 3 synthetic rows | end-to-end dry-run passes |
+| public-safety scan | repository-wide | Makefile target and CI workflow added |
 | source-route adjudication validation | 300 rows | 0 completed; validation gate pending |
 | target human-audited source-route labels | 300-500 rows | workset exists; labels not yet created |
 
@@ -65,6 +66,10 @@ does not include private rows and does not depend on network access.
 `reports/route_audit_workflow_fixture.md` is generated from synthetic fixtures
 by `make reproduce-route-audit-workflow`. It exercises CSV export/import,
 reviewer agreement, adjudication validation, and qid-only label promotion.
+
+`make check-public-safety` scans the public repository for private-source
+leakage indicators. `make verify` runs tests, reproduction commands, and that
+scan. The same target is wired into GitHub Actions.
 
 ## What Is Not Yet Verified
 

@@ -13,6 +13,7 @@ headline claims.
 | Generated finding table | `PASS` | finding candidates are generated from aggregate reports | Reviewers see numbers and claim controls before framework plumbing. |
 | Hero diagnostic figure | `PASS` | README hero figure and report are generated from aggregate diagnostics | The first screen leads with memorable findings while keeping the claim gate visible. |
 | Claim-control gate | `PASS` | study readiness is NO-GO | The repo refuses to promote silver diagnostics as final benchmark claims. |
+| Claim wording ledger | `PASS` | generated ledger separates allowed diagnostic wording from blocked claims | The repo shows judgment about what the evidence can and cannot support. |
 | README signal drift guard | `PASS` | scripts/sync_readme_signals.py --check | The first-screen numbers are generated from checked-in evidence. |
 | Dictionary scope guard | `PASS` | README scope statement rejects a dictionary-first framing | The flagship has to be a measurement artifact, not a user-dictionary repo. |
 | Multi-source evidence frame | `PASS` | route protocol and study draft model multiple citable source tiers | The benchmark tests evidence routing, not only policy-clause recall. |

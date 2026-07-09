@@ -67,6 +67,20 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The repo refuses to promote silver diagnostics as final benchmark claims.",
         ),
         AlignmentItem(
+            area="Claim wording ledger",
+            status=(
+                "PASS"
+                if (root / "scripts" / "build_claim_ledger.py").exists()
+                and has_text(root / "reports" / "claim_ledger.md", "Status: **diagnostic claims only")
+                and has_text(root / "reports" / "claim_ledger.md", "do not say")
+                and has_text(root / "reports" / "claim_ledger.md", "Human-gold benchmark")
+                and has_text(root / "Makefile", "check-claim-ledger")
+                else "MISSING"
+            ),
+            evidence="generated ledger separates allowed diagnostic wording from blocked claims",
+            why_it_matters="The repo shows judgment about what the evidence can and cannot support.",
+        ),
+        AlignmentItem(
             area="README signal drift guard",
             status=(
                 "PASS"

@@ -47,6 +47,10 @@ The generated hero report is `reports/hero_signal.md`. It compresses the
 current aggregate diagnostics into one first-screen signal while keeping the
 human-gold claim gate visible.
 
+The public wording guard is `reports/claim_ledger.md`: it says which diagnostic
+claims are currently allowed, which claims are blocked, and what evidence is
+needed next.
+
 ## What This Evaluates
 
 The scorecard treats retrieval as more than "did we find a similar paragraph?"
@@ -102,6 +106,7 @@ make reproduce-intent-surface-export
 make reproduce-substrate-profile
 make check-study-readiness
 make build-hero-signal
+make build-claim-ledger
 make build-measurement-study
 make build-alignment-report
 make verify
@@ -183,6 +188,10 @@ the required evidence cannot be parsed; the report itself may correctly say
 `make build-hero-signal` regenerates `reports/hero_signal.md` and
 `reports/figures/diagnostic_signal_heatmap.svg`, the diagnostic figure used in
 the README. `make verify` checks that both artifacts are current.
+
+`make build-claim-ledger` regenerates `reports/claim_ledger.md`, the wording
+guard that separates diagnostic claims, blocked human-gold claims, and
+out-of-scope claims. `make verify` checks that it is current.
 
 `make build-measurement-study` regenerates the aggregate-only study draft from
 checked-in reports. `make verify` checks that the committed draft is current.
@@ -377,6 +386,7 @@ ko_evidence_bench/
   schemas.py          # Minimal JSONL schema validators.
 scripts/
   build_intent_inventory.py
+  build_claim_ledger.py
   build_hero_signal.py
   export_intent_surface_qrels.py
   profile_query_substrates.py
@@ -396,6 +406,7 @@ fixtures/
   surface_runs/
   system_runs/
 reports/
+  claim_ledger.md
   eval_core_inventory.md
   flagship_alignment.md
   hero_signal.md

@@ -170,6 +170,7 @@ make reproduce-intent-surface-export
 make reproduce-substrate-profile
 make check-study-readiness
 make build-hero-signal
+make build-claim-ledger
 make verify
 ```
 

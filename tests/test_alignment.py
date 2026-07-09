@@ -17,6 +17,7 @@ class AlignmentTest(unittest.TestCase):
 
         self.assertEqual(statuses["Report-first artifact"], "PASS")
         self.assertEqual(statuses["Hero diagnostic figure"], "PASS")
+        self.assertEqual(statuses["Claim wording ledger"], "PASS")
         self.assertEqual(statuses["Dictionary scope guard"], "PASS")
         self.assertEqual(statuses["Multi-source evidence frame"], "PASS")
         self.assertEqual(statuses["Real-query substrate inventory"], "PASS")
@@ -43,6 +44,8 @@ class AlignmentTest(unittest.TestCase):
         self.assertIn("Dictionary scope guard", report)
         self.assertIn("Hero diagnostic figure", report)
         self.assertIn("memorable findings", report)
+        self.assertIn("Claim wording ledger", report)
+        self.assertIn("what the evidence can and cannot support", report)
         self.assertIn("Multi-source evidence frame", report)
         self.assertIn("Real-query substrate inventory", report)
         self.assertIn("Surface-form robustness axis", report)

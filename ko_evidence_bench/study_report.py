@@ -745,6 +745,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "make reproduce-substrate-profile",
         "make check-study-readiness",
         "make build-hero-signal",
+        "make build-claim-ledger",
         "make verify",
         "```",
         "",

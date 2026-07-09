@@ -81,6 +81,20 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The repo shows judgment about what the evidence can and cannot support.",
         ),
         AlignmentItem(
+            area="Reviewer demo path",
+            status=(
+                "PASS"
+                if (root / "scripts" / "build_reviewer_demo.py").exists()
+                and has_text(root / "README.md", "reports/reviewer_demo.md")
+                and has_text(root / "reports" / "reviewer_demo.md", "Status: **3-minute diagnostic walkthrough")
+                and has_text(root / "reports" / "reviewer_demo.md", "What Not To Infer")
+                and has_text(root / "Makefile", "check-reviewer-demo")
+                else "MISSING"
+            ),
+            evidence="generated 3-minute walkthrough links findings, claim controls, rehearsal, and readiness",
+            why_it_matters="A reviewer can understand the study artifact before reading framework code.",
+        ),
+        AlignmentItem(
             area="README signal drift guard",
             status=(
                 "PASS"
@@ -416,10 +430,10 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "## Interpretation",
             "",
             "The repo now has the public shell expected of a flagship measurement study:",
-            "generated study draft, claim-control gates, qid-only scorecards, audit",
-            "workflow, and public-safety checks. It is not headline-ready because the",
-            "source-route labels still lack independent agreement evidence and",
-            "human-adjudicated coverage.",
+            "generated study draft, claim-control gates, reviewer walkthrough, qid-only",
+            "scorecards, audit workflow, and public-safety checks. It is not",
+            "headline-ready because the source-route labels still lack independent",
+            "agreement evidence and human-adjudicated coverage.",
             "",
             "## Next Gate",
             "",

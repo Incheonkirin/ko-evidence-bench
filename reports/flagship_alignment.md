@@ -14,6 +14,7 @@ headline claims.
 | Hero diagnostic figure | `PASS` | README hero figure and report are generated from aggregate diagnostics | The first screen leads with memorable findings while keeping the claim gate visible. |
 | Claim-control gate | `PASS` | study readiness is NO-GO | The repo refuses to promote silver diagnostics as final benchmark claims. |
 | Claim wording ledger | `PASS` | generated ledger separates allowed diagnostic wording from blocked claims | The repo shows judgment about what the evidence can and cannot support. |
+| Reviewer demo path | `PASS` | generated 3-minute walkthrough links findings, claim controls, rehearsal, and readiness | A reviewer can understand the study artifact before reading framework code. |
 | README signal drift guard | `PASS` | scripts/sync_readme_signals.py --check | The first-screen numbers are generated from checked-in evidence. |
 | Dictionary scope guard | `PASS` | README scope statement rejects a dictionary-first framing | The flagship has to be a measurement artifact, not a user-dictionary repo. |
 | Multi-source evidence frame | `PASS` | route protocol and study draft model multiple citable source tiers | The benchmark tests evidence routing, not only policy-clause recall. |
@@ -39,10 +40,10 @@ headline claims.
 ## Interpretation
 
 The repo now has the public shell expected of a flagship measurement study:
-generated study draft, claim-control gates, qid-only scorecards, audit
-workflow, and public-safety checks. It is not headline-ready because the
-source-route labels still lack independent agreement evidence and
-human-adjudicated coverage.
+generated study draft, claim-control gates, reviewer walkthrough, qid-only
+scorecards, audit workflow, and public-safety checks. It is not
+headline-ready because the source-route labels still lack independent
+agreement evidence and human-adjudicated coverage.
 
 ## Next Gate
 

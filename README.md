@@ -51,6 +51,15 @@ The public wording guard is `reports/claim_ledger.md`: it says which diagnostic
 claims are currently allowed, which claims are blocked, and what evidence is
 needed next.
 
+## Reviewer Demo
+
+The shortest review path is `reports/reviewer_demo.md`. It walks through the
+README figure, hero signal, claim ledger, measurement-study draft, human-gold
+rehearsal, and readiness gate in the order a reviewer should inspect them.
+
+Regenerate it with `make build-reviewer-demo`; `make verify` checks that it is
+current.
+
 ## What This Evaluates
 
 The scorecard treats retrieval as more than "did we find a similar paragraph?"
@@ -107,6 +116,7 @@ make reproduce-substrate-profile
 make check-study-readiness
 make build-hero-signal
 make build-claim-ledger
+make build-reviewer-demo
 make build-measurement-study
 make build-alignment-report
 make verify
@@ -192,6 +202,10 @@ the README. `make verify` checks that both artifacts are current.
 `make build-claim-ledger` regenerates `reports/claim_ledger.md`, the wording
 guard that separates diagnostic claims, blocked human-gold claims, and
 out-of-scope claims. `make verify` checks that it is current.
+
+`make build-reviewer-demo` regenerates `reports/reviewer_demo.md`, the
+3-minute public walkthrough for reading the repository as a measurement-study
+artifact. `make verify` checks that it is current.
 
 `make build-measurement-study` regenerates the aggregate-only study draft from
 checked-in reports. `make verify` checks that the committed draft is current.

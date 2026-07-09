@@ -95,6 +95,9 @@ python3 scripts/export_route_review_csv.py \
   --report-out reports/private_route_review_csv_export.md
 ```
 
+Reviewers can open `tools/route_review_ui.html` locally and load the private
+CSV in the browser. The UI runs without a server and does not upload data.
+
 Reviewers fill these CSV columns:
 
 - `route_gold`

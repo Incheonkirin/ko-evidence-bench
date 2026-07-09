@@ -13,6 +13,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | source-route human-audit seed | 50 rows | private audit pack generated; not yet labeled |
 | source-route adjudication pack | 300 rows | private audit pack generated; not yet labeled |
 | source-route review CSV templates | 50/50/300 rows | private reviewer CSVs generated; not yet filled |
+| source-route review UI | static local HTML | generated; no private data checked in |
 | source-route adjudication validation | 300 rows | 0 completed; validation gate pending |
 | target human-audited source-route labels | 300-500 rows | workset exists; labels not yet created |
 
@@ -57,6 +58,9 @@ adjudication pack and confirms that no adjudicated labels are complete yet.
 CSV templates for manual labeling. The CSV files themselves stay outside this
 public repo because they contain raw private query/context fields.
 
+`tools/route_review_ui.html` is a static local reviewer for those CSV files. It
+does not include private rows and does not depend on network access.
+
 ## What Is Not Yet Verified
 
 - The 500+ qrels set has been scored with full cross-rerank, but still against
@@ -67,6 +71,7 @@ public repo because they contain raw private query/context fields.
   agreement metric exists yet.
 - Reviewer-editable CSV templates exist, but no completed reviewer import has
   been performed yet.
+- A local static review UI exists, but no reviewed CSV has been imported yet.
 - The promotion gate is intentionally closed: the 300-row adjudication pack has
   0 completed labels and 300 validation errors from missing final route labels.
 - The always-policy baseline has only been demonstrated on synthetic fixtures,

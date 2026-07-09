@@ -141,6 +141,10 @@ Reviewer-editable private CSV templates have also been generated for the
 50-row reviewer A/B seed and the 300-row adjudication workset. Their public
 summaries are checked in without raw rows.
 
+Reviewers can use `tools/route_review_ui.html` as a local, static CSV editor.
+It reads private CSVs in the browser and downloads the reviewed CSV without
+uploading data.
+
 ## Public/Private Boundary
 
 Public:
@@ -167,6 +171,8 @@ ko_evidence_bench/
   schemas.py          # Minimal JSONL schema validators.
 scripts/
   reproduce_table_1.py
+tools/
+  route_review_ui.html
 fixtures/
   qrels.jsonl
   system_runs/

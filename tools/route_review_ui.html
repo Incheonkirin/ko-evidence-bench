@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Route Review</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --line: #d9dee7;
+      --ink: #18202f;
+      --muted: #667085;
+      --accent: #1f7a6d;
+      --accent-ink: #ffffff;
+      --warn: #9a4b00;
+      --bad: #b42318;
+      --good: #067647;
+      --soft: #eef2f6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--line);
+      background: var(--panel);
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr);
+      min-width: 0;
+    }
+
+    .topbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      min-height: 57px;
+    }
+
+    .title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-right: auto;
+      white-space: nowrap;
+    }
+
+    .file-input {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .file-input input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      border-radius: 6px;
+      min-height: 34px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--accent-ink);
+    }
+
+    .filters {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfe;
+    }
+
+    .filters input,
+    .filters select {
+      width: 100%;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0 10px;
+      background: var(--panel);
+      color: var(--ink);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .stat {
+      background: var(--soft);
+      border-radius: 6px;
+      padding: 8px;
+      min-width: 0;
+    }
+
+    .stat b {
+      display: block;
+      font-size: 16px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .list {
+      overflow: auto;
+    }
+
+    .row {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+      text-align: left;
+      padding: 10px 12px;
+      display: grid;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .row.active {
+      background: #eaf6f3;
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+
+    .row-main {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .audit-id {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .query-preview {
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 12px;
+      background: var(--soft);
+      color: var(--muted);
+      width: fit-content;
+    }
+
+    .pill.done {
+      background: #dcfae6;
+      color: var(--good);
+    }
+
+    .pill.issue {
+      background: #fef0c7;
+      color: var(--warn);
+    }
+
+    .main {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .workbar {
+      min-height: 57px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .workbar .spacer {
+      flex: 1;
+    }
+
+    .content {
+      overflow: auto;
+      padding: 16px;
+      display: grid;
+      gap: 16px;
+      max-width: 1120px;
+      width: 100%;
+    }
+
+    .band {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-width: 0;
+    }
+
+    .band h2 {
+      margin: 0 0 10px;
+      font-size: 15px;
+    }
+
+    .query {
+      font-size: 18px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .context {
+      max-height: 260px;
+      overflow: auto;
+      white-space: pre-wrap;
+      color: #344054;
+      background: #fbfcfe;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .meta-grid,
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--ink);
+      padding: 8px 9px;
+      min-height: 38px;
+    }
+
+    .field textarea {
+      min-height: 86px;
+      resize: vertical;
+    }
+
+    .readonly {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fbfcfe;
+      padding: 8px 9px;
+      overflow-wrap: anywhere;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px;
+      background: var(--panel);
+    }
+
+    .check-grid label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin: 0;
+      color: var(--ink);
+      font-size: 13px;
+      min-height: 28px;
+    }
+
+    .empty {
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      min-height: calc(100vh - 57px);
+      text-align: center;
+      padding: 32px;
+    }
+
+    @media (max-width: 860px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        min-height: 44vh;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .meta-grid,
+      .form-grid,
+      .check-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="topbar">
+        <div class="title">Route Review</div>
+        <label class="btn file-input" title="Open CSV">
+          Open
+          <input id="fileInput" type="file" accept=".csv,text/csv">
+        </label>
+      </div>
+      <div class="filters">
+        <input id="searchInput" type="search" placeholder="Search">
+        <select id="statusFilter">
+          <option value="all">All rows</option>
+          <option value="open">Open rows</option>
+          <option value="done">Completed rows</option>
+        </select>
+        <div class="stats">
+          <div class="stat"><b id="totalStat">0</b><span>Total</span></div>
+          <div class="stat"><b id="doneStat">0</b><span>Done</span></div>
+          <div class="stat"><b id="openStat">0</b><span>Open</span></div>
+        </div>
+      </div>
+      <div id="rowList" class="list"></div>
+    </aside>
+    <main class="main">
+      <div class="workbar">
+        <button id="prevBtn" class="btn" title="Previous row">Prev</button>
+        <button id="nextBtn" class="btn" title="Next row">Next</button>
+        <div class="spacer"></div>
+        <button id="downloadBtn" class="btn primary" title="Download CSV">Download</button>
+      </div>
+      <div id="content" class="content">
+        <div class="empty">Open a private review CSV to begin.</div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const ROUTES = [
+      "policy_clause",
+      "product_disclosure",
+      "official_consumer_info",
+      "claims_faq",
+      "dispute_case",
+      "expert_answer",
+      "human_context_needed",
+      "out_of_scope"
+    ];
+    const CONFIDENCE = ["high", "medium", "low"];
+    const FILLABLE = [
+      "route_gold",
+      "allowed_source_tiers",
+      "should_abstain",
+      "confidence",
+      "rationale_code",
+      "labeler",
+      "notes"
+    ];
+
+    let rows = [];
+    let headers = [];
+    let activeIndex = -1;
+    let fileName = "route_review.csv";
+
+    const el = (id) => document.getElementById(id);
+
+    function h(value) {
+      return String(value == null ? "" : value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function parseCsv(text) {
+      const parsed = [];
+      let row = [];
+      let cell = "";
+      let quoted = false;
+      for (let i = 0; i < text.length; i += 1) {
+        const ch = text[i];
+        const next = text[i + 1];
+        if (quoted) {
+          if (ch === '"' && next === '"') {
+            cell += '"';
+            i += 1;
+          } else if (ch === '"') {
+            quoted = false;
+          } else {
+            cell += ch;
+          }
+        } else if (ch === '"') {
+          quoted = true;
+        } else if (ch === ",") {
+          row.push(cell);
+          cell = "";
+        } else if (ch === "\n") {
+          row.push(cell);
+          parsed.push(row);
+          row = [];
+          cell = "";
+        } else if (ch !== "\r") {
+          cell += ch;
+        }
+      }
+      if (cell.length || row.length) {
+        row.push(cell);
+        parsed.push(row);
+      }
+      return parsed;
+    }
+
+    function toCsvValue(value) {
+      const text = value == null ? "" : String(value);
+      if (/[",\n\r]/.test(text)) {
+        return '"' + text.replace(/"/g, '""') + '"';
+      }
+      return text;
+    }
+
+    function toCsv(data) {
+      const lines = [headers.map(toCsvValue).join(",")];
+      for (const row of data) {
+        lines.push(headers.map((h) => toCsvValue(row[h] || "")).join(","));
+      }
+      return lines.join("\n") + "\n";
+    }
+
+    function loadCsv(text) {
+      const parsed = parseCsv(text).filter((line) => line.some((cell) => cell.trim() !== ""));
+      headers = parsed.shift() || [];
+      rows = parsed.map((line) => {
+        const row = {};
+        headers.forEach((h, i) => { row[h] = line[i] || ""; });
+        return row;
+      });
+      activeIndex = rows.length ? 0 : -1;
+      render();
+    }
+
+    function isDone(row) {
+      return FILLABLE.every((key) => String(row[key] || "").trim() !== "");
+    }
+
+    function visibleRows() {
+      const q = el("searchInput").value.trim().toLowerCase();
+      const status = el("statusFilter").value;
+      return rows
+        .map((row, index) => ({ row, index }))
+        .filter(({ row }) => {
+          if (status === "done" && !isDone(row)) return false;
+          if (status === "open" && isDone(row)) return false;
+          if (!q) return true;
+          return [
+            row.audit_id,
+            row.query,
+            row.context,
+            row.silver_route_gold,
+            row.route_gold,
+            row.reason_code
+          ].join(" ").toLowerCase().includes(q);
+        });
+    }
+
+    function setActive(index) {
+      if (index < 0 || index >= rows.length) return;
+      activeIndex = index;
+      render();
+    }
+
+    function updateActive(key, value) {
+      if (activeIndex < 0) return;
+      rows[activeIndex][key] = value;
+      renderList();
+      renderStats();
+    }
+
+    function optionList(values, selected, blank) {
+      const opts = blank ? [`<option value="">${blank}</option>`] : [];
+      for (const value of values) {
+        opts.push(`<option value="${value}" ${value === selected ? "selected" : ""}>${value}</option>`);
+      }
+      return opts.join("");
+    }
+
+    function renderStats() {
+      const done = rows.filter(isDone).length;
+      el("totalStat").textContent = rows.length;
+      el("doneStat").textContent = done;
+      el("openStat").textContent = Math.max(0, rows.length - done);
+    }
+
+    function renderList() {
+      const list = el("rowList");
+      const items = visibleRows();
+      list.innerHTML = "";
+      for (const { row, index } of items) {
+        const button = document.createElement("button");
+        button.className = "row" + (index === activeIndex ? " active" : "");
+        button.type = "button";
+        button.innerHTML = `
+          <div class="row-main">
+            <span class="audit-id">${h(row.audit_id || index + 1)}</span>
+            <span class="query-preview">${h(row.query || "")}</span>
+          </div>
+          <span class="pill ${isDone(row) ? "done" : "issue"}">${isDone(row) ? "done" : "open"}</span>
+        `;
+        button.addEventListener("click", () => setActive(index));
+        list.appendChild(button);
+      }
+    }
+
+    function renderContent() {
+      const content = el("content");
+      if (activeIndex < 0 || !rows[activeIndex]) {
+        content.innerHTML = '<div class="empty">Open a private review CSV to begin.</div>';
+        return;
+      }
+      const row = rows[activeIndex];
+      const allowed = new Set(String(row.allowed_source_tiers || "").split(/[;|,]/).map((x) => x.trim()).filter(Boolean));
+      content.innerHTML = `
+        <section class="band">
+          <h2>${h(row.audit_id || "Row")}</h2>
+          <div class="query">${h(row.query || "")}</div>
+        </section>
+
+        <section class="band">
+          <h2>Context</h2>
+          <div class="context">${h(row.context || "")}</div>
+        </section>
+
+        <section class="band">
+          <h2>Source Route</h2>
+          <div class="form-grid">
+            <div class="field">
+              <label for="routeGold">Route</label>
+              <select id="routeGold">${optionList(ROUTES, row.route_gold || "", "Select route")}</select>
+            </div>
+            <div class="field">
+              <label for="shouldAbstain">Abstain</label>
+              <select id="shouldAbstain">
+                ${optionList(["true", "false"], String(row.should_abstain || ""), "Select")}
+              </select>
+            </div>
+            <div class="field">
+              <label for="confidence">Confidence</label>
+              <select id="confidence">${optionList(CONFIDENCE, row.confidence || "", "Select confidence")}</select>
+            </div>
+            <div class="field">
+              <label for="rationaleCode">Rationale</label>
+              <input id="rationaleCode" value="${h(row.rationale_code || "")}">
+            </div>
+            <div class="field">
+              <label>Allowed Source Tiers</label>
+              <div class="check-grid">
+                ${ROUTES.map((route) => `
+                  <label><input type="checkbox" class="allowed-route" value="${route}" ${allowed.has(route) ? "checked" : ""}> ${route}</label>
+                `).join("")}
+              </div>
+            </div>
+            <div class="field">
+              <label for="labeler">Labeler</label>
+              <input id="labeler" value="${h(row.labeler || "")}">
+            </div>
+            <div class="field" style="grid-column: 1 / -1;">
+              <label for="notes">Notes</label>
+              <textarea id="notes">${h(row.notes || "")}</textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="band">
+          <h2>Reference</h2>
+          <div class="meta-grid">
+            <div class="field"><label>Silver Route</label><div class="readonly">${h(row.silver_route_gold || "")}</div></div>
+            <div class="field"><label>Silver Abstain</label><div class="readonly">${h(row.silver_should_abstain || "")}</div></div>
+            <div class="field"><label>Reason</label><div class="readonly">${h(row.reason_code || "")}</div></div>
+            <div class="field"><label>Intent</label><div class="readonly">${h(row.intent || "")}</div></div>
+            <div class="field"><label>Gate</label><div class="readonly">${h(row.gate_category || "")}</div></div>
+            <div class="field"><label>Facets</label><div class="readonly">${h(row.required_facets || "")}</div></div>
+          </div>
+        </section>
+      `;
+
+      el("routeGold").addEventListener("change", (e) => updateActive("route_gold", e.target.value));
+      el("shouldAbstain").addEventListener("change", (e) => updateActive("should_abstain", e.target.value));
+      el("confidence").addEventListener("change", (e) => updateActive("confidence", e.target.value));
+      el("rationaleCode").addEventListener("input", (e) => updateActive("rationale_code", e.target.value));
+      el("labeler").addEventListener("input", (e) => updateActive("labeler", e.target.value));
+      el("notes").addEventListener("input", (e) => updateActive("notes", e.target.value));
+      for (const checkbox of document.querySelectorAll(".allowed-route")) {
+        checkbox.addEventListener("change", () => {
+          const value = Array.from(document.querySelectorAll(".allowed-route:checked")).map((x) => x.value).join(";");
+          updateActive("allowed_source_tiers", value);
+        });
+      }
+    }
+
+    function render() {
+      renderStats();
+      renderList();
+      renderContent();
+    }
+
+    el("fileInput").addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      fileName = file.name;
+      const reader = new FileReader();
+      reader.onload = () => loadCsv(String(reader.result || ""));
+      reader.readAsText(file);
+    });
+
+    el("searchInput").addEventListener("input", renderList);
+    el("statusFilter").addEventListener("change", renderList);
+    el("prevBtn").addEventListener("click", () => setActive(Math.max(0, activeIndex - 1)));
+    el("nextBtn").addEventListener("click", () => setActive(Math.min(rows.length - 1, activeIndex + 1)));
+    el("downloadBtn").addEventListener("click", () => {
+      const blob = new Blob([toCsv(rows)], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName.replace(/\.csv$/i, "") + ".reviewed.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    render();
+  </script>
+</body>
+</html>

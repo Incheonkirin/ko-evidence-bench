@@ -31,6 +31,8 @@ class StudyReportTest(unittest.TestCase):
         self.assertIn("Private qrels now have silver intent/surface slices", report)
         self.assertIn("Intent/Surface Metadata Evidence", report)
         self.assertIn("544 qid-only rows", report)
+        self.assertIn("Route decisions can now be scored by surface condition", report)
+        self.assertIn("Route Surface Evidence", report)
         self.assertIn("0 / 50 paired labels", report)
         self.assertIn("0 / 300 adjudicated labels complete", report)
         self.assertIn("double-label Cohen's kappa", report)

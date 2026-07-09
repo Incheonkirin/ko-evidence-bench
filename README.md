@@ -84,6 +84,7 @@ make reproduce-route-audit-workflow
 make reproduce-route-scorecard
 make reproduce-route-cohort-scorecard
 make reproduce-surface-scorecard
+make reproduce-route-surface-scorecard
 make reproduce-normalization-ablation
 make reproduce-intent-inventory
 make reproduce-intent-surface-export
@@ -121,6 +122,10 @@ source names.
 scorecard: the same intent appears in formal, abbreviated, colloquial, and
 messenger-style conditions, and the report measures whether success varies by
 surface form.
+
+`make reproduce-route-surface-scorecard` runs a route-only surface scorecard.
+It slices route and abstention behavior by intent family, surface form, and trap
+class before ranked evidence runs are available.
 
 `make reproduce-normalization-ablation` compares a raw-surface baseline run
 against a normalized/expanded candidate run and reports aggregate rescue and
@@ -227,6 +232,11 @@ show that the 544-row private qrel set can now be sliced by intent family,
 surface form, and trap class without exposing raw text. The labels are still
 silver metadata and require human audit before public frequency claims.
 
+The private route-surface scorecard is checked in at
+`reports/private_route_surface_scorecard_silver.md`. It scores the private
+route runs by surface form, intent family, and trap class. It is route-only:
+ranked evidence sufficiency still needs separate retrieval runs.
+
 To regenerate those private qid-only route runs with a source map:
 
 ```bash
@@ -316,6 +326,7 @@ ko_evidence_bench/
   intent_surface_export.py # Qid-only intent/surface metadata export.
   metrics.py          # Scorecard metrics with bootstrap CIs.
   route_score.py      # Qid-only source-route metrics.
+  route_surface.py    # Route/abstention metrics by surface metadata.
   substrate_profile.py # Aggregate query-substrate profiling.
   surface.py          # Surface-form robustness metrics.
   schemas.py          # Minimal JSONL schema validators.
@@ -326,6 +337,7 @@ scripts/
   reproduce_normalization_ablation.py
   reproduce_table_1.py
   reproduce_route_scorecard.py
+  reproduce_route_surface_scorecard.py
   reproduce_surface_scorecard.py
 tools/
   route_review_ui.html

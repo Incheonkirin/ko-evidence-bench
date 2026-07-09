@@ -135,6 +135,20 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="This implements the Fable axis about intent fragmentation, not token dictionaries.",
         ),
         AlignmentItem(
+            area="Route-surface diagnostic axis",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "route_surface.py").exists()
+                and (root / "scripts" / "reproduce_route_surface_scorecard.py").exists()
+                and has_text(root / "reports" / "route_surface_scorecard_fixture.md", "Route Surface Summary")
+                and has_text(root / "reports" / "private_route_surface_scorecard_silver.md", "Private Route Surface Scorecard")
+                and has_text(root / "reports" / "measurement_study_draft.md", "Route Surface Evidence")
+                else "MISSING"
+            ),
+            evidence="route-only scorecard slices source-route and abstention behavior by surface, intent family, and trap class",
+            why_it_matters="The study can diagnose surface-conditioned routing failures before ranked evidence runs exist.",
+        ),
+        AlignmentItem(
             area="Intent-family inventory axis",
             status=(
                 "PASS"

@@ -17,6 +17,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | query-substrate profile | 174,434 private input rows | aggregate text-shape and stress-signal profile generated without raw rows |
 | intent/surface qid-only export | 544 rows | private qrels joined with route labels; aggregate summary available |
 | private intent-family inventory | 544 rows | silver intent family, surface form, and trap-class slices generated |
+| private route-surface scorecard | 544 rows x 4 runs | route-only surface, intent-family, and trap-class diagnostics generated |
 | source-route human-audit seed | 50 rows | private audit pack generated; not yet labeled |
 | source-route adjudication pack | 300 rows | private audit pack generated; not yet labeled |
 | source-route agreement summary | 50-row seed | generated; currently 0 paired reviewer rows |
@@ -31,6 +32,7 @@ Status: current private-lab inventory, summarized without raw rows.
 | route-only scorecard fixture | 6 synthetic rows | qid-only route scoring path passes |
 | route cohort scorecard fixture | 5 synthetic rows | source-map cohort slicing path passes |
 | surface-form robustness fixture | 8 synthetic rows | same-intent surface variation scorecard passes |
+| route-surface scorecard fixture | 8 synthetic rows x 2 runs | route-only surface, intent, and trap slicing path passes |
 | surface-form lift gate | aggregate synthetic report | surface-robust candidate lift and spread reduction are checked for drift |
 | normalization ablation fixture | 8 synthetic rows x 2 runs | rescue/regression lift is summarized by family, surface, and trap |
 | intent-family inventory fixture | 8 synthetic rows | intent families, source routes, surfaces, and trap slices are summarized |
@@ -104,6 +106,12 @@ inventory path over that private qid-only export. It verifies that the 544-row
 qrel set can now be sliced by intent family, surface form, route, and trap class
 without raw text. It is still silver metadata and must be audited before public
 frequency claims.
+
+`reports/private_route_surface_scorecard_silver.md` scores private route runs
+against that qid-only intent/surface export. It reports route accuracy,
+abstention behavior, worst-surface accuracy, and breakdowns by surface form,
+intent family, and trap class. It is route-only and does not score ranked
+evidence sufficiency.
 
 `reports/private_route_audit_pack_summary.md` was generated from a private
 50-row route audit seed. It reports only the sampling distribution. The audit
@@ -245,10 +253,11 @@ scan. The same target is wired into GitHub Actions.
 - Query-cohort route slicing has been evaluated only against silver labels. It
   is ready for messenger/live-query cohorts once those qrels are mapped through
   the same private source-map schema.
-- Surface-form robustness is currently verified on synthetic fixtures. Private
-  qrels now have silver `intent_id` and `surface_form` metadata, but private
-  surface-variant runs are still needed before a real surface robustness matrix
-  can be reported.
+- Surface-form evidence sufficiency is currently verified on synthetic fixtures.
+  Private qrels now have silver `intent_id` and `surface_form` metadata, and
+  route-only surface diagnostics are generated, but private ranked evidence runs
+  are still needed before a real evidence-sufficiency surface matrix can be
+  reported.
 - Normalization ablation is currently verified on synthetic fixtures. Private
   runs need paired raw-surface and normalized outputs over the same qrels before
   rescue/regression claims can be reported.

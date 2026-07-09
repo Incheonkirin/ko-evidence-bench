@@ -58,6 +58,15 @@ class IntentSurfaceSignal:
 
 
 @dataclass(frozen=True)
+class RouteSurfaceSignal:
+    route_accuracy: str
+    abstention_recall: str
+    avg_intent_route_spread: str
+    worst_surface_route_accuracy: str
+    missing_metadata: str
+
+
+@dataclass(frozen=True)
 class StudyReportSignals:
     readiness: StudyReadiness
     structural_pack_clause20: MetricWithCi
@@ -78,6 +87,9 @@ class StudyReportSignals:
     messenger_conversation: SubstrateShapeSignal
     search_eval_query: SubstrateShapeSignal
     intent_surface_signal: IntentSurfaceSignal
+    always_policy_route_surface: RouteSurfaceSignal
+    keyword_route_surface: RouteSurfaceSignal
+    cohort_aware_route_surface: RouteSurfaceSignal
 
 
 def metric_ci(report: str, run: str, metric: str) -> MetricWithCi:
@@ -222,6 +234,23 @@ def intent_surface_signal(report: str) -> IntentSurfaceSignal:
     )
 
 
+def route_surface_signal(report: str, system: str) -> RouteSurfaceSignal:
+    pattern = (
+        rf"\| `{re.escape(system)}` \| [\d,]+ \| [\d,]+ \| [\d,]+ \| "
+        r"([\d.]+%) \| [\d.]+% \| ([\d.]+%) \| ([\d.]+%) \| ([\d.]+%) \| [\d,]+ \| ([\d,]+) \|"
+    )
+    match = re.search(pattern, report)
+    if not match:
+        raise ValueError(f"missing route-surface summary row: {system}")
+    return RouteSurfaceSignal(
+        route_accuracy=match.group(1),
+        abstention_recall=match.group(2),
+        avg_intent_route_spread=match.group(3),
+        worst_surface_route_accuracy=match.group(4),
+        missing_metadata=match.group(5),
+    )
+
+
 def points(value: str) -> str:
     return f"+{value}p"
 
@@ -232,6 +261,7 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
     route_cohort_scorecard = read(root / "reports" / "private_route_cohort_scorecard_silver.md")
     substrate_profile = read(root / "reports" / "private_query_substrate_profile.md")
     intent_surface_export = read(root / "reports" / "private_intent_surface_export_summary.md")
+    route_surface_scorecard = read(root / "reports" / "private_route_surface_scorecard_silver.md")
     readiness = load_study_readiness(root)
 
     return StudyReportSignals(
@@ -283,6 +313,9 @@ def load_study_report_signals(root: Path) -> StudyReportSignals:
         messenger_conversation=substrate_shape_signal(substrate_profile, "messenger_conversation"),
         search_eval_query=substrate_shape_signal(substrate_profile, "search_eval_query"),
         intent_surface_signal=intent_surface_signal(intent_surface_export),
+        always_policy_route_surface=route_surface_signal(route_surface_scorecard, "always_policy"),
+        keyword_route_surface=route_surface_signal(route_surface_scorecard, "query_keyword_router"),
+        cohort_aware_route_surface=route_surface_signal(route_surface_scorecard, "cohort_aware_query_router"),
     )
 
 
@@ -360,6 +393,11 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"{signals.intent_surface_signal.top_family_share}; top surface "
             f"`{signals.intent_surface_signal.top_surface}` "
             f"{signals.intent_surface_signal.top_surface_share} | silver metadata |"
+        ),
+        (
+            "| Route decisions can now be scored by surface condition | "
+            f"cohort-aware route-only worst surface {signals.cohort_aware_route_surface.worst_surface_route_accuracy}; "
+            f"missing metadata {signals.cohort_aware_route_surface.missing_metadata} | silver route diagnostic |"
         ),
         (
             "| Human-gold public headline claim | "
@@ -514,6 +552,36 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "These slices are useful for stress-test design, but still require human",
         "review before public frequency claims.",
         "",
+        "## Route Surface Evidence",
+        "",
+        "| system | route accuracy | abstention recall | avg intent route spread | worst surface route accuracy | missing metadata |",
+        "|---|---:|---:|---:|---:|---:|",
+        (
+            f"| `always_policy` | {signals.always_policy_route_surface.route_accuracy} | "
+            f"{signals.always_policy_route_surface.abstention_recall} | "
+            f"{signals.always_policy_route_surface.avg_intent_route_spread} | "
+            f"{signals.always_policy_route_surface.worst_surface_route_accuracy} | "
+            f"{signals.always_policy_route_surface.missing_metadata} |"
+        ),
+        (
+            f"| `query_keyword_router` | {signals.keyword_route_surface.route_accuracy} | "
+            f"{signals.keyword_route_surface.abstention_recall} | "
+            f"{signals.keyword_route_surface.avg_intent_route_spread} | "
+            f"{signals.keyword_route_surface.worst_surface_route_accuracy} | "
+            f"{signals.keyword_route_surface.missing_metadata} |"
+        ),
+        (
+            f"| `cohort_aware_query_router` | {signals.cohort_aware_route_surface.route_accuracy} | "
+            f"{signals.cohort_aware_route_surface.abstention_recall} | "
+            f"{signals.cohort_aware_route_surface.avg_intent_route_spread} | "
+            f"{signals.cohort_aware_route_surface.worst_surface_route_accuracy} | "
+            f"{signals.cohort_aware_route_surface.missing_metadata} |"
+        ),
+        "",
+        "This is a route-only surface scorecard. It checks source-route and",
+        "abstention robustness across surface conditions before ranked evidence",
+        "runs are available for full evidence-sufficiency scoring.",
+        "",
         "## Claim Control",
         "",
         "| gate | current value | required before headline use |",
@@ -536,6 +604,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "make reproduce-route-scorecard",
         "make reproduce-route-cohort-scorecard",
         "make reproduce-surface-scorecard",
+        "make reproduce-route-surface-scorecard",
         "make reproduce-normalization-ablation",
         "make reproduce-intent-inventory",
         "make reproduce-intent-surface-export",

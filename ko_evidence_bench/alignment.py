@@ -267,6 +267,22 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The study can explain where failures accumulate instead of only reporting aggregate scores.",
         ),
         AlignmentItem(
+            area="System comparison matrix guard",
+            status=(
+                "PASS"
+                if (root / "ko_evidence_bench" / "system_matrix.py").exists()
+                and (root / "docs" / "system_matrix.json").exists()
+                and (root / "scripts" / "build_system_matrix_report.py").exists()
+                and has_text(root / "reports" / "system_matrix.md", "INCOMPLETE for full comparison matrix")
+                and has_text(root / "reports" / "system_matrix.md", "dense_multilingual_encoder")
+                and has_text(root / "reports" / "system_matrix.md", "hybrid_lexical_dense")
+                and has_text(root / "Makefile", "check-system-matrix-report")
+                else "MISSING"
+            ),
+            evidence="system matrix report separates implemented diagnostics from not-run and blocked comparisons",
+            why_it_matters="The repo must not imply the full analyzer/dense/hybrid/reranker matrix has already been run.",
+        ),
+        AlignmentItem(
             area="Intent-family inventory axis",
             status=(
                 "PASS"
@@ -491,10 +507,10 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "The repo now has the public shell expected of a flagship measurement study:",
             "generated study draft, claim-control gates, reviewer walkthrough,",
             "containerized reproduction, screened public probes, qualitative",
-            "examples, layer attribution, qid-only scorecards, audit workflow,",
-            "and public-safety checks. It is not headline-ready because the",
-            "source-route labels still lack independent agreement evidence and",
-            "human-adjudicated coverage.",
+            "examples, layer attribution, system matrix guard, qid-only scorecards,",
+            "audit workflow, and public-safety checks. It is not headline-ready",
+            "because the source-route labels still lack independent agreement",
+            "evidence and human-adjudicated coverage.",
             "",
             "## Next Gate",
             "",

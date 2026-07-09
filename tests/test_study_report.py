@@ -18,6 +18,8 @@ class StudyReportTest(unittest.TestCase):
         self.assertIn("NO-GO for public headline claims", report)
         self.assertIn("64.9%", report)
         self.assertIn("+8.5%p", report)
+        self.assertIn("System Matrix Evidence", report)
+        self.assertIn("full comparison matrix incomplete", report)
         self.assertIn("31.8%", report)
         self.assertIn("46.9%", report)
         self.assertIn("+25.4%p", report)

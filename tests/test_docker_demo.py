@@ -25,6 +25,7 @@ class DockerDemoTest(unittest.TestCase):
         self.assertIn("reproduce-layer-attribution", makefile)
         self.assertIn("check-probe-privacy", makefile)
         self.assertIn("check-qualitative-gallery", makefile)
+        self.assertIn("check-system-matrix-report", makefile)
         self.assertIn("check-public-safety", makefile)
 
     def test_public_docs_explain_docker_demo(self):

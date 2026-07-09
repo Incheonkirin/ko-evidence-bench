@@ -1,0 +1,171 @@
+{
+  "title": "System Comparison Matrix",
+  "status_note": "diagnostic coverage only; full analyzer/dense/hybrid/reranker matrix incomplete",
+  "systems": [
+    {
+      "system_id": "structural_pack",
+      "family": "lexical_retrieval",
+      "method": "pack-only clause retrieval baseline",
+      "stage": "retrieval",
+      "current_status": "implemented",
+      "label_status": "silver_private",
+      "evidence": "reports/private_544_pack_only_scorecard.md",
+      "rows": 544,
+      "claim_scope": "diagnostic"
+    },
+    {
+      "system_id": "structural_cross_text",
+      "family": "reranked_retrieval",
+      "method": "cross-text reranked clause retrieval",
+      "stage": "retrieval",
+      "current_status": "implemented",
+      "label_status": "silver_private",
+      "evidence": "reports/private_544_full_cross_scorecard.md",
+      "rows": 544,
+      "claim_scope": "diagnostic"
+    },
+    {
+      "system_id": "always_policy",
+      "family": "source_routing",
+      "method": "always route to policy clauses",
+      "stage": "routing",
+      "current_status": "implemented",
+      "label_status": "silver_private",
+      "evidence": "reports/private_route_scorecard_silver.md",
+      "rows": 544,
+      "claim_scope": "diagnostic"
+    },
+    {
+      "system_id": "query_keyword_router",
+      "family": "source_routing",
+      "method": "query keyword source router",
+      "stage": "routing",
+      "current_status": "implemented",
+      "label_status": "silver_private",
+      "evidence": "reports/private_route_router_baselines.md",
+      "rows": 544,
+      "claim_scope": "diagnostic"
+    },
+    {
+      "system_id": "cohort_aware_query_router",
+      "family": "source_routing",
+      "method": "query router with generic private-cohort signal",
+      "stage": "routing",
+      "current_status": "implemented",
+      "label_status": "silver_private",
+      "evidence": "reports/private_route_scorecard_silver.md",
+      "rows": 544,
+      "claim_scope": "diagnostic"
+    },
+    {
+      "system_id": "formal_only_demo",
+      "family": "surface_fixture",
+      "method": "formal-surface-only synthetic baseline",
+      "stage": "fixture",
+      "current_status": "implemented",
+      "label_status": "synthetic_fixture",
+      "evidence": "reports/surface_scorecard_fixture.md",
+      "rows": 8,
+      "claim_scope": "fixture"
+    },
+    {
+      "system_id": "surface_robust_demo",
+      "family": "surface_fixture",
+      "method": "surface-robust synthetic candidate",
+      "stage": "fixture",
+      "current_status": "implemented",
+      "label_status": "synthetic_fixture",
+      "evidence": "reports/surface_scorecard_fixture.md",
+      "rows": 8,
+      "claim_scope": "fixture"
+    },
+    {
+      "system_id": "bm25_nori",
+      "family": "analyzer_bm25",
+      "method": "BM25 with Korean analyzer variant",
+      "stage": "retrieval",
+      "current_status": "not_run",
+      "label_status": "planned",
+      "evidence": "",
+      "rows": 0,
+      "claim_scope": "missing_for_full_matrix"
+    },
+    {
+      "system_id": "bm25_kiwi",
+      "family": "analyzer_bm25",
+      "method": "BM25 with alternate Korean analyzer",
+      "stage": "retrieval",
+      "current_status": "not_run",
+      "label_status": "planned",
+      "evidence": "",
+      "rows": 0,
+      "claim_scope": "missing_for_full_matrix"
+    },
+    {
+      "system_id": "bm25_mecab",
+      "family": "analyzer_bm25",
+      "method": "BM25 with alternate Korean analyzer",
+      "stage": "retrieval",
+      "current_status": "not_run",
+      "label_status": "planned",
+      "evidence": "",
+      "rows": 0,
+      "claim_scope": "missing_for_full_matrix"
+    },
+    {
+      "system_id": "dense_multilingual_encoder",
+      "family": "dense_retrieval",
+      "method": "multilingual dense retriever",
+      "stage": "retrieval",
+      "current_status": "not_run",
+      "label_status": "planned",
+      "evidence": "",
+      "rows": 0,
+      "claim_scope": "missing_for_full_matrix"
+    },
+    {
+      "system_id": "dense_korean_encoder",
+      "family": "dense_retrieval",
+      "method": "Korean dense retriever",
+      "stage": "retrieval",
+      "current_status": "not_run",
+      "label_status": "planned",
+      "evidence": "",
+      "rows": 0,
+      "claim_scope": "missing_for_full_matrix"
+    },
+    {
+      "system_id": "hybrid_lexical_dense",
+      "family": "hybrid_retrieval",
+      "method": "lexical plus dense retrieval fusion",
+      "stage": "retrieval",
+      "current_status": "not_run",
+      "label_status": "planned",
+      "evidence": "",
+      "rows": 0,
+      "claim_scope": "missing_for_full_matrix"
+    },
+    {
+      "system_id": "cross_encoder_reranker",
+      "family": "reranker",
+      "method": "neural cross-encoder reranker",
+      "stage": "reranking",
+      "current_status": "not_run",
+      "label_status": "planned",
+      "evidence": "",
+      "rows": 0,
+      "claim_scope": "missing_for_full_matrix"
+    },
+    {
+      "system_id": "human_gold_route_scorecard",
+      "family": "human_gold_gate",
+      "method": "human-adjudicated source-route scorecard",
+      "stage": "label_gate",
+      "current_status": "blocked",
+      "label_status": "human_labels_missing",
+      "evidence": "reports/study_readiness.md",
+      "rows": 0,
+      "claim_scope": "required_for_headline"
+    }
+  ]
+}

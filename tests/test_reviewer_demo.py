@@ -22,6 +22,7 @@ class ReviewerDemoTest(unittest.TestCase):
         self.assertIn("reports/probe_privacy_report.md", report)
         self.assertIn("reports/qualitative_gallery.md", report)
         self.assertIn("reports/layer_attribution_fixture.md", report)
+        self.assertIn("reports/system_matrix.md", report)
         self.assertIn("reports/human_gold_rehearsal_fixture.md", report)
         self.assertIn("reports/study_readiness.md", report)
         self.assertIn("What Not To Infer", report)

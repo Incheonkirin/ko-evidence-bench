@@ -61,6 +61,10 @@ that package.
 The qualitative example gallery is `reports/qualitative_gallery.md`. It shows
 synthetic side-by-side source-routing failures over the same public probe set.
 
+The system comparison ledger is `reports/system_matrix.md`. It records which
+systems are backed by checked-in evidence and which analyzer, dense, hybrid, or
+reranker comparisons are still not run.
+
 ## Reviewer Demo
 
 The shortest review path is `reports/reviewer_demo.md`. It walks through the
@@ -130,6 +134,7 @@ make build-claim-ledger
 make build-reviewer-demo
 make build-probe-privacy-report
 make build-qualitative-gallery
+make build-system-matrix-report
 make build-measurement-study
 make build-alignment-report
 make verify
@@ -248,6 +253,11 @@ synthetic probe package. `make verify` checks that it is current.
 `make build-qualitative-gallery` regenerates `reports/qualitative_gallery.md`,
 the synthetic side-by-side failure examples used to make the route diagnostics
 inspectable. `make verify` checks that it is current.
+
+`make build-system-matrix-report` regenerates `reports/system_matrix.md`, the
+comparison ledger that separates implemented diagnostic systems from not-run
+analyzer, dense, hybrid, and reranker systems. `make verify` checks that it is
+current.
 
 `make build-measurement-study` regenerates the aggregate-only study draft from
 checked-in reports. `make verify` checks that the committed draft is current.
@@ -440,8 +450,10 @@ ko_evidence_bench/
   route_surface.py    # Route/abstention metrics by surface metadata.
   substrate_profile.py # Aggregate query-substrate profiling.
   surface.py          # Surface-form robustness metrics.
+  system_matrix.py    # System-comparison matrix coverage checks.
   schemas.py          # Minimal JSONL schema validators.
 scripts/
+  build_system_matrix_report.py
   build_intent_inventory.py
   build_claim_ledger.py
   build_hero_signal.py
@@ -481,6 +493,7 @@ reports/
   private_route_run_export_summary.md
   private_route_review_brief_300_adjudicated.md
   private_route_review_batch_priority_50_summary.md
+  system_matrix.md
   private_route_review_batch_merge_priority_50_summary.md
   private_route_review_progress_300_adjudicated.md
   study_readiness.md

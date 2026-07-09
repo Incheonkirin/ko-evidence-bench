@@ -56,6 +56,17 @@ This joins private runtime hit booleans with qid-only intent/surface
 metadata. It does not publish raw ranked evidence ids, but it verifies
 whether actual retrieval hits vary across surface conditions.
 
+## System Matrix Evidence
+
+| artifact | current evidence | status |
+|---|---|---|
+| `reports/system_matrix.md` | 7 implemented diagnostic/fixture systems; 7 not-run analyzer/dense/hybrid/reranker systems; 1 human-gold gate blocked | full comparison matrix incomplete |
+
+This keeps the experiment scope honest. The current study has checked-in
+retrieval, routing, surface, and fixture evidence, but it has not yet run
+the full analyzer/dense/hybrid/reranker matrix needed for a stronger
+public benchmark claim.
+
 ## Source-Route Evidence
 
 | system | route accuracy | 95% CI | abstention recall |
@@ -186,6 +197,7 @@ make build-hero-signal
 make build-claim-ledger
 make build-probe-privacy-report
 make build-qualitative-gallery
+make build-system-matrix-report
 make verify
 make docker-demo
 ```
@@ -194,7 +206,8 @@ The public commands reproduce synthetic fixtures and regenerate aggregate
 claim-control reports. The public probe package is synthetic and
 screened by `reports/probe_privacy_report.md`; qualitative examples are
 generated at `reports/qualitative_gallery.md`, and layer attribution is
-generated at `reports/layer_attribution_fixture.md`. `make docker-demo` runs
+generated at `reports/layer_attribution_fixture.md`. System coverage is
+tracked at `reports/system_matrix.md`. `make docker-demo` runs
 a short containerized reproduction path for reviewers. Private qid-only
 route runs and raw qrels stay outside the public repository.
 

@@ -125,6 +125,20 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
             why_it_matters="The released instrument is a screened probe set, not a dictionary or private-data dump.",
         ),
         AlignmentItem(
+            area="Qualitative failure gallery",
+            status=(
+                "PASS"
+                if (root / "scripts" / "build_qualitative_gallery.py").exists()
+                and has_text(root / "reports" / "qualitative_gallery.md", "Status: **synthetic qualitative examples only")
+                and has_text(root / "reports" / "qualitative_gallery.md", "policy_only_baseline")
+                and has_text(root / "reports" / "qualitative_gallery.md", "source_routed_candidate")
+                and has_text(root / "Makefile", "check-qualitative-gallery")
+                else "MISSING"
+            ),
+            evidence="synthetic side-by-side ranking examples generated from the public probe package",
+            why_it_matters="Reviewers can inspect concrete failure modes instead of only aggregate metrics.",
+        ),
+        AlignmentItem(
             area="README signal drift guard",
             status=(
                 "PASS"
@@ -461,10 +475,11 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "",
             "The repo now has the public shell expected of a flagship measurement study:",
             "generated study draft, claim-control gates, reviewer walkthrough,",
-            "containerized reproduction, screened public probes, qid-only scorecards,",
-            "audit workflow, and public-safety checks. It is not headline-ready",
-            "because the source-route labels still lack independent agreement",
-            "evidence and human-adjudicated coverage.",
+            "containerized reproduction, screened public probes, qualitative",
+            "examples, qid-only scorecards, audit workflow, and public-safety",
+            "checks. It is not headline-ready because the source-route labels",
+            "still lack independent agreement evidence and human-adjudicated",
+            "coverage.",
             "",
             "## Next Gate",
             "",

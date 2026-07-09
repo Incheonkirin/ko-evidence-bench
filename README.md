@@ -58,6 +58,9 @@ contains query variants, intent-level qrels, and synthetic evidence snippets.
 `reports/probe_privacy_report.md` records the schema and privacy screen for
 that package.
 
+The qualitative example gallery is `reports/qualitative_gallery.md`. It shows
+synthetic side-by-side source-routing failures over the same public probe set.
+
 ## Reviewer Demo
 
 The shortest review path is `reports/reviewer_demo.md`. It walks through the
@@ -125,6 +128,7 @@ make build-hero-signal
 make build-claim-ledger
 make build-reviewer-demo
 make build-probe-privacy-report
+make build-qualitative-gallery
 make build-measurement-study
 make build-alignment-report
 make verify
@@ -233,6 +237,10 @@ artifact. `make verify` checks that it is current.
 `make build-probe-privacy-report` regenerates
 `reports/probe_privacy_report.md`, the schema and privacy screen for the public
 synthetic probe package. `make verify` checks that it is current.
+
+`make build-qualitative-gallery` regenerates `reports/qualitative_gallery.md`,
+the synthetic side-by-side failure examples used to make the route diagnostics
+inspectable. `make verify` checks that it is current.
 
 `make build-measurement-study` regenerates the aggregate-only study draft from
 checked-in reports. `make verify` checks that the committed draft is current.

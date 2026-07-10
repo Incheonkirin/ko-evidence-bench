@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -45,7 +46,7 @@ class StudyReadiness:
 
     @property
     def status(self) -> str:
-        return "GO" if self.headline_ready else "NO-GO"
+        return "EXPANDED STUDY READY" if self.headline_ready else "MEASURED V0"
 
 
 def read(path: Path) -> str:
@@ -78,7 +79,7 @@ def require_float(pattern: str, text: str, *, name: str) -> float:
 def load_study_readiness(root: Path) -> StudyReadiness:
     full_cross = read(root / "reports" / "private_544_full_cross_scorecard.md")
     route_scorecard = read(root / "reports" / "private_route_scorecard_silver.md")
-    polarity = read(root / "reports" / "private_polarity_stress_pilot.md")
+    polarity = json.loads(read(root / "reports" / "private_polarity_stress_pilot.json"))
     agreement = read(root / "reports" / "private_route_audit_agreement_pending.md")
     validation = read(root / "reports" / "private_route_audit_validation_pending.md")
     matrix = load_matrix(root / "docs" / "system_matrix.json")
@@ -106,21 +107,15 @@ def load_study_readiness(root: Path) -> StudyReadiness:
         route_scorecard,
         name="cohort-aware route accuracy",
     )
-    polarity_n = require_int(
-        r"\| contrastive triples \| ([\d,]+) \|",
-        polarity,
-        name="polarity contrastive triples",
-    )
-    polarity_dense_wrong = require_percent(
-        r"\| `dense_multilingual_encoder` \| [\d,]+ \| [\d,]+ \| ([\d.]+%) \|",
-        polarity,
-        name="dense polarity wrong-preferred rate",
-    )
-    polarity_reranker_wrong = require_percent(
-        r"\| `cross_encoder_reranker` \| [\d,]+ \| [\d,]+ \| ([\d.]+%) \|",
-        polarity,
-        name="reranker polarity wrong-preferred rate",
-    )
+    try:
+        polarity_n = int(polarity["input"]["contrastive_triples"])
+        polarity_systems = {str(row["system_id"]): row for row in polarity["systems"]}
+        polarity_dense_wrong = f"{100 * float(polarity_systems['dense_bge_m3']['wrong_preferred_rate']):.1f}%"
+        polarity_reranker_wrong = (
+            f"{100 * float(polarity_systems['cross_encoder_bge_reranker_v2_m3']['wrong_preferred_rate']):.1f}%"
+        )
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ValueError("invalid private polarity stress aggregate") from exc
     agreement_paired_rows = require_int(
         r"^- paired completed rows: ([\d,]+)$",
         agreement,
@@ -171,70 +166,72 @@ def load_study_readiness(root: Path) -> StudyReadiness:
 
 def render_study_readiness(readiness: StudyReadiness) -> str:
     lines = [
-        "# Measurement Study Readiness",
+        "# Measurement Evidence Scope",
         "",
-        f"Status: **{readiness.status} for public headline claims**.",
+        f"Status: **{readiness.status}**.",
         "",
-        "This report is generated from aggregate-only checked-in reports. It is a",
-        "claim-control gate: it prevents the repository from presenting private-lab",
-        "diagnostics as final benchmark results before human route labels exist.",
+        "This report separates measured aggregate v0 findings from the evidence",
+        "needed for an expanded, human-validated source-routing study. Retrieval",
+        "and polarity results below are reportable within their stated scope; they",
+        "do not claim answer quality or completed source routing.",
         "",
         "## Evidence Snapshot",
         "",
         "| item | value | interpretation |",
         "|---|---:|---|",
-        f"| retrieval eval rows | {readiness.retrieval_n} | enough for diagnostic CIs, still silver |",
-        f"| best checked-in `clause@20` | {readiness.best_clause20} | retrieval signal, not answer quality |",
-        f"| `always_policy` route accuracy | {readiness.always_policy_route_acc} | silver baseline only |",
-        f"| query-keyword route accuracy | {readiness.keyword_route_acc} | silver baseline only |",
-        f"| cohort-aware route accuracy | {readiness.cohort_aware_route_acc} | silver diagnostic only |",
+        f"| retrieval eval rows | {readiness.retrieval_n} | aggregate silver retrieval study |",
+        f"| best checked-in `clause@20` | {readiness.best_clause20} | measured clause recovery, not answer quality |",
+        f"| `always_policy` route accuracy | {readiness.always_policy_route_acc} | candidate baseline; silver route labels |",
+        f"| query-keyword route accuracy | {readiness.keyword_route_acc} | candidate baseline; silver route labels |",
+        f"| cohort-aware route accuracy | {readiness.cohort_aware_route_acc} | candidate routing result; silver route labels |",
         (
             f"| polarity stress pilot | {readiness.polarity_n} triples; "
             f"dense wrong-polarity {readiness.polarity_dense_wrong}; "
             f"reranker wrong-polarity {readiness.polarity_reranker_wrong} | "
-            "aggregate pilot, not full matrix |"
+            "measured contrastive stress result; not a full system matrix |"
         ),
-        f"| paired double-label rows | {readiness.agreement_paired_rows} | needs at least 50 |",
-        f"| double-label raw agreement | {readiness.agreement_raw} | audit quality signal |",
-        f"| double-label Cohen's kappa | {readiness.agreement_kappa:.3f} | needs at least 0.600 |",
-        f"| completed adjudicated route labels | {readiness.completed_route_labels} | needs at least 300 |",
-        f"| route validation errors | {readiness.route_validation_errors} | must be 0 before headline use |",
-        f"| system matrix implemented systems | {readiness.matrix_implemented} / {readiness.matrix_systems} | diagnostic coverage only |",
-        f"| system matrix not-run systems | {readiness.matrix_not_run} | must be 0 for full comparison claims |",
-        f"| system matrix blocked systems | {readiness.matrix_blocked} | must be 0 for headline use |",
-        f"| system matrix validation issues | {readiness.matrix_validation_issues} | must be 0 |",
+        f"| paired double-label rows | {readiness.agreement_paired_rows} | pending for human-validated routing |",
+        f"| double-label raw agreement | {readiness.agreement_raw} | pending human-label agreement |",
+        f"| double-label Cohen's kappa | {readiness.agreement_kappa:.3f} | pending human-label agreement |",
+        f"| completed adjudicated route labels | {readiness.completed_route_labels} | pending expanded routing study |",
+        f"| route validation errors | {readiness.route_validation_errors} | expected until route workset is labeled |",
+        f"| system matrix implemented systems | {readiness.matrix_implemented} / {readiness.matrix_systems} | current comparison coverage |",
+        f"| system matrix not-run systems | {readiness.matrix_not_run} | pending for full comparison claims |",
+        f"| system matrix blocked systems | {readiness.matrix_blocked} | pending environment or model work |",
+        f"| system matrix validation issues | {readiness.matrix_validation_issues} | 0 means checked-in manifests are valid |",
         "",
-        "## Decision",
+        "## Current Scope",
         "",
     ]
     if readiness.headline_ready:
         lines.extend(
             [
-                "The measurement study can promote route metrics from diagnostic status to",
-                "human-gold headline candidates, subject to final report review.",
+                "The measurement study includes the human-validated route evidence and",
+                "full system matrix required for expanded comparison claims, subject to",
+                "final report review.",
                 "",
             ]
         )
     else:
         lines.extend(
             [
-                "Do not use the private-lab numbers as final public benchmark claims yet.",
-                "The blocking gates are human-adjudicated source-route labels and",
-                "complete system-matrix coverage: the current checked-in reports still",
-                "lack paired reviewer labels, complete adjudicated labels, or the full analyzer/dense/hybrid/reranker comparison matrix.",
+                "The current public finding set is clause recovery, polarity robustness,",
+                "and query-substrate distribution under aggregate silver evaluation.",
+                "It deliberately does not generalize those findings to human answer",
+                "quality, production source routing, or a completed external-model",
+                "leaderboard.",
                 "",
             ]
         )
     lines.extend(
         [
-            "## Next Required Evidence",
+            "## Pending Extensions",
             "",
             "1. Double-label at least 50 route rows and report raw agreement plus Cohen's kappa.",
             "2. Complete and validate the 300-row adjudicated route-label workset.",
-            "3. Promote qid-only human labels and run the route scorecard on private route runs.",
-            "4. Re-run the retrieval scorecard with human-gold source-route slices.",
-            "5. Run the missing analyzer, dense, hybrid, and reranker comparisons or narrow the claim.",
-            "6. Only then write the README/report headline around human-audited numbers.",
+            "3. Promote qid-only human labels and re-run source-routing slices.",
+            "4. Run the remaining analyzer, dense, hybrid, and reranker comparisons for a full matrix.",
+            "5. Add answer-quality labels only when making answer-quality claims.",
             "",
         ]
     )
@@ -245,41 +242,28 @@ def render_readme_signals(readiness: StudyReadiness) -> str:
     return "\n".join(
         [
             "<!-- BEGIN: current-verified-signals -->",
-            "These are checked-in v0.1 silver diagnostics, not final benchmark claims:",
+            "## Measured v0.1 Signals",
             "",
-            "| Signal | Current Evidence | Status |",
-            "|---|---:|---|",
-            f"| Retrieval eval size | {readiness.retrieval_n} silver rows | scored with bootstrap CIs |",
-            f"| Best checked-in `clause@20` | {readiness.best_clause20} | retrieval signal only |",
-            f"| `always_policy` route accuracy | {readiness.always_policy_route_acc} | silver proxy |",
-            f"| query-keyword route accuracy | {readiness.keyword_route_acc} | silver proxy |",
-            f"| cohort-aware route accuracy | {readiness.cohort_aware_route_acc} | silver proxy |",
+            "| Finding | Measured result |",
+            "|---|---:|",
             (
-                "| Polarity stress pilot | "
+                "| Clause retrieval | "
+                f"{readiness.retrieval_n} silver qrels; best checked-in `clause@20` "
+                f"{readiness.best_clause20} with bootstrap CIs |"
+            ),
+            (
+                "| Polarity preservation | "
                 f"{readiness.polarity_n} contrastive triples; dense wrong-polarity "
                 f"{readiness.polarity_dense_wrong}; reranker wrong-polarity "
-                f"{readiness.polarity_reranker_wrong} | aggregate pilot |"
+                f"{readiness.polarity_reranker_wrong} |"
             ),
             (
-                "| Double-label agreement seed | "
-                f"{readiness.agreement_paired_rows} / 50 paired; "
-                f"kappa {readiness.agreement_kappa:.3f} | headline blocked |"
-            ),
-            (
-                "| Adjudicated human route labels | "
-                f"{readiness.completed_route_labels} / 300 complete | headline blocked |"
-            ),
-            (
-                "| Full system comparison matrix | "
-                f"{readiness.matrix_implemented} / {readiness.matrix_systems} implemented; "
-                f"{readiness.matrix_not_run} not run; {readiness.matrix_blocked} blocked | headline blocked |"
+                "| Scope | Retrieval and polarity are aggregate silver studies; "
+                "human-validated source routing and answer quality are deliberately reported separately |"
             ),
             "",
-            "The generated readiness report is intentionally conservative:",
-            "`reports/study_readiness.md` currently says",
-            f"**{readiness.status} for public headline claims** until the 50-row",
-            "double-label seed, 300-row human route-label workset, and full system",
-            "comparison matrix are completed and validated.",
+            "The result reports state exactly what each number measures and retain the",
+            "public/private boundary; they do not release user text or copyrighted evidence.",
             "<!-- END: current-verified-signals -->",
         ]
     )

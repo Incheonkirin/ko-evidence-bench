@@ -25,6 +25,8 @@ encoder performance claims.
 | item | value |
 |---|---:|
 | qrel rows | 8 |
+| synthetic fixture systems | 7 |
+| private external systems | 0 |
 | required runnable systems | 7 |
 | present systems | 7 |
 | complete systems | 7 |
@@ -44,15 +46,15 @@ encoder performance claims.
 
 ## System Scores
 
-| system | family | stage | rows | complete | route_acc | suff@3 | wrong_src@3 | clause@3 | task_success@3 | worst_surface@3 | avg_intent_spread |
-|---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
-| `bm25_nori` | `analyzer_bm25` | `retrieval` | 8 | `yes` | 75.0% | 33.3% | 12.5% | 33.3% | 37.5% | 0.0% | 100.0% |
-| `bm25_kiwi` | `analyzer_bm25` | `retrieval` | 8 | `yes` | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% |
-| `bm25_mecab` | `analyzer_bm25` | `retrieval` | 8 | `yes` | 75.0% | 33.3% | 12.5% | 33.3% | 37.5% | 0.0% | 100.0% |
-| `dense_multilingual_encoder` | `dense_retrieval` | `retrieval` | 8 | `yes` | 75.0% | 33.3% | 12.5% | 33.3% | 37.5% | 0.0% | 100.0% |
-| `dense_korean_encoder` | `dense_retrieval` | `retrieval` | 8 | `yes` | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% |
-| `hybrid_lexical_dense` | `hybrid_retrieval` | `retrieval` | 8 | `yes` | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% |
-| `cross_encoder_reranker` | `reranker` | `reranking` | 8 | `yes` | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% |
+| system | family | stage | run kind | rows | complete | route_acc | suff@3 | wrong_src@3 | clause@3 | task_success@3 | worst_surface@3 | avg_intent_spread |
+|---|---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
+| `bm25_nori` | `analyzer_bm25` | `retrieval` | `synthetic_fixture` | 8 | `yes` | 75.0% | 33.3% | 12.5% | 33.3% | 37.5% | 0.0% | 100.0% |
+| `bm25_kiwi` | `analyzer_bm25` | `retrieval` | `synthetic_fixture` | 8 | `yes` | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% |
+| `bm25_mecab` | `analyzer_bm25` | `retrieval` | `synthetic_fixture` | 8 | `yes` | 75.0% | 33.3% | 12.5% | 33.3% | 37.5% | 0.0% | 100.0% |
+| `dense_multilingual_encoder` | `dense_retrieval` | `retrieval` | `synthetic_fixture` | 8 | `yes` | 75.0% | 33.3% | 12.5% | 33.3% | 37.5% | 0.0% | 100.0% |
+| `dense_korean_encoder` | `dense_retrieval` | `retrieval` | `synthetic_fixture` | 8 | `yes` | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% |
+| `hybrid_lexical_dense` | `hybrid_retrieval` | `retrieval` | `synthetic_fixture` | 8 | `yes` | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% |
+| `cross_encoder_reranker` | `reranker` | `reranking` | `synthetic_fixture` | 8 | `yes` | 100.0% | 100.0% | 0.0% | 100.0% | 100.0% | 100.0% | 0.0% |
 
 ## Validation Details
 

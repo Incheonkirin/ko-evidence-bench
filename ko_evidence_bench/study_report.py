@@ -450,7 +450,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
     lines = [
         "# Measurement Study Draft",
         "",
-        f"Status: **{r.status} for public headline claims**.",
+        f"Status: **{r.status}**.",
         "",
         "## Abstract",
         "",
@@ -461,12 +461,12 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "whether retrieval finds citable clause evidence, and whether a source router",
         "can tell when policy clauses are not the right evidence tier.",
         "",
-        "All numbers below are aggregate-only private-lab diagnostics. They are useful",
-        "for steering the work and for a scoped v0.1 silver result. They should not",
-        "be described as final benchmark claims until the 300-row human source-route",
-        "adjudication workset is complete.",
+        "All numbers below are aggregate-only private-lab measurements. Clause",
+        "recovery and polarity findings are reported as scoped v0 silver results.",
+        "Source-routing rows remain silver diagnostics until independent human labels",
+        "are complete, and none of the metrics below claim answer quality.",
         "",
-        "## Current Finding Candidates",
+        "## Measured Findings And Follow-On Diagnostics",
         "",
         "| candidate finding | current evidence | status |",
         "|---|---:|---|",
@@ -474,7 +474,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             "| Cross-text reranking improves clause recovery | "
             f"`clause@20` {signals.structural_pack_clause20.value} -> "
             f"{signals.structural_cross_text_clause20.value}; paired delta "
-            f"{points(signals.structural_cross_text_delta_clause20.value)} | silver diagnostic |"
+            f"{points(signals.structural_cross_text_delta_clause20.value)} | measured silver retrieval result |"
         ),
         (
             "| Always searching policy clauses is a weak source-routing baseline | "
@@ -509,7 +509,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             "| Polarity stress remains a live retrieval failure | "
             f"{r.polarity_n} contrastive triples; dense wrong-polarity "
             f"{r.polarity_dense_wrong}; reranker wrong-polarity "
-            f"{r.polarity_reranker_wrong} | aggregate pilot |"
+            f"{r.polarity_reranker_wrong} | measured contrastive stress result |"
         ),
         (
             "| Real-query substrates need separate stress slices | "
@@ -561,9 +561,9 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"{signals.answer_audit.unsafe_answer_rate} | fixture rehearsal only |"
         ),
         (
-            "| Human-gold public headline claim | "
+            "| Human-validated source-routing extension | "
             f"{r.agreement_paired_rows} / 50 paired labels; "
-            f"{r.completed_route_labels} / 300 adjudicated labels complete | blocked |"
+            f"{r.completed_route_labels} / 300 adjudicated labels complete | pending |"
         ),
         "",
         "## Retrieval Evidence",
@@ -897,9 +897,9 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "the diagnostics. It does not remove the human-label gate: reviewers still",
         "need to complete independent labels, agreement, adjudication, and validation.",
         "",
-        "## Claim Control",
+        "## Expansion Requirements",
         "",
-        "| gate | current value | required before headline use |",
+        "| extension | current value | required for expanded comparison |",
         "|---|---:|---:|",
         f"| retrieval eval rows | {r.retrieval_n} | >= 500 |",
         f"| paired double-label rows | {r.agreement_paired_rows} | >= 50 |",
@@ -910,10 +910,11 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         f"| system matrix blocked systems | {r.matrix_blocked} | 0 |",
         f"| system matrix validation issues | {r.matrix_validation_issues} | 0 |",
         "",
-        "The retrieval rows meet the diagnostic-size threshold, but source-route labels",
-        "and the full system matrix do not yet have enough evidence: independent",
-        "agreement, adjudicated human-gold coverage, and the missing analyzer/dense/hybrid/reranker runs still block headline use. Therefore this draft should",
-        "not be presented as a final benchmark result.",
+        "The retrieval and polarity findings above are already scoped v0 results.",
+        "Independent agreement, adjudicated human route coverage, and the missing",
+        "analyzer/dense/hybrid/reranker runs are the remaining evidence for an",
+        "expanded routing and full-matrix comparison, not a reason to erase those",
+        "measured findings.",
         "",
         "## Reproduction",
         "",
@@ -955,7 +956,7 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "```",
         "",
         "The public commands reproduce synthetic fixtures and regenerate aggregate",
-        "claim-control reports. The public probe package is synthetic and",
+        "evidence-scope reports. The public probe package is synthetic and",
         "screened by `reports/probe_privacy_report.md`; its BEIR-style retrieval",
         "subset is documented at `reports/probe_beir_export.md`. Qualitative examples",
         "are generated at `reports/qualitative_gallery.md`, and layer attribution is",
@@ -972,8 +973,8 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "4. Promote qid-only human labels and re-run the same route scorecard path.",
         "5. Run the missing analyzer/dense/hybrid/reranker comparisons or narrow the claim.",
         "6. Re-run retrieval comparisons sliced by human-gold source route.",
-        "7. Replace this draft's diagnostic claims with human-audited findings only",
-        "   if `reports/study_readiness.md` changes to GO.",
+        "7. Promote the source-routing section when `reports/study_readiness.md`",
+        "   reaches `EXPANDED STUDY READY`.",
         "",
     ]
     return "\n".join(lines)

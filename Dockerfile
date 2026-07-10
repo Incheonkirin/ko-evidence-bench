@@ -6,7 +6,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends make \
     && rm -rf /var/lib/apt/lists/*
 
-COPY pyproject.toml README.md LICENSE Makefile Dockerfile .dockerignore ./
+COPY pyproject.toml README.md CONTRIBUTING.md LICENSE Makefile Dockerfile .dockerignore ./
 COPY ko_evidence_bench ./ko_evidence_bench
 COPY scripts ./scripts
 COPY fixtures ./fixtures

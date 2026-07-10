@@ -15,7 +15,7 @@ class StudyReportTest(unittest.TestCase):
         signals = load_study_report_signals(ROOT)
         report = render_measurement_study(signals)
 
-        self.assertIn("NO-GO for public headline claims", report)
+        self.assertIn("MEASURED V0", report)
         self.assertIn("64.9%", report)
         self.assertIn("+8.5%p", report)
         self.assertIn("Polarity stress remains a live retrieval failure", report)
@@ -74,7 +74,7 @@ class StudyReportTest(unittest.TestCase):
         self.assertIn("Human audit workset covers the stress axes before labeling", report)
         self.assertIn("Human Audit Coverage", report)
         self.assertIn("system matrix not-run systems", report)
-        self.assertIn("missing analyzer/dense/hybrid/reranker runs", report)
+        self.assertIn("analyzer/dense/hybrid/reranker runs are the remaining evidence", report)
         self.assertIn("Answer quality needs separate labels after retrieval", report)
         self.assertIn("Answer-Quality Evidence", report)
         self.assertIn("reports/answer_quality_audit_fixture.md", report)

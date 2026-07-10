@@ -54,6 +54,8 @@ def render_report(result: MatrixBundleResult, *, bundle_dir: Path, qrels_path: P
         "| item | value |",
         "|---|---:|",
         f"| qrel rows | {result.qrel_rows} |",
+        f"| synthetic fixture systems | {result.fixture_systems} |",
+        f"| private external systems | {result.external_systems} |",
         f"| required runnable systems | {len(result.required_systems)} |",
         f"| present systems | {len(result.present_systems)} |",
         f"| complete systems | {result.complete_systems} |",
@@ -74,8 +76,8 @@ def render_report(result: MatrixBundleResult, *, bundle_dir: Path, qrels_path: P
             "",
             "## System Scores",
             "",
-            "| system | family | stage | rows | complete | route_acc | suff@3 | wrong_src@3 | clause@3 | task_success@3 | worst_surface@3 | avg_intent_spread |",
-            "|---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|",
+            "| system | family | stage | run kind | rows | complete | route_acc | suff@3 | wrong_src@3 | clause@3 | task_success@3 | worst_surface@3 | avg_intent_spread |",
+            "|---|---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|",
         ]
     )
     for system in result.systems:
@@ -87,6 +89,7 @@ def render_report(result: MatrixBundleResult, *, bundle_dir: Path, qrels_path: P
                     f"`{system.system_id}`",
                     f"`{system.family}`",
                     f"`{system.stage}`",
+                    f"`{system.run_kind}`",
                     str(system.rows),
                     f"`{complete}`",
                     pct(system.route_accuracy),

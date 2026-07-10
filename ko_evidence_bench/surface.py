@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 from typing import Any
 
+from .metrics import evidence_outcome
 from .schemas import validate_qrel, validate_run
 
 
@@ -25,13 +26,14 @@ def variant_outcome(qrel: dict[str, Any], run: dict[str, Any], *, k: int) -> dic
 
     route_ok = run["route_pred"] == qrel["route_gold"]
     should_abstain = bool(qrel["should_abstain"])
-    expected = set(qrel["sufficient_evidence_ids"])
-    evidence_hit = bool(expected and any(item["evidence_id"] in expected for item in _topk(run, k)))
+    evidence = evidence_outcome(qrel, _topk(run, k), k=k)
+    evidence_hit = bool(evidence["evidence_hit"])
+    evidence_sufficient = bool(evidence["evidence_sufficient"])
 
     if should_abstain:
         task_success = route_ok and run["abstained"]
     else:
-        task_success = route_ok and not run["abstained"] and evidence_hit
+        task_success = route_ok and not run["abstained"] and evidence_sufficient
 
     return {
         "qid": qrel["qid"],
@@ -40,6 +42,8 @@ def variant_outcome(qrel: dict[str, Any], run: dict[str, Any], *, k: int) -> dic
         "route_ok": route_ok,
         "should_abstain": should_abstain,
         "evidence_hit": evidence_hit,
+        "evidence_sufficient": evidence_sufficient,
+        "evidence_coverage": float(evidence["evidence_coverage"]),
         "task_success": task_success,
         "missing_surface_metadata": not qrel.get("intent_id") or not qrel.get("surface_form"),
     }
@@ -70,7 +74,7 @@ def _rate(rows: list[dict[str, Any]], key: str) -> float:
 
 def _answerable_evidence_rate(rows: list[dict[str, Any]]) -> float:
     answerable = [row for row in rows if not row["should_abstain"]]
-    return _safe_div(sum(1 for row in answerable if row["evidence_hit"]), len(answerable))
+    return _safe_div(sum(1 for row in answerable if row["evidence_sufficient"]), len(answerable))
 
 
 def score_surface_run(

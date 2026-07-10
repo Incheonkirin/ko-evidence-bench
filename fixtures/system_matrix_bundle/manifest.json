@@ -1,5 +1,12 @@
 {
   "label_status": "synthetic matrix bundle fixture; not external model output",
+  "provenance": {
+    "kind": "synthetic_fixture",
+    "generator": "checked-in qid-only fixture runs",
+    "corpus_fingerprint": "synthetic-evidence-v0",
+    "qrels_fingerprint": "sha256:e2ff1a1324e03f3a614c425765298f8932e975d66e90beac9cc9b911bb4d06c0",
+    "generated_at": "2026-07-10T00:00:00Z"
+  },
   "systems": [
     {
       "system_id": "bm25_nori",

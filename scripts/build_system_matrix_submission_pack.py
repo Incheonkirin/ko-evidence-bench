@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -55,15 +56,27 @@ def load_qids(qrels_path: Path) -> tuple[list[str], list[str]]:
     return qids, errors
 
 
-def manifest_template(rows: list[dict[str, Any]]) -> dict[str, Any]:
+def manifest_template(rows: list[dict[str, Any]], *, qrels_sha256: str) -> dict[str, Any]:
     return {
         "label_status": "real external-system run; describe runner, date, corpus, and model versions here",
+        "provenance": {
+            "kind": "private_external_run",
+            "runner_commit": "TODO_GIT_COMMIT",
+            "corpus_fingerprint": "TODO_CORPUS_FINGERPRINT",
+            "qrels_fingerprint": f"sha256:{qrels_sha256}",
+            "engine": "TODO_ENGINE_AND_VERSION",
+            "generated_at": "TODO_ISO8601_TIMESTAMP",
+        },
         "systems": [
             {
                 "system_id": row["system_id"],
                 "family": row["family"],
                 "stage": row["stage"],
                 "run": f"runs/{row['system_id']}.jsonl",
+                "provenance": {
+                    "model_id": "TODO_MODEL_ID",
+                    "model_revision": "TODO_MODEL_REVISION",
+                },
             }
             for row in rows
         ],
@@ -146,7 +159,12 @@ def write_pack(*, pack_dir: Path, qrels_path: Path, matrix_path: Path, required:
     runs_dir = pack_dir / "runs"
     runs_dir.mkdir(parents=True, exist_ok=True)
     (pack_dir / "manifest.template.json").write_text(
-        json.dumps(manifest_template(required), ensure_ascii=False, indent=2) + "\n",
+        json.dumps(
+            manifest_template(required, qrels_sha256=hashlib.sha256(qrels_path.read_bytes()).hexdigest()),
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
         encoding="utf-8",
     )
     (pack_dir / "README.md").write_text(

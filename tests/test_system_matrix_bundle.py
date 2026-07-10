@@ -24,6 +24,8 @@ class SystemMatrixBundleTest(unittest.TestCase):
         self.assertEqual(len(result.required_systems), 7)
         self.assertEqual(len(result.present_systems), 7)
         self.assertEqual(result.complete_systems, 7)
+        self.assertEqual(result.fixture_systems, 7)
+        self.assertEqual(result.external_systems, 0)
         self.assertEqual(result.validation_errors, 0)
         self.assertIn("bm25_nori", result.required_systems)
         self.assertIn("cross_encoder_reranker", result.required_systems)
@@ -36,6 +38,7 @@ class SystemMatrixBundleTest(unittest.TestCase):
         self.assertIn("not external model output", report)
         self.assertIn("not model-quality comparisons", report)
         self.assertIn("| required runnable systems | 7 |", report)
+        self.assertIn("| synthetic fixture systems | 7 |", report)
         self.assertIn("| validation errors | 0 |", report)
         self.assertIn("bm25_nori", report)
         self.assertIn("dense_korean_encoder", report)
@@ -53,6 +56,22 @@ class SystemMatrixBundleTest(unittest.TestCase):
 
         self.assertGreater(result.validation_errors, 0)
         self.assertTrue(any(system.raw_field_errors for system in result.systems))
+
+    def test_mismatched_qrel_provenance_blocks_a_bundle(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_bundle = Path(tmp) / "bundle"
+            shutil.copytree(BUNDLE, tmp_bundle)
+            manifest_path = tmp_bundle / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["provenance"]["qrels_fingerprint"] = "sha256:not-the-qrels"
+            manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+
+            result = validate_matrix_bundle(bundle_dir=tmp_bundle, qrels_path=QRELS, matrix_path=MATRIX)
+
+        self.assertGreater(result.validation_errors, 0)
+        self.assertTrue(
+            any("qrels_fingerprint" in error for system in result.systems for error in system.schema_errors)
+        )
 
     def test_build_script_check_mode(self):
         with tempfile.TemporaryDirectory() as tmp:

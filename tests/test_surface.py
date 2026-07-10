@@ -51,6 +51,32 @@ class SurfaceRobustnessTest(unittest.TestCase):
         self.assertEqual(inventory["intent_id"]["cancer_brain_heart_bundle"], 3)
         self.assertEqual(inventory["surface_form"]["messenger_shorthand"], 3)
 
+    def test_surface_success_requires_all_required_evidence(self):
+        qrels = [
+            {
+                "qid": "q1",
+                "intent_id": "coverage_and_limit",
+                "surface_form": "formal",
+                "route_gold": "policy_clause",
+                "should_abstain": False,
+                "sufficient_evidence_ids": ["coverage", "limit"],
+                "required_evidence_ids": ["coverage", "limit"],
+            }
+        ]
+        run = [
+            {
+                "qid": "q1",
+                "route_pred": "policy_clause",
+                "abstained": False,
+                "ranked": [{"evidence_id": "coverage", "source_tier": "policy_clause"}],
+            }
+        ]
+
+        score = score_surface_run(qrels, run, k=3)
+
+        self.assertEqual(score["answerable_evidence@3"], 0.0)
+        self.assertEqual(score["task_success@3"], 0.0)
+
     def test_reproduce_script_writes_report(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / "surface.md"

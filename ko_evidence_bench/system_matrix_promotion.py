@@ -8,9 +8,6 @@ from pathlib import Path
 from .system_matrix_bundle import MatrixBundleResult, validate_matrix_bundle
 
 
-FIXTURE_MARKERS = ("synthetic", "fixture", "not external model output")
-
-
 @dataclass(frozen=True)
 class PromotionGate:
     gate: str
@@ -46,11 +43,6 @@ class MatrixPromotionResult:
         if self.mechanical_ready:
             return "REHEARSAL_ONLY"
         return "FAIL"
-
-
-def looks_like_fixture_status(label_status: str) -> bool:
-    normalized = label_status.lower()
-    return any(marker in normalized for marker in FIXTURE_MARKERS)
 
 
 def evaluate_system_matrix_promotion(
@@ -106,9 +98,9 @@ def evaluate_system_matrix_promotion(
         ),
         PromotionGate(
             gate="run_provenance",
-            status="PASS" if not looks_like_fixture_status(bundle.label_status) else "BLOCKED",
-            evidence=bundle.label_status,
-            required="real external-system run provenance, not a fixture label status",
+            status="PASS" if bundle.external_systems == len(bundle.required_systems) else "BLOCKED",
+            evidence=f"{bundle.external_systems} private external / {len(bundle.required_systems)} required systems",
+            required="every submitted system declares private_external_run provenance",
             blocking=True,
         ),
     )

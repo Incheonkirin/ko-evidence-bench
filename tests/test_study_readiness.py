@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class StudyReadinessTest(unittest.TestCase):
-    def test_current_reports_are_parsed_as_no_go(self):
+    def test_current_reports_are_parsed_as_measured_v0(self):
         readiness = load_study_readiness(ROOT)
 
         self.assertEqual(readiness.retrieval_n, 544)
@@ -30,19 +30,22 @@ class StudyReadinessTest(unittest.TestCase):
         self.assertEqual(readiness.matrix_blocked, 1)
         self.assertEqual(readiness.matrix_validation_issues, 0)
         self.assertFalse(readiness.headline_ready)
+        self.assertEqual(readiness.status, "MEASURED V0")
 
-    def test_render_names_the_gate_without_private_text(self):
+    def test_render_separates_measured_scope_from_extensions_without_private_text(self):
         report = render_study_readiness(load_study_readiness(ROOT))
 
-        self.assertIn("NO-GO for public headline claims", report)
+        self.assertIn("Status: **MEASURED V0**.", report)
+        self.assertIn("Current Scope", report)
+        self.assertIn("Pending Extensions", report)
         self.assertIn("polarity stress pilot", report)
         self.assertIn("444 triples", report)
         self.assertIn("dense wrong-polarity 29.1%", report)
-        self.assertIn("human-adjudicated source-route labels", report)
+        self.assertIn("human-validated routing", report)
         self.assertIn("paired double-label rows", report)
         self.assertIn("Cohen's kappa", report)
         self.assertIn("system matrix not-run systems", report)
-        self.assertIn("full analyzer/dense/hybrid/reranker comparison matrix", report)
+        self.assertIn("full matrix", report)
         self.assertNotIn("raw queries", report)
 
 

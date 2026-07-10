@@ -1,87 +1,118 @@
-# Measurement Study v0
+# Measurement Study v0: Citable Korean Evidence Retrieval
 
-Status: background note; generated report is the source of truth.
+## Question
 
-The current aggregate-only report is generated at
-`reports/measurement_study_draft.md` via:
+When users ask insurance questions in consumer language, can a retrieval stack
+recover the evidence needed to support an answer, preserve semantic direction,
+and expose cases that need more context rather than a plausible-looking clause?
 
-```bash
-make build-measurement-study
-```
+This repository is the public measurement layer for that question. It does not
+publish raw user text or the underlying evidence corpus. It publishes aggregate
+results, scorecard code, synthetic probes, and run contracts.
 
-This file remains as the planning note for what the generated draft must prove
-before public headline use.
+## Substrate
 
-## Finding to Validate
-
-The working claim is simple: Korean insurance retrieval fails not only because
-terms differ, but because the required source tier changes. A good system should
-retrieve the right kind of evidence and abstain when citation is not possible.
-
-## Private Substrate
-
-| Asset | Count | Public Use |
+| asset | measured size | role in the study |
 |---|---:|---|
-| Insurer policy clause passages | 36,983 | aggregate metrics only |
-| Derived community query candidates | 165,970 | aggregate distribution only |
-| Messenger conversation messages | 7,324 | synthetic live-stress fixtures only |
-| Community Q&A archive rows | 56,293 | aggregate/expert-language analysis only |
+| clause evidence corpus | 36,983 passages from 111 products | retrieval and reranking target |
+| community-derived query candidates | 165,970 | demand distribution and qrel-candidate source |
+| meaningful messenger messages | 7,324 | short-turn and context-loss stress source |
+| community Q&A archive | 56,293 | expert-language and source-routing analysis |
+| evaluated retrieval qrels | 544 silver rows | aggregate retrieval diagnostics |
 
-## Before Headline Claims
+The community and messenger collections are not interchangeable. Community
+posts are often long contexts that need query extraction; messenger turns are
+short and underspecified. The [aggregate substrate profile](private_query_substrate_profile.md)
+shows the distribution shift without exposing a row of source text.
 
-- Regenerate `reports/study_readiness.md` and require it to say `GO` before
-  promoting any private-lab result into the README headline.
-- Expand strict silver core toward at least 500 queries.
-- Add bootstrap confidence intervals over query ids.
-- Build source-route gold labels for 300-500 queries.
-- Compare against `always_policy` and simple rule baselines.
-- Audit whether silver labels are circular with systems under test.
-- Use `scripts/summarize_hit_result.py` to publish aggregate hit rates from
-  private retrieval exports without qids or raw text.
-- Use `scripts/export_route_labels.py` to generate qid-only private route-label
-  worksets and aggregate route inventories without raw text.
-- Follow `docs/route_label_protocol.md` before claiming source-route accuracy.
-- Use `scripts/reproduce_route_scorecard.py` only after promoted human labels
-  exist; fixture route scores validate plumbing, not model quality.
+## Finding 1: Cross-Text Reranking Has a Measurable Retrieval Lift
 
-## Current Private-Lab Signals
+On the same `n=544` silver retrieval set, `structural_cross_text` improves
+`clause@20` over `structural_pack` by `+8.5` percentage points. The paired
+bootstrap interval excludes zero.
 
-- Retrieval CI report: `n=229`, aggregate-only.
-- Larger runtime-honest pack-only report: `n=544`, aggregate-only.
-- Source-route silver proxy: `n=544`, aggregate-only.
-- Source-route audit seed: `n=50`, private rows plus aggregate-only summary.
-- Source-route adjudication workset: `n=300`, private rows plus aggregate-only
-  summary.
-- Source-route reviewer CSV templates: `n=50` reviewer A, `n=50` reviewer B,
-  and `n=300` adjudication templates.
-- Source-route review UI: static local CSV editor, no private rows checked in.
-- Source-route workflow dry-run: synthetic CSV export/import/agreement/validation/promotion passes.
-- Source-route scorecard dry-run: synthetic qid-only labels and predictions pass.
-- Source-route private silver scorecard: qid-only private route runs scored
-  through the same route scorecard path.
-- Source-route adjudication validation: `0/300` complete, promotion blocked
-  until final labels are filled.
-- Structural pack-only `clause@20`: 56.4% with 95% CI 52.4%-60.5%.
-- Structural cross-text `clause@20`: 64.9% with 95% CI 60.8%-68.8%.
-- Structural cross-text paired lift over structural pack-only on `clause@20`:
-  +8.5 percentage points with 95% CI +5.9 to +11.2.
-- Naive always-policy route accuracy on the silver proxy: 21.5%.
-- Query-only keyword router route accuracy on the silver proxy: 31.8%, a
-  +10.3 percentage-point paired lift over always-policy.
+| system | `clause@20` | 95% CI | paired delta vs. pack | paired 95% CI |
+|---|---:|---:|---:|---:|
+| `structural_pack` | 56.4% | 52.4% - 60.5% | - | - |
+| `structural_cross_text` | 64.9% | 60.8% - 68.8% | +8.5%p | +5.9%p - +11.2%p |
 
-These are useful steering signals, not final benchmark claims.
+This is a systems result: a candidate-pack-only path is not the same as a
+cross-text reranked path. The worst observed surface slice reaches `44.4%`, so
+the aggregate lift is not a robustness guarantee.
 
-## Table 1
+Sources: [aggregate scorecard](private_544_full_cross_scorecard.md) and
+[runtime surface scorecard](private_runtime_surface_scorecard_silver.md).
 
-Run:
+## Finding 2: Semantic Direction Is a Separate Failure Mode
+
+The polarity experiment gives a query an expected evidence snippet and an
+opposite-polarity snippet. It measures whether the wrong side scores at or
+above the expected side. The `444` counterfactual triples come from `37` seed
+evidence pairs, so confidence intervals resample seed pairs rather than
+pretending every derived triple is independent.
+
+| system | wrong-polarity preferred | seed-pair bootstrap 95% CI |
+|---|---:|---:|
+| analyzer-token BM25 | 53.8% | 52.3% - 55.6% |
+| Lucene-style BM25 sensitivity arm | 44.4% | 42.1% - 46.4% |
+| `BAAI/bge-m3` | 29.1% | 23.6% - 34.5% |
+| `BAAI/bge-reranker-v2-m3` | 48.4% | 45.9% - 50.7% |
+
+Dense retrieval reduces the overall error rate in this slice, but neither dense
+retrieval nor reranking makes polarity safe by default. This is why the project
+uses contrastive stress probes in addition to `clause@k`.
+
+Sources: [polarity stress report](private_polarity_stress_pilot.md) and
+[aggregate JSON](private_polarity_stress_pilot.json).
+
+## Finding 3: Input Shape Changes the Evaluation Problem
+
+| cohort | usable rows | median characters | short messages | long contexts |
+|---|---:|---:|---:|---:|
+| community post context | 165,970 | 169.0 | 6.1% | 44.3% |
+| messenger conversation | 7,796 | 17.0 | 80.6% | 2.0% |
+| cleaned search evaluation query | 544 | 22.0 | 94.5% | 0.0% |
+
+A long post, a short messenger turn, and a cleaned retrieval query have
+different failure modes. The study therefore organizes evaluation by
+information need and surface condition, not by one undifferentiated corpus.
+
+## Implementation Contribution
+
+The public code makes the measurements executable rather than reporting them
+as static prose:
+
+- `score_run()` separates any evidence hit, required-evidence coverage, and
+  true multi-evidence sufficiency.
+- `clustered_bootstrap_hit_ci()` preserves seed-pair dependence for
+  counterfactual stress grids.
+- `reproduce_private_polarity_stress.py` projects private row exports into
+  aggregate-only reports and does not serialize raw-text fields.
+- Qid-only system bundles retain runner, corpus, qrel, engine, and model
+  provenance without shipping private inputs.
+- Synthetic public probes exercise the same metric and schema behavior in a
+  clean-room environment.
+
+## Scope
+
+This is a deep single-corpus study, not a claim about every Korean retrieval
+system. The 544-row retrieval labels are silver; they establish a measured
+retrieval and stress-testing baseline, not human-validated answer quality.
+Source routing and answer sufficiency have their own evaluation contracts and
+will only be promoted with independently reviewed labels and a populated
+multi-source corpus.
+
+## Reproduce
 
 ```bash
+make test
 make reproduce-table-1
-make reproduce-route-scorecard
-make check-study-readiness
+make reproduce-surface-scorecard
+make verify
 ```
 
-The first two tables are synthetic. They validate metric behavior and qid-only
-scoring, not model quality. The readiness report is generated from aggregate
-private-lab reports and currently blocks public headline claims until human
-labels are complete.
+The public commands use synthetic fixtures. A private operator can reproduce
+the polarity aggregate from local row exports with
+`scripts/reproduce_private_polarity_stress.py`, then validate external system
+runs through `scripts/validate_system_matrix_bundle.py` before publishing a
+qid-only aggregate result.

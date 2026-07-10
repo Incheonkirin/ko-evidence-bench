@@ -1,79 +1,33 @@
 # Research Status
 
-Overall status: **NO-GO FOR HEADLINE CLAIMS**.
+Overall status: **MEASURED V0**.
 
-This report checks whether the repository is shaped as a measurement-study
-artifact rather than a loose evaluation framework. It intentionally separates
-implemented infrastructure from the human-label gate that still blocks public
-headline claims.
+This is a compact inventory of measured results and their reproduction
+paths. It is not a release gate ledger.
 
-| area | status | evidence | why it matters |
+| artifact | status | evidence | why it matters |
 |---|---|---|---|
-| Report-first artifact | `PASS` | reports/measurement_study_draft.md | The study is the product; code is the reproduction apparatus. |
-| Generated finding table | `PASS` | finding candidates are generated from aggregate reports | Reviewers see numbers and claim controls before framework plumbing. |
-| Hero diagnostic figure | `PASS` | README hero figure and report are generated from aggregate diagnostics | The first screen leads with memorable findings while keeping the claim gate visible. |
-| Claim-control gate | `PASS` | study readiness is NO-GO | The repo refuses to promote silver diagnostics as final benchmark claims. |
-| Claim wording ledger | `PASS` | generated ledger separates allowed diagnostic wording from blocked claims | The repo shows judgment about what the evidence can and cannot support. |
-| Reviewer demo path | `PASS` | generated 3-minute walkthrough links findings, claim controls, rehearsal, and readiness | A reviewer can understand the study artifact before reading framework code. |
-| Containerized reproduction path | `PASS` | Dockerfile plus make docker-demo reruns the fixture table and claim-control checks | A reviewer can reproduce the public demo without first configuring a Python environment. |
-| Public probe set and privacy screen | `PASS` | synthetic queries, intent-level qrels, evidence snippets, and privacy-screen report | The released instrument is a screened probe set, not a dictionary or private-data dump. |
-| Public probe dataset card | `PASS` | generated dataset card records intended use, non-goals, distributions, and privacy notes | The public probe is packaged like a reusable IR artifact instead of a loose fixture folder. |
-| BEIR-style public probe export | `PASS` | public probe rows are exported to corpus, queries, qrels, and metadata files | The public probe can plug into standard IR tooling without hiding route and abstention limits. |
-| Runnable public probe systems | `PASS` | lexical, semantic, hybrid, and route-aware probe systems run on the same public fixture | The public probe is executable evidence, not only a static dataset or dictionary. |
-| Trap-mining diagnostic | `PASS` | public probe queries are mined for trap classes and compared with qrel annotations | Analyzer and intent-fragmentation failures are measured as diagnostics, not shipped as a dictionary. |
-| Surface-fragmentation undercount audit | `PASS` | public probe intents compare exact lexical seed counts with qrel-level surface variants | The repo measures the user's undercount critique instead of turning aliases into a dictionary. |
-| Qualitative failure gallery | `PASS` | synthetic side-by-side ranking examples generated from the public probe package | Reviewers can inspect concrete failure modes instead of only aggregate metrics. |
-| README signal drift guard | `PASS` | scripts/sync_readme_signals.py --check | The first-screen numbers are generated from checked-in evidence. |
-| Dictionary scope guard | `PASS` | README scope statement rejects a dictionary-first framing | The project has to be a measurement artifact, not a user-dictionary repo. |
-| Multi-source evidence frame | `PASS` | route protocol and study draft model multiple citable source tiers | The benchmark tests evidence routing, not only policy-clause recall. |
-| Source catalog coverage gate | `PASS` | source-tier catalog joins public qrels and evidence snippets across searchable and abstention routes | The project needs a checked multi-source corpus frame, not only route labels in prose. |
-| Source inventory readiness gate | `PASS` | aggregate private route demand is joined with source inventory readiness and exposes blocked non-policy tiers | Multi-source evaluation needs acquisition and rights readiness, not only route taxonomy. |
-| Real-query substrate inventory | `PASS` | README aggregates private query substrates and cohort scorecards compare them generically | The study is grounded in real query distributions without exposing private source names. |
-| Surface-form robustness axis | `PASS` | surface-form scorecard and lift gate measure same-intent robustness across phrasing conditions | This implements the intent-fragmentation axis, not token dictionaries. |
-| Route-surface diagnostic axis | `PASS` | route-only scorecard slices source-route and abstention behavior by surface, intent family, and trap class | The study can separate surface-conditioned routing failures from retrieval-hit failures. |
-| Runtime-surface retrieval-hit axis | `PASS` | runtime hit booleans are sliced by surface form, intent family, and trap class without raw evidence ids | This moves surface robustness from fixture-only demos into actual retrieval-hit diagnostics. |
-| Layer attribution axis | `PASS` | failed synthetic rows are decomposed into primary diagnostic layers | The study can explain where failures accumulate instead of only reporting aggregate scores. |
-| Answer-quality audit rehearsal | `PASS` | synthetic qid-only labels validate answer sufficiency, correct abstention, and unsafe answers | Retrieval-hit metrics are not final answer-quality claims; the audit path keeps that boundary explicit. |
-| Answer-quality review workflow | `PASS` | synthetic CSV export, validation, import, audit validation, and qid-only promotion are rehearsed | The remaining answer-quality work is reviewer production, not missing review plumbing. |
-| Answer-quality agreement workflow | `PASS` | synthetic two-reviewer answer labels validate and produce aggregate agreement plus kappa | Answer-quality claims need agreement evidence before adjudication and promotion. |
-| Route-label agreement workflow | `PASS` | synthetic two-reviewer route labels validate and produce aggregate agreement plus kappa | Source-route labels need independent agreement evidence before adjudication and promotion. |
-| System comparison matrix guard | `PASS` | system matrix report separates implemented diagnostics from not-run and blocked comparisons | The repo must not imply the full analyzer/dense/hybrid/reranker matrix has already been run. |
-| Full-matrix submission handoff | `PASS` | qid-only handoff templates cover every missing analyzer, dense, hybrid, and reranker run | The missing full matrix now has a concrete submission shape before validation and promotion. |
-| Full-matrix run-bundle contract | `PASS` | synthetic qid-only bundle validates import, coverage, leakage, and scoring for the missing systems | The missing full matrix now has a checked artifact contract instead of an undefined handoff. |
-| Full-matrix promotion gate | `PASS` | promotion gates reject the synthetic bundle until scale and real-run provenance exist | The repo can accept future full-matrix runs without pretending fixture outputs are model evidence. |
-| Intent-family inventory axis | `PASS` | fixture and private silver inventories treat intent families, surface forms, and trap classes as aggregate slices | This moves the study design from synthetic slices into the private qid-only qrel path. |
-| Normalization ablation axis | `PASS` | normalization ablation reports aggregate rescue/regression by intent family and surface | This validates normalization as measured lift, not a standalone dictionary artifact. |
-| Qid-only route scorecard path | `PASS` | private silver runs are scored through the same path as future human labels | The evaluation path is tested before human-gold labels arrive. |
-| Per-source route failure slices | `PASS` | route scorecards expose source-tier slices and largest route confusions | The study can explain where routing fails, not just report one aggregate number. |
-| Query-cohort route slices | `PASS` | source-map cohort scorecards compare query substrates without raw source names | The study can test whether failures differ across real query cohorts. |
-| Query-substrate profile | `PASS` | aggregate shape profile compares community post contexts, cleaned eval queries, and live-style conversation turns | The study shows why query cohorts need different stress slices instead of treating all text as one corpus. |
-| Cohort-aware routing baseline | `PASS` | cohort-aware router is exported, scored, and guarded by a silver lift gate | The repo shows a measured routing improvement, not only an evaluation shell. |
-| Human audit workflow | `PASS` | review UI plus synthetic audit workflow dry-run | The remaining work is label production, not missing audit plumbing. |
-| Human-label progress gate | `PASS` | 300-row brief, priority batch, merge dry-run, progress, and CSV validation are summarized without raw rows | The remaining human task can be prioritized, started, merged, and tracked before import. |
-| Human-audit coverage gate | `PASS` | 300-row private audit workset covers route, intent-family, surface-form, and trap-class axes | The human-gold workset must preserve the surface/intent design before reviewers spend time. |
-| Human-gold promotion rehearsal | `PASS` | synthetic completed labels validate, promote, and feed route plus route-surface scorecards | Once real labels are finished, the remaining path to measurement-study scorecards is already rehearsed. |
-| Human-gold route labels | `BLOCKED` | 0/50 paired labels; kappa 0.000; 0/300 adjudicated labels complete; 300 validation errors | Agreement quality and adjudicated coverage are required before public headline claims. |
-| Public/private boundary | `PASS` | data statement plus public-safety scan | The private logs ground the work without leaking raw rows. |
-| CI verification | `PASS` | make verify in GitHub Actions | The repo continuously checks reports, claims, fixtures, and safety. |
+| Measured retrieval result | `PASS` | 544-row aggregate retrieval scorecard with paired bootstrap | Shows a concrete ranking intervention and a measured lift. |
+| Polarity stress result | `PASS` | 444 counterfactual triples clustered into 37 seed evidence pairs | Tests semantic direction, a failure mode hidden by ordinary recall. |
+| Real-query distribution shift | `PASS` | aggregate community-context, messenger-turn, and cleaned-query profiles | Explains why one corpus cannot stand in for every search input. |
+| Evidence-sufficiency evaluator | `PASS` | hit, coverage, and all-required-evidence scorecard semantics | Prevents a single plausible clause from being counted as a complete answer. |
+| Safe external-run contract | `PASS` | qid-only bundles with qrel fingerprints and model provenance | Lets the lab publish auditable results without publishing private inputs. |
+| Clean-room public reproduction | `PASS` | synthetic public probes, tests, Docker demo, and privacy screen | A reviewer can execute the scorecard without private data or services. |
+| Public/private boundary | `PASS` | data statement and repository-wide leak scan | The real query distribution can inform the work without becoming a data dump. |
+| Human-validated source routing | `PENDING` | 0/50 paired labels; 0/300 adjudicated labels | This is the next result required for source-routing effectiveness claims. |
+| Full external-system matrix | `PENDING` | 14/22 implemented; 7 not run | Expands the measured study from implemented paths to a full comparison. |
 
-## Interpretation
+## Current Position
 
-The repo now has the public shell expected of a measurement study:
-generated study draft, claim-control gates, reviewer walkthrough,
-containerized reproduction, screened public probes, dataset card,
-source catalog coverage, source inventory readiness, qualitative examples, layer attribution, system matrix guard,
-answer-quality audit rehearsal, answer-quality review workflow,
-answer-quality agreement workflow, route-label agreement workflow, full-matrix submission handoff,
-full-matrix run-bundle contract, full-matrix promotion gate,
-qid-only scorecards, audit workflow,
-and public-safety checks. It is not headline-ready
-because source-route labels still lack independent agreement
-evidence and human-adjudicated coverage, and the full comparison
-matrix still has not-run or blocked systems.
+The repository already contains two measured technical results: a paired
+retrieval lift on a real-query-derived silver evaluation set and a clustered
+polarity stress study. The public package makes those measurements auditable
+without exposing raw inputs.
 
-## Next Gate
+## Next Results
 
-Double-label at least 50 route rows, report agreement and kappa, complete
-the 300-row adjudicated route-label workset, validate it with zero errors,
-run the missing system comparisons or narrow the claim, promote qid-only
-human labels, and rerun the route scorecard and measurement-study draft.
+1. Complete independent route labels and publish a human-validated routing result.
+2. Import the remaining external analyzer, dense, hybrid, and reranker runs
+   through the provenance contract and compare them on the same evaluation slice.
+3. Add a genuinely labeled messenger-turn retrieval slice before claiming live-chat
+   degradation or improvement.

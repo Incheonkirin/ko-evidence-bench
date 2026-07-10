@@ -251,6 +251,11 @@ import-answer-review-csv:
 summarize-answer-audit:
 	python3 scripts/summarize_answer_audit.py --audit "$(AUDIT_JSONL)" --field-a "$(FIELD_A)" --field-b "$(FIELD_B)" --report-out reports/private_answer_audit_agreement.md
 
+.PHONY: reproduce-private-polarity-stress
+
+reproduce-private-polarity-stress:
+	python3 scripts/reproduce_private_polarity_stress.py --retrieval-rows "$(RETRIEVAL_ROWS)" --reranker-rows "$(RERANKER_ROWS)" --experiment-date "$(EXPERIMENT_DATE)"
+
 summarize-route-audit:
 	python3 scripts/summarize_route_audit.py --audit "$(AUDIT_JSONL)" --field-a "$(FIELD_A)" --field-b "$(FIELD_B)" --report-out reports/private_route_audit_agreement.md
 

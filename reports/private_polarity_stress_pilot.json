@@ -1,0 +1,165 @@
+{
+  "confidence_interval": {
+    "method": "percentile bootstrap clustered by seed evidence pair",
+    "samples": 20000,
+    "seed": 13
+  },
+  "experiment_date": "2026-07-06",
+  "input": {
+    "contrastive_triples": 444,
+    "input_sha256": {
+      "reranker_export": "627383edc513fe08960e88bd82980a09aecf8fe570a9915be300dd8e8ca340f6",
+      "retrieval_export": "b750686050ac9ae5def37bc533b8679a27e516780844237520e565522731d9ab"
+    },
+    "intent_counts": {
+      "coverage": 222,
+      "exclusion": 222
+    },
+    "raw_text_exported": false,
+    "seed_evidence_pairs": 37
+  },
+  "metric": {
+    "definition": "opposite-polarity evidence scores at or above expected evidence",
+    "name": "wrong_polarity_preference",
+    "ties_count_as_wrong": true
+  },
+  "models": {
+    "dense": "BAAI/bge-m3",
+    "reranker": "BAAI/bge-reranker-v2-m3"
+  },
+  "schema_version": "ko-evidence-bench.polarity-stress.v1",
+  "systems": [
+    {
+      "ci95_seed_pair_bootstrap": [
+        0.5225225225225225,
+        0.5563063063063063
+      ],
+      "intent_slices": [
+        {
+          "ci95_seed_pair_bootstrap": [
+            0.12612612612612611,
+            0.2927927927927928
+          ],
+          "intent": "coverage",
+          "n": 222,
+          "wrong_preferred": 45,
+          "wrong_preferred_rate": 0.20270270270270271
+        },
+        {
+          "ci95_seed_pair_bootstrap": [
+            0.7972972972972973,
+            0.9369369369369369
+          ],
+          "intent": "exclusion",
+          "n": 222,
+          "wrong_preferred": 194,
+          "wrong_preferred_rate": 0.8738738738738738
+        }
+      ],
+      "n": 444,
+      "seed_pairs": 37,
+      "system_id": "bm25_analyzer_tokens",
+      "wrong_preferred": 239,
+      "wrong_preferred_rate": 0.5382882882882883
+    },
+    {
+      "ci95_seed_pair_bootstrap": [
+        0.42117117117117114,
+        0.46396396396396394
+      ],
+      "intent_slices": [
+        {
+          "ci95_seed_pair_bootstrap": [
+            0.7027027027027027,
+            0.8603603603603603
+          ],
+          "intent": "coverage",
+          "n": 222,
+          "wrong_preferred": 174,
+          "wrong_preferred_rate": 0.7837837837837838
+        },
+        {
+          "ci95_seed_pair_bootstrap": [
+            0.04504504504504504,
+            0.18018018018018017
+          ],
+          "intent": "exclusion",
+          "n": 222,
+          "wrong_preferred": 23,
+          "wrong_preferred_rate": 0.1036036036036036
+        }
+      ],
+      "n": 444,
+      "seed_pairs": 37,
+      "system_id": "bm25_lucene_idf_sensitivity",
+      "wrong_preferred": 197,
+      "wrong_preferred_rate": 0.4436936936936937
+    },
+    {
+      "ci95_seed_pair_bootstrap": [
+        0.23648648648648649,
+        0.34459459459459457
+      ],
+      "intent_slices": [
+        {
+          "ci95_seed_pair_bootstrap": [
+            0.3963963963963964,
+            0.6306306306306306
+          ],
+          "intent": "coverage",
+          "n": 222,
+          "wrong_preferred": 114,
+          "wrong_preferred_rate": 0.5135135135135135
+        },
+        {
+          "ci95_seed_pair_bootstrap": [
+            0.009009009009009009,
+            0.14414414414414414
+          ],
+          "intent": "exclusion",
+          "n": 222,
+          "wrong_preferred": 15,
+          "wrong_preferred_rate": 0.06756756756756757
+        }
+      ],
+      "n": 444,
+      "seed_pairs": 37,
+      "system_id": "dense_bge_m3",
+      "wrong_preferred": 129,
+      "wrong_preferred_rate": 0.2905405405405405
+    },
+    {
+      "ci95_seed_pair_bootstrap": [
+        0.4594594594594595,
+        0.5067567567567568
+      ],
+      "intent_slices": [
+        {
+          "ci95_seed_pair_bootstrap": [
+            0.8108108108108109,
+            0.963963963963964
+          ],
+          "intent": "coverage",
+          "n": 222,
+          "wrong_preferred": 199,
+          "wrong_preferred_rate": 0.8963963963963963
+        },
+        {
+          "ci95_seed_pair_bootstrap": [
+            0.02252252252252252,
+            0.13963963963963963
+          ],
+          "intent": "exclusion",
+          "n": 222,
+          "wrong_preferred": 16,
+          "wrong_preferred_rate": 0.07207207207207207
+        }
+      ],
+      "n": 444,
+      "seed_pairs": 37,
+      "system_id": "cross_encoder_bge_reranker_v2_m3",
+      "wrong_preferred": 215,
+      "wrong_preferred_rate": 0.48423423423423423
+    }
+  ]
+}

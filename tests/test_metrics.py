@@ -1,6 +1,13 @@
 import unittest
 
-from ko_evidence_bench.metrics import bootstrap_ci, paired_delta_ci, score_run, summarize_hit_rows
+from ko_evidence_bench.metrics import (
+    bootstrap_ci,
+    clustered_bootstrap_hit_ci,
+    paired_delta_ci,
+    score_run,
+    summarize_hit_rows,
+)
+from ko_evidence_bench.schemas import validate_qrel
 
 
 class ScoreRunTest(unittest.TestCase):
@@ -37,6 +44,8 @@ class ScoreRunTest(unittest.TestCase):
         ]
         scores = score_run(qrels, run, k=3)
         self.assertEqual(scores["route_accuracy"], 1.0)
+        self.assertEqual(scores["evidence_hit@3"], 1.0)
+        self.assertEqual(scores["evidence_coverage@3"], 1.0)
         self.assertEqual(scores["evidence_sufficiency@3"], 1.0)
         self.assertEqual(scores["wrong_source_rate@3"], 0.0)
         self.assertEqual(scores["abstention_precision"], 1.0)
@@ -115,6 +124,80 @@ class ScoreRunTest(unittest.TestCase):
         )
         self.assertAlmostEqual(lo, 2 / 3)
         self.assertAlmostEqual(hi, 2 / 3)
+
+    def test_multi_evidence_requires_all_required_units(self):
+        qrels = [
+            {
+                "qid": "q1",
+                "route_gold": "policy_clause",
+                "should_abstain": False,
+                "sufficient_evidence_ids": ["coverage", "limitation"],
+                "required_evidence_ids": ["coverage", "limitation"],
+            }
+        ]
+        partial_run = [
+            {
+                "qid": "q1",
+                "route_pred": "policy_clause",
+                "abstained": False,
+                "ranked": [{"evidence_id": "coverage", "source_tier": "policy_clause"}],
+            }
+        ]
+        full_run = [
+            {
+                "qid": "q1",
+                "route_pred": "policy_clause",
+                "abstained": False,
+                "ranked": [
+                    {"evidence_id": "coverage", "source_tier": "policy_clause"},
+                    {"evidence_id": "limitation", "source_tier": "policy_clause"},
+                ],
+            }
+        ]
+
+        partial = score_run(qrels, partial_run, k=3)
+        full = score_run(qrels, full_run, k=3)
+
+        self.assertEqual(partial["evidence_hit@3"], 1.0)
+        self.assertEqual(partial["evidence_coverage@3"], 0.5)
+        self.assertEqual(partial["evidence_sufficiency@3"], 0.0)
+        self.assertEqual(partial["multi_evidence_qrels"], 1.0)
+        self.assertEqual(full["evidence_sufficiency@3"], 1.0)
+
+    def test_required_evidence_must_be_part_of_acceptable_set(self):
+        with self.assertRaisesRegex(ValueError, "required_evidence_ids must be included"):
+            validate_qrel(
+                {
+                    "qid": "q1",
+                    "route_gold": "policy_clause",
+                    "should_abstain": False,
+                    "sufficient_evidence_ids": ["coverage"],
+                    "required_evidence_ids": ["limitation"],
+                }
+            )
+
+    def test_clustered_bootstrap_keeps_counterfactual_seed_groups_intact(self):
+        rows = [
+            {"pair_id": "p1", "wrong": True},
+            {"pair_id": "p1", "wrong": True},
+            {"pair_id": "p1", "wrong": True},
+            {"pair_id": "p1", "wrong": True},
+            {"pair_id": "p2", "wrong": False},
+        ]
+
+        lo, hi = clustered_bootstrap_hit_ci(
+            rows,
+            "wrong",
+            cluster_key="pair_id",
+            samples=500,
+            seed=7,
+        )
+
+        self.assertGreaterEqual(lo, 0.0)
+        self.assertLessEqual(hi, 1.0)
+        self.assertLess(lo, hi)
+        with self.assertRaisesRegex(ValueError, "cluster key"):
+            clustered_bootstrap_hit_ci(rows, "wrong", cluster_key="missing", samples=5)
 
 
 if __name__ == "__main__":

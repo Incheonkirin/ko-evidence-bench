@@ -1,6 +1,6 @@
 # Measurement Study Draft
 
-Status: **NO-GO for public headline claims**.
+Status: **MEASURED V0**.
 
 ## Abstract
 
@@ -11,22 +11,22 @@ cases, or expert guidance. This draft measures two things separately:
 whether retrieval finds citable clause evidence, and whether a source router
 can tell when policy clauses are not the right evidence tier.
 
-All numbers below are aggregate-only private-lab diagnostics. They are useful
-for steering the work and for a scoped v0.1 silver result. They should not
-be described as final benchmark claims until the 300-row human source-route
-adjudication workset is complete.
+All numbers below are aggregate-only private-lab measurements. Clause
+recovery and polarity findings are reported as scoped v0 silver results.
+Source-routing rows remain silver diagnostics until independent human labels
+are complete, and none of the metrics below claim answer quality.
 
-## Current Finding Candidates
+## Measured Findings And Follow-On Diagnostics
 
 | candidate finding | current evidence | status |
 |---|---:|---|
-| Cross-text reranking improves clause recovery | `clause@20` 56.4% -> 64.9%; paired delta +8.5%p | silver diagnostic |
+| Cross-text reranking improves clause recovery | `clause@20` 56.4% -> 64.9%; paired delta +8.5%p | measured silver retrieval result |
 | Always searching policy clauses is a weak source-routing baseline | `always_policy` route accuracy 21.5% | silver diagnostic |
 | Query-language routing helps but misses most abstention-needed cases | route accuracy 31.8%; abstention recall 10.5% | silver diagnostic |
 | Cohort-aware routing improves source routing without raw source exposure | route accuracy 46.9%; paired delta +25.4%p; abstention recall 67.0% | silver diagnostic |
 | The largest silver route failure is unsafe policy-clause fallback | `human_context_needed -> policy_clause` drops from 190 to 28 rows | silver diagnostic |
 | Route failures vary by private query cohort | route accuracy range 36.2% - 55.2%; context-needed policy fallback up to 54.1% | silver diagnostic |
-| Polarity stress remains a live retrieval failure | 444 contrastive triples; dense wrong-polarity 29.1%; reranker wrong-polarity 48.4% | aggregate pilot |
+| Polarity stress remains a live retrieval failure | 444 contrastive triples; dense wrong-polarity 29.1%; reranker wrong-polarity 48.4% | measured contrastive stress result |
 | Real-query substrates need separate stress slices | community contexts avg 835.5 chars with 44.3% long contexts; live-style turns median 17.0 chars with 80.6% short messages; eval queries 94.5% short | substrate diagnostic |
 | Private qrels now have silver intent/surface slices | 544 qid-only rows; top silver family `refund_termination` 47.1%; top surface `formal` 55.9% | silver metadata |
 | Exact lexical seed counting misses same-intent surface variants | 4 exact-seed rows vs 9 qrel intent rows; undercount 2.2x | public fixture diagnostic |
@@ -34,7 +34,7 @@ adjudication workset is complete.
 | Ranked retrieval hits can now be sliced by surface condition | `structural_cross_text` clause@20 64.9%; answerable clause@20 71.3%; worst surface 44.4% | silver runtime diagnostic |
 | Human audit workset covers the stress axes before labeling | 300 matched rows; route 6 / 6, intent 9 / 9, surface 4 / 4, trap 10 / 10 values covered | workset diagnostic |
 | Answer quality needs separate labels after retrieval | 10 synthetic completed labels; task success 60.0%; unsafe answer 20.0% | fixture rehearsal only |
-| Human-gold public headline claim | 0 / 50 paired labels; 0 / 300 adjudicated labels complete | blocked |
+| Human-validated source-routing extension | 0 / 50 paired labels; 0 / 300 adjudicated labels complete | pending |
 
 ## Retrieval Evidence
 
@@ -230,9 +230,9 @@ silver route, intent-family, surface-form, and trap-class value used by
 the diagnostics. It does not remove the human-label gate: reviewers still
 need to complete independent labels, agreement, adjudication, and validation.
 
-## Claim Control
+## Expansion Requirements
 
-| gate | current value | required before headline use |
+| extension | current value | required for expanded comparison |
 |---|---:|---:|
 | retrieval eval rows | 544 | >= 500 |
 | paired double-label rows | 0 | >= 50 |
@@ -243,10 +243,11 @@ need to complete independent labels, agreement, adjudication, and validation.
 | system matrix blocked systems | 1 | 0 |
 | system matrix validation issues | 0 | 0 |
 
-The retrieval rows meet the diagnostic-size threshold, but source-route labels
-and the full system matrix do not yet have enough evidence: independent
-agreement, adjudicated human-gold coverage, and the missing analyzer/dense/hybrid/reranker runs still block headline use. Therefore this draft should
-not be presented as a final benchmark result.
+The retrieval and polarity findings above are already scoped v0 results.
+Independent agreement, adjudicated human route coverage, and the missing
+analyzer/dense/hybrid/reranker runs are the remaining evidence for an
+expanded routing and full-matrix comparison, not a reason to erase those
+measured findings.
 
 ## Reproduction
 
@@ -288,7 +289,7 @@ make docker-demo
 ```
 
 The public commands reproduce synthetic fixtures and regenerate aggregate
-claim-control reports. The public probe package is synthetic and
+evidence-scope reports. The public probe package is synthetic and
 screened by `reports/probe_privacy_report.md`; its BEIR-style retrieval
 subset is documented at `reports/probe_beir_export.md`. Qualitative examples
 are generated at `reports/qualitative_gallery.md`, and layer attribution is
@@ -305,5 +306,5 @@ route runs and raw qrels stay outside the public repository.
 4. Promote qid-only human labels and re-run the same route scorecard path.
 5. Run the missing analyzer/dense/hybrid/reranker comparisons or narrow the claim.
 6. Re-run retrieval comparisons sliced by human-gold source route.
-7. Replace this draft's diagnostic claims with human-audited findings only
-   if `reports/study_readiness.md` changes to GO.
+7. Promote the source-routing section when `reports/study_readiness.md`
+   reaches `EXPANDED STUDY READY`.

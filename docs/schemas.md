@@ -12,6 +12,26 @@
 }
 ```
 
+`sufficient_evidence_ids` is a one-of acceptable set for legacy qrels: one
+matching evidence unit is enough to count an evidence hit. When an answer needs
+several independently citable units, add `required_evidence_ids`:
+
+```json
+{
+  "qid": "syn_coverage_with_limit_001",
+  "route_gold": "policy_clause",
+  "should_abstain": false,
+  "sufficient_evidence_ids": ["clause_coverage", "table_limit"],
+  "required_evidence_ids": ["clause_coverage", "table_limit"]
+}
+```
+
+For this form, `evidence_hit@k` means top-k found at least one acceptable unit,
+`evidence_coverage@k` is the share of required units recovered, and
+`evidence_sufficiency@k` requires every listed unit. This prevents a single
+plausible clause from being counted as a complete answer when a limit, exclusion,
+or scope condition is also required.
+
 `route_gold` values:
 
 - `policy_clause`
@@ -128,12 +148,24 @@ Real private bundles should use the same shape:
 ```json
 {
   "label_status": "private silver run bundle; not human-gold",
+  "provenance": {
+    "kind": "private_external_run",
+    "runner_commit": "git-revision",
+    "corpus_fingerprint": "sha256:private-corpus-build",
+    "qrels_fingerprint": "sha256:qid-only-qrels",
+    "engine": "search-engine-version",
+    "generated_at": "2026-07-10T00:00:00Z"
+  },
   "systems": [
     {
       "system_id": "bm25_nori",
       "family": "analyzer_bm25",
       "stage": "retrieval",
-      "run": "runs/bm25_nori.jsonl"
+      "run": "runs/bm25_nori.jsonl",
+      "provenance": {
+        "model_id": "analysis-nori-bm25",
+        "model_revision": "config-or-model-revision"
+      }
     }
   ]
 }
@@ -144,6 +176,12 @@ boundary crisp, matrix bundle run rows may contain only `qid`, `route_pred`,
 `abstained`, and `ranked`; ranked items may contain only `evidence_id`,
 `source_tier`, and optional `score`. Raw queries, source names, URLs, usernames,
 conversation text, and passage text must stay outside the bundle.
+
+The manifest provenance is part of the run contract, not a public data export.
+Every private external system must declare its runner commit, corpus and qrel
+fingerprints, engine, model id/revision, and generation time. The validator
+checks the qrel fingerprint against the supplied qrel file. Synthetic fixtures
+use `kind: synthetic_fixture` and are never promotable as external model runs.
 
 Run:
 

@@ -1,47 +1,83 @@
 {
   "label_status": "real external-system run; describe runner, date, corpus, and model versions here",
+  "provenance": {
+    "kind": "private_external_run",
+    "runner_commit": "TODO_GIT_COMMIT",
+    "corpus_fingerprint": "TODO_CORPUS_FINGERPRINT",
+    "qrels_fingerprint": "sha256:e2ff1a1324e03f3a614c425765298f8932e975d66e90beac9cc9b911bb4d06c0",
+    "engine": "TODO_ENGINE_AND_VERSION",
+    "generated_at": "TODO_ISO8601_TIMESTAMP"
+  },
   "systems": [
     {
       "system_id": "bm25_nori",
       "family": "analyzer_bm25",
       "stage": "retrieval",
-      "run": "runs/bm25_nori.jsonl"
+      "run": "runs/bm25_nori.jsonl",
+      "provenance": {
+        "model_id": "TODO_MODEL_ID",
+        "model_revision": "TODO_MODEL_REVISION"
+      }
     },
     {
       "system_id": "bm25_kiwi",
       "family": "analyzer_bm25",
       "stage": "retrieval",
-      "run": "runs/bm25_kiwi.jsonl"
+      "run": "runs/bm25_kiwi.jsonl",
+      "provenance": {
+        "model_id": "TODO_MODEL_ID",
+        "model_revision": "TODO_MODEL_REVISION"
+      }
     },
     {
       "system_id": "bm25_mecab",
       "family": "analyzer_bm25",
       "stage": "retrieval",
-      "run": "runs/bm25_mecab.jsonl"
+      "run": "runs/bm25_mecab.jsonl",
+      "provenance": {
+        "model_id": "TODO_MODEL_ID",
+        "model_revision": "TODO_MODEL_REVISION"
+      }
     },
     {
       "system_id": "dense_multilingual_encoder",
       "family": "dense_retrieval",
       "stage": "retrieval",
-      "run": "runs/dense_multilingual_encoder.jsonl"
+      "run": "runs/dense_multilingual_encoder.jsonl",
+      "provenance": {
+        "model_id": "TODO_MODEL_ID",
+        "model_revision": "TODO_MODEL_REVISION"
+      }
     },
     {
       "system_id": "dense_korean_encoder",
       "family": "dense_retrieval",
       "stage": "retrieval",
-      "run": "runs/dense_korean_encoder.jsonl"
+      "run": "runs/dense_korean_encoder.jsonl",
+      "provenance": {
+        "model_id": "TODO_MODEL_ID",
+        "model_revision": "TODO_MODEL_REVISION"
+      }
     },
     {
       "system_id": "hybrid_lexical_dense",
       "family": "hybrid_retrieval",
       "stage": "retrieval",
-      "run": "runs/hybrid_lexical_dense.jsonl"
+      "run": "runs/hybrid_lexical_dense.jsonl",
+      "provenance": {
+        "model_id": "TODO_MODEL_ID",
+        "model_revision": "TODO_MODEL_REVISION"
+      }
     },
     {
       "system_id": "cross_encoder_reranker",
       "family": "reranker",
       "stage": "reranking",
-      "run": "runs/cross_encoder_reranker.jsonl"
+      "run": "runs/cross_encoder_reranker.jsonl",
+      "provenance": {
+        "model_id": "TODO_MODEL_ID",
+        "model_revision": "TODO_MODEL_REVISION"
+      }
     }
   ]
 }

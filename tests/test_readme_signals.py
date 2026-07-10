@@ -14,15 +14,13 @@ class ReadmeSignalsTest(unittest.TestCase):
     def test_render_uses_current_readiness_values(self):
         block = render_readme_signals(load_study_readiness(ROOT))
 
-        self.assertIn("544 silver rows", block)
+        self.assertIn("544 silver qrels", block)
         self.assertIn("64.9%", block)
         self.assertIn("444 contrastive triples", block)
         self.assertIn("dense wrong-polarity 29.1%", block)
         self.assertIn("reranker wrong-polarity 48.4%", block)
-        self.assertIn("0 / 50 paired", block)
-        self.assertIn("kappa 0.000", block)
-        self.assertIn("7 not run; 1 blocked", block)
-        self.assertIn("NO-GO for public headline claims", block)
+        self.assertIn("Measured v0.1 Signals", block)
+        self.assertIn("human-validated source routing", block)
 
     def test_sync_script_replaces_marked_block(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -40,7 +38,7 @@ class ReadmeSignalsTest(unittest.TestCase):
             )
 
             text = readme.read_text(encoding="utf-8")
-            self.assertIn("544 silver rows", text)
+            self.assertIn("544 silver qrels", text)
             self.assertNotIn("stale", text)
 
 

@@ -28,7 +28,7 @@ external model output.
 | `run_completeness` | `PASS` | 7 complete systems | every system covers every qid exactly once |
 | `qid_only_screen` | `PASS` | 0 raw-field errors | no raw query, answer, source, url, username, or passage fields |
 | `scale` | `BLOCKED` | 8 qrel rows | >= 500 qrel rows for private full-matrix promotion |
-| `run_provenance` | `BLOCKED` | synthetic matrix bundle fixture; not external model output | real external-system run provenance, not a fixture label status |
+| `run_provenance` | `BLOCKED` | 0 private external / 7 required systems | every submitted system declares private_external_run provenance |
 
 ## Candidate System Scores
 

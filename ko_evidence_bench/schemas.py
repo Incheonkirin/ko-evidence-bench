@@ -40,6 +40,28 @@ def validate_qrel(record: dict[str, Any]) -> None:
         raise ValueError("should_abstain must be boolean")
     if not isinstance(record["sufficient_evidence_ids"], list):
         raise ValueError("sufficient_evidence_ids must be a list")
+    if not all(isinstance(value, str) and value for value in record["sufficient_evidence_ids"]):
+        raise ValueError("sufficient_evidence_ids must contain non-empty strings")
+    if len(set(record["sufficient_evidence_ids"])) != len(record["sufficient_evidence_ids"]):
+        raise ValueError("sufficient_evidence_ids must not contain duplicates")
+    if not record["should_abstain"] and not record["sufficient_evidence_ids"]:
+        raise ValueError("answerable qrels require sufficient_evidence_ids")
+    if "required_evidence_ids" in record:
+        required = record["required_evidence_ids"]
+        if not isinstance(required, list):
+            raise ValueError("required_evidence_ids must be a list")
+        if not all(isinstance(value, str) and value for value in required):
+            raise ValueError("required_evidence_ids must contain non-empty strings")
+        if len(set(required)) != len(required):
+            raise ValueError("required_evidence_ids must not contain duplicates")
+        if record["should_abstain"] and required:
+            raise ValueError("abstention qrels cannot require evidence")
+        unknown_required = set(required) - set(record["sufficient_evidence_ids"])
+        if unknown_required:
+            raise ValueError(
+                "required_evidence_ids must be included in sufficient_evidence_ids: "
+                f"{sorted(unknown_required)}"
+            )
     if "allowed_source_tiers" in record:
         if not isinstance(record["allowed_source_tiers"], list):
             raise ValueError("allowed_source_tiers must be a list")

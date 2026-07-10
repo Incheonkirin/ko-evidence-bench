@@ -49,7 +49,7 @@ def _has(text: str, terms: tuple[str, ...]) -> bool:
 def query_only_route(query: str) -> str:
     """Route a user query to a source tier using only surface text.
 
-    This is intentionally a simple baseline, not the flagship model. It helps
+    This is intentionally a simple baseline, not the target model. It helps
     show whether source routing is already visible from query language alone.
     """
 

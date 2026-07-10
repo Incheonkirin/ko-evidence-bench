@@ -312,7 +312,7 @@ def render_markdown(signals: HeroSignals, figure_path: Path) -> str:
             "",
             "- The figure and table are generated from aggregate reports only.",
             "- These are private-lab silver diagnostics, not final benchmark claims.",
-            "- The strongest portfolio version starts here but waits for completed",
+            "- The strongest public version starts here but waits for completed",
             "  human labels and full matrix coverage before changing the README",
             "  language from diagnostic to headline.",
             "",

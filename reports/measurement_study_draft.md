@@ -12,8 +12,9 @@ whether retrieval finds citable clause evidence, and whether a source router
 can tell when policy clauses are not the right evidence tier.
 
 All numbers below are aggregate-only private-lab diagnostics. They are useful
-for steering the work, but they are blocked from headline use until the
-300-row human source-route adjudication workset is complete.
+for steering the work and for a scoped v0.1 silver result. They should not
+be described as final benchmark claims until the 300-row human source-route
+adjudication workset is complete.
 
 ## Current Finding Candidates
 
@@ -25,6 +26,7 @@ for steering the work, but they are blocked from headline use until the
 | Cohort-aware routing improves source routing without raw source exposure | route accuracy 46.9%; paired delta +25.4%p; abstention recall 67.0% | silver diagnostic |
 | The largest silver route failure is unsafe policy-clause fallback | `human_context_needed -> policy_clause` drops from 190 to 28 rows | silver diagnostic |
 | Route failures vary by private query cohort | route accuracy range 36.2% - 55.2%; context-needed policy fallback up to 54.1% | silver diagnostic |
+| Polarity stress remains a live retrieval failure | 444 contrastive triples; dense wrong-polarity 29.1%; reranker wrong-polarity 48.4% | aggregate pilot |
 | Real-query substrates need separate stress slices | community contexts avg 835.5 chars with 44.3% long contexts; live-style turns median 17.0 chars with 80.6% short messages; eval queries 94.5% short | substrate diagnostic |
 | Private qrels now have silver intent/surface slices | 544 qid-only rows; top silver family `refund_termination` 47.1%; top surface `formal` 55.9% | silver metadata |
 | Exact lexical seed counting misses same-intent surface variants | 4 exact-seed rows vs 9 qrel intent rows; undercount 2.2x | public fixture diagnostic |
@@ -57,6 +59,18 @@ Private runtime-surface diagnostics:
 This joins private runtime hit booleans with qid-only intent/surface
 metadata. It does not publish raw ranked evidence ids, but it verifies
 whether actual retrieval hits vary across surface conditions.
+
+## Polarity Stress Pilot
+
+| artifact | rows | diagnostic result | status |
+|---|---:|---|---|
+| `reports/private_polarity_stress_pilot.md` | 444 | dense wrong-polarity 29.1%; cross-encoder wrong-polarity 48.4% | aggregate-only pilot |
+
+This pilot asks whether a ranker scores opposite-polarity evidence above
+the expected evidence on contrastive query/evidence triples. It is not
+the full analyzer/dense/hybrid/reranker matrix, but it is real evidence
+that polarity, abstention, and source-route behavior need separate slices
+from ordinary top-k clause-hit metrics.
 
 ## Route-Label Agreement Evidence
 

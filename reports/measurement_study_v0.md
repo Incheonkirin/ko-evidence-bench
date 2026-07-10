@@ -1,6 +1,6 @@
 # Measurement Study v0
 
-Status: superseded by generated draft.
+Status: background note; generated report is the source of truth.
 
 The current aggregate-only report is generated at
 `reports/measurement_study_draft.md` via:

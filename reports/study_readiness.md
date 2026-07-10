@@ -15,6 +15,7 @@ diagnostics as final benchmark results before human route labels exist.
 | `always_policy` route accuracy | 21.5% | silver baseline only |
 | query-keyword route accuracy | 31.8% | silver baseline only |
 | cohort-aware route accuracy | 46.9% | silver diagnostic only |
+| polarity stress pilot | 444 triples; dense wrong-polarity 29.1%; reranker wrong-polarity 48.4% | aggregate pilot, not full matrix |
 | paired double-label rows | 0 | needs at least 50 |
 | double-label raw agreement | 0.0% | audit quality signal |
 | double-label Cohen's kappa | 0.000 | needs at least 0.600 |

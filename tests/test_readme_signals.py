@@ -16,6 +16,9 @@ class ReadmeSignalsTest(unittest.TestCase):
 
         self.assertIn("544 silver rows", block)
         self.assertIn("64.9%", block)
+        self.assertIn("444 contrastive triples", block)
+        self.assertIn("dense wrong-polarity 29.1%", block)
+        self.assertIn("reranker wrong-polarity 48.4%", block)
         self.assertIn("0 / 50 paired", block)
         self.assertIn("kappa 0.000", block)
         self.assertIn("7 not run; 1 blocked", block)

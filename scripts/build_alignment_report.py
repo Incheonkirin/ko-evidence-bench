@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build or check the flagship alignment report."""
+"""Build or check the research status report."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from ko_evidence_bench.alignment import load_alignment_items, render_alignment_r
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--out", type=Path, default=ROOT / "reports" / "flagship_alignment.md")
+    parser.add_argument("--out", type=Path, default=ROOT / "reports" / "research_status.md")
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
 
@@ -23,9 +23,9 @@ def main() -> int:
     if args.check:
         current = args.out.read_text(encoding="utf-8") if args.out.exists() else ""
         if current != report:
-            print("flagship alignment report is stale; run scripts/build_alignment_report.py")
+            print("research status report is stale; run scripts/build_alignment_report.py")
             return 1
-        print("flagship alignment report is current")
+        print("research status report is current")
         return 0
 
     args.out.parent.mkdir(parents=True, exist_ok=True)

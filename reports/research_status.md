@@ -1,4 +1,4 @@
-# Flagship Alignment
+# Research Status
 
 Overall status: **NO-GO FOR HEADLINE CLAIMS**.
 
@@ -24,7 +24,7 @@ headline claims.
 | Surface-fragmentation undercount audit | `PASS` | public probe intents compare exact lexical seed counts with qrel-level surface variants | The repo measures the user's undercount critique instead of turning aliases into a dictionary. |
 | Qualitative failure gallery | `PASS` | synthetic side-by-side ranking examples generated from the public probe package | Reviewers can inspect concrete failure modes instead of only aggregate metrics. |
 | README signal drift guard | `PASS` | scripts/sync_readme_signals.py --check | The first-screen numbers are generated from checked-in evidence. |
-| Dictionary scope guard | `PASS` | README scope statement rejects a dictionary-first framing | The flagship has to be a measurement artifact, not a user-dictionary repo. |
+| Dictionary scope guard | `PASS` | README scope statement rejects a dictionary-first framing | The project has to be a measurement artifact, not a user-dictionary repo. |
 | Multi-source evidence frame | `PASS` | route protocol and study draft model multiple citable source tiers | The benchmark tests evidence routing, not only policy-clause recall. |
 | Source catalog coverage gate | `PASS` | source-tier catalog joins public qrels and evidence snippets across searchable and abstention routes | The project needs a checked multi-source corpus frame, not only route labels in prose. |
 | Source inventory readiness gate | `PASS` | aggregate private route demand is joined with source inventory readiness and exposes blocked non-policy tiers | Multi-source evaluation needs acquisition and rights readiness, not only route taxonomy. |
@@ -41,7 +41,7 @@ headline claims.
 | Full-matrix submission handoff | `PASS` | qid-only handoff templates cover every missing analyzer, dense, hybrid, and reranker run | The missing full matrix now has a concrete submission shape before validation and promotion. |
 | Full-matrix run-bundle contract | `PASS` | synthetic qid-only bundle validates import, coverage, leakage, and scoring for the missing systems | The missing full matrix now has a checked artifact contract instead of an undefined handoff. |
 | Full-matrix promotion gate | `PASS` | promotion gates reject the synthetic bundle until scale and real-run provenance exist | The repo can accept future full-matrix runs without pretending fixture outputs are model evidence. |
-| Intent-family inventory axis | `PASS` | fixture and private silver inventories treat intent families, surface forms, and trap classes as aggregate slices | This moves the flagship design from synthetic slices into the private qid-only qrel path. |
+| Intent-family inventory axis | `PASS` | fixture and private silver inventories treat intent families, surface forms, and trap classes as aggregate slices | This moves the study design from synthetic slices into the private qid-only qrel path. |
 | Normalization ablation axis | `PASS` | normalization ablation reports aggregate rescue/regression by intent family and surface | This validates normalization as measured lift, not a standalone dictionary artifact. |
 | Qid-only route scorecard path | `PASS` | private silver runs are scored through the same path as future human labels | The evaluation path is tested before human-gold labels arrive. |
 | Per-source route failure slices | `PASS` | route scorecards expose source-tier slices and largest route confusions | The study can explain where routing fails, not just report one aggregate number. |
@@ -58,7 +58,7 @@ headline claims.
 
 ## Interpretation
 
-The repo now has the public shell expected of a flagship measurement study:
+The repo now has the public shell expected of a measurement study:
 generated study draft, claim-control gates, reviewer walkthrough,
 containerized reproduction, screened public probes, dataset card,
 source catalog coverage, source inventory readiness, qualitative examples, layer attribution, system matrix guard,

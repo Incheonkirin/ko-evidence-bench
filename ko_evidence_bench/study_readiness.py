@@ -16,6 +16,9 @@ class StudyReadiness:
     always_policy_route_acc: str
     keyword_route_acc: str
     cohort_aware_route_acc: str
+    polarity_n: int
+    polarity_dense_wrong: str
+    polarity_reranker_wrong: str
     agreement_paired_rows: int
     agreement_raw: str
     agreement_kappa: float
@@ -75,6 +78,7 @@ def require_float(pattern: str, text: str, *, name: str) -> float:
 def load_study_readiness(root: Path) -> StudyReadiness:
     full_cross = read(root / "reports" / "private_544_full_cross_scorecard.md")
     route_scorecard = read(root / "reports" / "private_route_scorecard_silver.md")
+    polarity = read(root / "reports" / "private_polarity_stress_pilot.md")
     agreement = read(root / "reports" / "private_route_audit_agreement_pending.md")
     validation = read(root / "reports" / "private_route_audit_validation_pending.md")
     matrix = load_matrix(root / "docs" / "system_matrix.json")
@@ -101,6 +105,21 @@ def load_study_readiness(root: Path) -> StudyReadiness:
         r"\| `cohort_aware_query_router` \| [\d,]+ \| [\d,]+ \| ([\d.]+%) \|",
         route_scorecard,
         name="cohort-aware route accuracy",
+    )
+    polarity_n = require_int(
+        r"\| contrastive triples \| ([\d,]+) \|",
+        polarity,
+        name="polarity contrastive triples",
+    )
+    polarity_dense_wrong = require_percent(
+        r"\| `dense_multilingual_encoder` \| [\d,]+ \| [\d,]+ \| ([\d.]+%) \|",
+        polarity,
+        name="dense polarity wrong-preferred rate",
+    )
+    polarity_reranker_wrong = require_percent(
+        r"\| `cross_encoder_reranker` \| [\d,]+ \| [\d,]+ \| ([\d.]+%) \|",
+        polarity,
+        name="reranker polarity wrong-preferred rate",
     )
     agreement_paired_rows = require_int(
         r"^- paired completed rows: ([\d,]+)$",
@@ -134,6 +153,9 @@ def load_study_readiness(root: Path) -> StudyReadiness:
         always_policy_route_acc=always_policy_route_acc,
         keyword_route_acc=keyword_route_acc,
         cohort_aware_route_acc=cohort_aware_route_acc,
+        polarity_n=polarity_n,
+        polarity_dense_wrong=polarity_dense_wrong,
+        polarity_reranker_wrong=polarity_reranker_wrong,
         agreement_paired_rows=agreement_paired_rows,
         agreement_raw=agreement_raw,
         agreement_kappa=agreement_kappa,
@@ -166,6 +188,12 @@ def render_study_readiness(readiness: StudyReadiness) -> str:
         f"| `always_policy` route accuracy | {readiness.always_policy_route_acc} | silver baseline only |",
         f"| query-keyword route accuracy | {readiness.keyword_route_acc} | silver baseline only |",
         f"| cohort-aware route accuracy | {readiness.cohort_aware_route_acc} | silver diagnostic only |",
+        (
+            f"| polarity stress pilot | {readiness.polarity_n} triples; "
+            f"dense wrong-polarity {readiness.polarity_dense_wrong}; "
+            f"reranker wrong-polarity {readiness.polarity_reranker_wrong} | "
+            "aggregate pilot, not full matrix |"
+        ),
         f"| paired double-label rows | {readiness.agreement_paired_rows} | needs at least 50 |",
         f"| double-label raw agreement | {readiness.agreement_raw} | audit quality signal |",
         f"| double-label Cohen's kappa | {readiness.agreement_kappa:.3f} | needs at least 0.600 |",
@@ -217,7 +245,7 @@ def render_readme_signals(readiness: StudyReadiness) -> str:
     return "\n".join(
         [
             "<!-- BEGIN: current-verified-signals -->",
-            "These are checked-in aggregate diagnostics, not final benchmark claims:",
+            "These are checked-in v0.1 silver diagnostics, not final benchmark claims:",
             "",
             "| Signal | Current Evidence | Status |",
             "|---|---:|---|",
@@ -226,6 +254,12 @@ def render_readme_signals(readiness: StudyReadiness) -> str:
             f"| `always_policy` route accuracy | {readiness.always_policy_route_acc} | silver proxy |",
             f"| query-keyword route accuracy | {readiness.keyword_route_acc} | silver proxy |",
             f"| cohort-aware route accuracy | {readiness.cohort_aware_route_acc} | silver proxy |",
+            (
+                "| Polarity stress pilot | "
+                f"{readiness.polarity_n} contrastive triples; dense wrong-polarity "
+                f"{readiness.polarity_dense_wrong}; reranker wrong-polarity "
+                f"{readiness.polarity_reranker_wrong} | aggregate pilot |"
+            ),
             (
                 "| Double-label agreement seed | "
                 f"{readiness.agreement_paired_rows} / 50 paired; "

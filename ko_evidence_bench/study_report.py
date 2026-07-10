@@ -462,8 +462,9 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "can tell when policy clauses are not the right evidence tier.",
         "",
         "All numbers below are aggregate-only private-lab diagnostics. They are useful",
-        "for steering the work, but they are blocked from headline use until the",
-        "300-row human source-route adjudication workset is complete.",
+        "for steering the work and for a scoped v0.1 silver result. They should not",
+        "be described as final benchmark claims until the 300-row human source-route",
+        "adjudication workset is complete.",
         "",
         "## Current Finding Candidates",
         "",
@@ -503,6 +504,12 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
             f"route accuracy range {signals.cohort_route_signal.route_accuracy_range}; "
             f"context-needed policy fallback up to {signals.cohort_route_signal.max_context_policy_fallback} | "
             "silver diagnostic |"
+        ),
+        (
+            "| Polarity stress remains a live retrieval failure | "
+            f"{r.polarity_n} contrastive triples; dense wrong-polarity "
+            f"{r.polarity_dense_wrong}; reranker wrong-polarity "
+            f"{r.polarity_reranker_wrong} | aggregate pilot |"
         ),
         (
             "| Real-query substrates need separate stress slices | "
@@ -606,6 +613,23 @@ def render_measurement_study(signals: StudyReportSignals) -> str:
         "This joins private runtime hit booleans with qid-only intent/surface",
         "metadata. It does not publish raw ranked evidence ids, but it verifies",
         "whether actual retrieval hits vary across surface conditions.",
+        "",
+        "## Polarity Stress Pilot",
+        "",
+        "| artifact | rows | diagnostic result | status |",
+        "|---|---:|---|---|",
+        (
+            "| `reports/private_polarity_stress_pilot.md` | "
+            f"{r.polarity_n} | dense wrong-polarity "
+            f"{r.polarity_dense_wrong}; cross-encoder wrong-polarity "
+            f"{r.polarity_reranker_wrong} | aggregate-only pilot |"
+        ),
+        "",
+        "This pilot asks whether a ranker scores opposite-polarity evidence above",
+        "the expected evidence on contrastive query/evidence triples. It is not",
+        "the full analyzer/dense/hybrid/reranker matrix, but it is real evidence",
+        "that polarity, abstention, and source-route behavior need separate slices",
+        "from ordinary top-k clause-hit metrics.",
         "",
         "## Route-Label Agreement Evidence",
         "",

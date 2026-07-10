@@ -147,10 +147,10 @@ check-measurement-study:
 	python3 scripts/build_measurement_study.py --out reports/measurement_study_draft.md --check
 
 build-alignment-report:
-	python3 scripts/build_alignment_report.py --out reports/flagship_alignment.md
+	python3 scripts/build_alignment_report.py --out reports/research_status.md
 
 check-alignment-report:
-	python3 scripts/build_alignment_report.py --out reports/flagship_alignment.md --check
+	python3 scripts/build_alignment_report.py --out reports/research_status.md --check
 
 verify: test reproduce-table-1 reproduce-route-audit-workflow reproduce-human-gold-rehearsal reproduce-route-scorecard reproduce-route-cohort-scorecard reproduce-surface-scorecard reproduce-route-surface-scorecard reproduce-runtime-surface-scorecard reproduce-layer-attribution check-audit-surface-coverage reproduce-normalization-ablation reproduce-intent-inventory reproduce-intent-surface-export reproduce-substrate-profile check-study-readiness check-readme-signals check-router-lift check-surface-lift check-hero-signal check-claim-ledger check-reviewer-demo check-source-catalog-report check-source-inventory-report check-probe-privacy check-probe-dataset-card check-probe-beir check-probe-system-comparison check-probe-trap-mining check-surface-fragmentation-audit check-qualitative-gallery check-route-agreement-workflow check-answer-quality-audit check-answer-review-workflow check-answer-agreement-workflow check-system-matrix-submission-pack check-system-matrix-bundle check-system-matrix-promotion check-system-matrix-report check-measurement-study check-alignment-report check-public-safety
 

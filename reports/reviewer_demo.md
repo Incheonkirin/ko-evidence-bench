@@ -82,7 +82,7 @@ generated-report checks, and public-safety scan inside the container.
 
 ## Reviewer Decision
 
-For a portfolio review, the current repo can be evaluated as a reproducible
+For a technical review, the current repo can be evaluated as a reproducible
 measurement-study shell with visible judgment about claim control. It should
 not yet be evaluated as a completed human-gold benchmark. The next decisive
 step is to complete the 50-row agreement seed and 300-row adjudicated

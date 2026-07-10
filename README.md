@@ -1,26 +1,25 @@
 # ko-evidence-bench
 
-Evidence sufficiency and abstention metrics for Korean retrieval. Insurance is
-the first testbed.
+Do Korean retrieval systems find citable evidence, or just plausible text?
 
 ## Thesis
 
-Real Korean insurance questions are asked in community language. Citable answers
-live in clause language. This repo scores whether a retrieval system crossed
-that gap, and whether it stopped when it could not.
+Real Korean insurance questions are asked in consumer language. Citable answers
+live in clause language, official guidance, claim-operation material, dispute
+records, or expert guidance. This repo scores whether a retrieval system crossed
+that gap, routed to the right source tier, and stopped when it could not cite
+enough evidence.
 
 This is the public shell of a private search lab. It contains metrics, schemas,
 fixtures, and reports. It does not contain community crawls, messenger exports,
 or copyrighted policy corpora.
 
-The current aggregate-only study draft is
-`reports/measurement_study_draft.md`. The current artifact-alignment report is
-`reports/flagship_alignment.md`.
+The current aggregate-only study report is `reports/measurement_study_draft.md`.
 
-## Current Verified Signals
+## v0.1 Silver Results
 
 <!-- BEGIN: current-verified-signals -->
-These are checked-in aggregate diagnostics, not final benchmark claims:
+These are checked-in v0.1 silver diagnostics, not final benchmark claims:
 
 | Signal | Current Evidence | Status |
 |---|---:|---|
@@ -29,6 +28,7 @@ These are checked-in aggregate diagnostics, not final benchmark claims:
 | `always_policy` route accuracy | 21.5% | silver proxy |
 | query-keyword route accuracy | 31.8% | silver proxy |
 | cohort-aware route accuracy | 46.9% | silver proxy |
+| Polarity stress pilot | 444 contrastive triples; dense wrong-polarity 29.1%; reranker wrong-polarity 48.4% | aggregate pilot |
 | Double-label agreement seed | 0 / 50 paired; kappa 0.000 | headline blocked |
 | Adjudicated human route labels | 0 / 300 complete | headline blocked |
 | Full system comparison matrix | 14 / 22 implemented; 7 not run; 1 blocked | headline blocked |
@@ -48,9 +48,8 @@ The generated hero report is `reports/hero_signal.md`. It compresses the
 current aggregate diagnostics into one first-screen signal while keeping the
 human-gold claim gate visible.
 
-The public wording guard is `reports/claim_ledger.md`: it says which diagnostic
-claims are currently allowed, which claims are blocked, and what evidence is
-needed next.
+The public wording guard is `reports/claim_ledger.md`: it separates scoped
+diagnostic wording from blocked final benchmark claims.
 
 The source-tier catalog is `docs/source_catalog.json`. The generated report
 `reports/source_catalog_coverage.md` checks that the public probe exercises
@@ -413,8 +412,8 @@ current.
 `make build-measurement-study` regenerates the aggregate-only study draft from
 checked-in reports. `make verify` checks that the committed draft is current.
 
-`make build-alignment-report` regenerates the flagship alignment report, which
-shows which portfolio-study gates are implemented and which one still blocks
+`make build-alignment-report` regenerates `reports/research_status.md`, which
+shows which study checks are implemented and which evidence still blocks
 headline claims.
 
 Private retrieval exports with query-level hit booleans can be summarized without
@@ -670,7 +669,7 @@ fixtures/
 reports/
   claim_ledger.md
   eval_core_inventory.md
-  flagship_alignment.md
+  research_status.md
   hero_signal.md
   human_gold_rehearsal_fixture.md
   intent_inventory_fixture.md

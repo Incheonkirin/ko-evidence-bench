@@ -1,4 +1,4 @@
-"""Flagship artifact alignment checks."""
+"""Research artifact status checks."""
 
 from __future__ import annotations
 
@@ -241,7 +241,7 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
                 else "MISSING"
             ),
             evidence="README scope statement rejects a dictionary-first framing",
-            why_it_matters="The flagship has to be a measurement artifact, not a user-dictionary repo.",
+            why_it_matters="The project has to be a measurement artifact, not a user-dictionary repo.",
         ),
         AlignmentItem(
             area="Multi-source evidence frame",
@@ -536,7 +536,7 @@ def load_alignment_items(root: Path) -> list[AlignmentItem]:
                 else "MISSING"
             ),
             evidence="fixture and private silver inventories treat intent families, surface forms, and trap classes as aggregate slices",
-            why_it_matters="This moves the flagship design from synthetic slices into the private qid-only qrel path.",
+            why_it_matters="This moves the study design from synthetic slices into the private qid-only qrel path.",
         ),
         AlignmentItem(
             area="Normalization ablation axis",
@@ -722,7 +722,7 @@ def overall_status(items: list[AlignmentItem]) -> str:
 
 def render_alignment_report(items: list[AlignmentItem]) -> str:
     lines = [
-        "# Flagship Alignment",
+        "# Research Status",
         "",
         f"Overall status: **{overall_status(items)}**.",
         "",
@@ -743,7 +743,7 @@ def render_alignment_report(items: list[AlignmentItem]) -> str:
             "",
             "## Interpretation",
             "",
-            "The repo now has the public shell expected of a flagship measurement study:",
+            "The repo now has the public shell expected of a measurement study:",
             "generated study draft, claim-control gates, reviewer walkthrough,",
             "containerized reproduction, screened public probes, dataset card,",
             "source catalog coverage, source inventory readiness, qualitative examples, layer attribution, system matrix guard,",

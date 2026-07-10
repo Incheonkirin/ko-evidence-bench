@@ -148,7 +148,7 @@ class AlignmentTest(unittest.TestCase):
                 text=True,
             )
 
-            self.assertIn("flagship alignment report is current", result.stdout)
+            self.assertIn("research status report is current", result.stdout)
 
 
 if __name__ == "__main__":

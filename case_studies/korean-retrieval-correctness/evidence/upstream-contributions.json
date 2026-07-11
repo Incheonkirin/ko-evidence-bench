@@ -1,0 +1,48 @@
+{
+  "schema_version": "ko-evidence-bench.upstream-manifest.v1",
+  "observed_at": "2026-07-11",
+  "contributions": [
+    {
+      "repository": "apache/lucene",
+      "pull_request": 16242,
+      "title": "Add Hangul composition char filter to analysis-nori",
+      "url": "https://github.com/apache/lucene/pull/16242",
+      "contribution_type": "implementation",
+      "state": "MERGED",
+      "merged_at": "2026-06-29T11:42:14Z",
+      "merge_commit": "401c65501c0cd019c9e7abbe5917e7dd7a9846bf",
+      "changed_files": 6,
+      "additions": 438,
+      "deletions": 0,
+      "invariant": "Canonically equivalent modern Hangul should receive equivalent Korean analysis."
+    },
+    {
+      "repository": "elastic/elasticsearch",
+      "pull_request": 151157,
+      "title": "Document nori default XPN stoptag behavior for Korean prefixes",
+      "url": "https://github.com/elastic/elasticsearch/pull/151157",
+      "contribution_type": "documentation and configuration guidance",
+      "state": "MERGED",
+      "merged_at": "2026-06-15T19:09:52Z",
+      "merge_commit": "d666a6fc805c517cc8a04b21c931f09e10031656",
+      "changed_files": 1,
+      "additions": 28,
+      "deletions": 0,
+      "invariant": "Token filtering should not silently collapse contrastive domain meanings."
+    },
+    {
+      "repository": "elastic/elasticsearch",
+      "pull_request": 152931,
+      "title": "Preserve position gaps in graph phrase queries",
+      "url": "https://github.com/elastic/elasticsearch/pull/152931",
+      "contribution_type": "implementation",
+      "state": "MERGED",
+      "merged_at": "2026-07-10T17:26:18Z",
+      "merge_commit": "663c818c1f33f26c43b5c625fc5626cec1206d6a",
+      "changed_files": 4,
+      "additions": 294,
+      "deletions": 10,
+      "invariant": "Phrase-query construction should preserve position holes represented by the token graph."
+    }
+  ]
+}

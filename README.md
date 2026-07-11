@@ -26,6 +26,22 @@ The result reports state exactly what each number measures and retain the
 public/private boundary; they do not release user text or copyrighted evidence.
 <!-- END: current-verified-signals -->
 
+## Upstream Correctness: Where Retrieval Fails Before Ranking
+
+Three merged Apache Lucene and Elasticsearch contributions trace Korean search
+failures across the full lexical representation path:
+
+| Boundary | Merged contribution | Failure made observable |
+|---|---|---|
+| Unicode -> tokenizer | [Lucene #16242](https://github.com/apache/lucene/pull/16242) | Canonically equivalent NFD/NFC Hangul received different Korean analysis. |
+| Morphology -> filtered tokens | [Elasticsearch #151157](https://github.com/elastic/elasticsearch/pull/151157) | The default `XPN` stop tag could collapse `비급여` into `급여`. |
+| Token graph -> phrase query | [Elasticsearch #152931](https://github.com/elastic/elasticsearch/pull/152931) | An exact Korean source phrase returned zero hits at `slop=0`. |
+
+The [full correctness case study](case_studies/korean-retrieval-correctness/README.md)
+connects each upstream invariant and regression to the 444-triple system-level
+polarity stress measurement. Its summary, PR manifest, observations, and SVGs are
+generated from checked-in synthetic or aggregate evidence.
+
 ## Results
 
 ### 1. Cross-reranking improves clause recovery, but it does not solve robustness
@@ -145,6 +161,7 @@ scripts/             result reproduction, aggregate export, and safety checks
 probes/              synthetic public probe set and BEIR-style export
 fixtures/            executable public examples
 reports/             aggregate study results and reproducible diagnostic reports
+case_studies/        upstream investigations connected to system-level evaluation
 docs/                metric, schema, privacy, and data-boundary notes
 ```
 

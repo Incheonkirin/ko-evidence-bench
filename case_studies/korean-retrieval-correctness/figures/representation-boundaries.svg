@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">Three representation boundaries before ranking</title>
+  <desc id="desc">A Korean retrieval pipeline with failures at canonical-form, polarity, and token-position boundaries.</desc>
+  <rect width="100%" height="100%" fill="white"/>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#687076"/></marker></defs>
+  <text x="600.0" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="27" font-weight="700" fill="#202124" text-anchor="middle">Three correctness failures happen before ranking</text>
+  <text x="600.0" y="82" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="400" fill="#687076" text-anchor="middle">Each boundary must preserve the distinctions relevance depends on</text>
+  <rect x="44" y="145" width="128" height="76" rx="6" fill="#F5F7F8" stroke="#D9DEE2" stroke-width="2"/>
+  <text x="108.0" y="177" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">Unicode</text>
+  <text x="108.0" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">text</text>
+  <line x1="177" y1="183" x2="201" y2="183" stroke="#687076" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="208" y="145" width="128" height="76" rx="6" fill="#F5F7F8" stroke="#D9DEE2" stroke-width="2"/>
+  <text x="272.0" y="177" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">Character</text>
+  <text x="272.0" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">filter</text>
+  <line x1="341" y1="183" x2="365" y2="183" stroke="#687076" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="372" y="145" width="128" height="76" rx="6" fill="#F5F7F8" stroke="#D9DEE2" stroke-width="2"/>
+  <text x="436.0" y="177" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">Korean</text>
+  <text x="436.0" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">tokenizer</text>
+  <line x1="505" y1="183" x2="529" y2="183" stroke="#687076" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 428.0 239 L 444.0 239 L 436.0 253 Z" fill="#C43D3D"/>
+  <text x="436.0" y="282" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="600" fill="#C43D3D" text-anchor="middle">1  canonical form</text>
+  <rect x="536" y="145" width="128" height="76" rx="6" fill="#F5F7F8" stroke="#D9DEE2" stroke-width="2"/>
+  <text x="600.0" y="177" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">POS / stop</text>
+  <text x="600.0" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">filter</text>
+  <line x1="669" y1="183" x2="693" y2="183" stroke="#687076" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 592.0 239 L 608.0 239 L 600.0 253 Z" fill="#C43D3D"/>
+  <text x="600.0" y="282" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="600" fill="#C43D3D" text-anchor="middle">2  polarity</text>
+  <rect x="700" y="145" width="128" height="76" rx="6" fill="#F5F7F8" stroke="#D9DEE2" stroke-width="2"/>
+  <text x="764.0" y="177" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">Token</text>
+  <text x="764.0" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">graph</text>
+  <line x1="833" y1="183" x2="857" y2="183" stroke="#687076" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="864" y="145" width="128" height="76" rx="6" fill="#F5F7F8" stroke="#D9DEE2" stroke-width="2"/>
+  <text x="928.0" y="177" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">Query</text>
+  <text x="928.0" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">builder</text>
+  <line x1="997" y1="183" x2="1021" y2="183" stroke="#687076" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 920.0 239 L 936.0 239 L 928.0 253 Z" fill="#C43D3D"/>
+  <text x="928.0" y="282" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="600" fill="#C43D3D" text-anchor="middle">3  position gaps</text>
+  <rect x="1028" y="145" width="128" height="76" rx="6" fill="#EAF4EF" stroke="#D9DEE2" stroke-width="2"/>
+  <text x="1092.0" y="177" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="700" fill="#202124" text-anchor="middle">Ranking</text>
+</svg>

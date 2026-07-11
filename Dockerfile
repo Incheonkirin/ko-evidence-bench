@@ -12,6 +12,7 @@ COPY scripts ./scripts
 COPY fixtures ./fixtures
 COPY probes ./probes
 COPY reports ./reports
+COPY case_studies ./case_studies
 COPY docs ./docs
 COPY tests ./tests
 COPY tools ./tools

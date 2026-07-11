@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img" aria-labelledby="title desc">
+  <title id="title">Wrong-polarity preference by retrieval system</title>
+  <desc id="desc">Horizontal bars show wrong-polarity preference rates and clustered bootstrap confidence intervals for four retrieval systems.</desc>
+  <rect width="100%" height="100%" fill="white"/>
+  <text x="550.0" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="26" font-weight="700" fill="#202124" text-anchor="middle">Wrong-polarity preference remains a system-level failure</text>
+  <text x="550.0" y="82" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="400" fill="#687076" text-anchor="middle">444 counterfactual triples · 37 seed pairs · lower is better</text>
+  <line x1="335.0" y1="145" x2="335.0" y2="506" stroke="#D9DEE2" stroke-width="1"/>
+  <text x="335.0" y="536" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="400" fill="#687076" text-anchor="middle">0%</text>
+  <line x1="506.25" y1="145" x2="506.25" y2="506" stroke="#D9DEE2" stroke-width="1"/>
+  <text x="506.25" y="536" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="400" fill="#687076" text-anchor="middle">25%</text>
+  <line x1="677.5" y1="145" x2="677.5" y2="506" stroke="#D9DEE2" stroke-width="1"/>
+  <text x="677.5" y="536" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="400" fill="#687076" text-anchor="middle">50%</text>
+  <line x1="848.75" y1="145" x2="848.75" y2="506" stroke="#D9DEE2" stroke-width="1"/>
+  <text x="848.75" y="536" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="400" fill="#687076" text-anchor="middle">75%</text>
+  <line x1="1020.0" y1="145" x2="1020.0" y2="506" stroke="#D9DEE2" stroke-width="1"/>
+  <text x="1020.0" y="536" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="400" fill="#687076" text-anchor="middle">100%</text>
+  <text x="311" y="199" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="400" fill="#687076" text-anchor="end">Analyzer-token BM25</text>
+  <rect x="335" y="175" width="368.7274774774775" height="34" fill="#C43D3D" rx="2"/>
+  <line x1="692.9279279279278" y1="192" x2="716.0698198198198" y2="192" stroke="#202124" stroke-width="2"/>
+  <line x1="692.9279279279278" y1="185" x2="692.9279279279278" y2="199" stroke="#202124" stroke-width="2"/>
+  <line x1="716.0698198198198" y1="185" x2="716.0698198198198" y2="199" stroke="#202124" stroke-width="2"/>
+  <text x="730.0698198198198" y="199" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="700" fill="#202124" text-anchor="start">53.8%</text>
+  <text x="311" y="291" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="400" fill="#687076" text-anchor="end">Lucene-style BM25 arm</text>
+  <rect x="335" y="267" width="303.9301801801802" height="34" fill="#C43D3D" rx="2"/>
+  <line x1="623.5022522522522" y1="284" x2="652.8153153153153" y2="284" stroke="#202124" stroke-width="2"/>
+  <line x1="623.5022522522522" y1="277" x2="623.5022522522522" y2="291" stroke="#202124" stroke-width="2"/>
+  <line x1="652.8153153153153" y1="277" x2="652.8153153153153" y2="291" stroke="#202124" stroke-width="2"/>
+  <text x="666.8153153153153" y="291" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="700" fill="#202124" text-anchor="start">44.4%</text>
+  <text x="311" y="383" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="400" fill="#687076" text-anchor="end">BGE-M3 dense retrieval</text>
+  <rect x="335" y="359" width="199.02027027027026" height="34" fill="#557A95" rx="2"/>
+  <line x1="496.9932432432432" y1="376" x2="571.0472972972973" y2="376" stroke="#202124" stroke-width="2"/>
+  <line x1="496.9932432432432" y1="369" x2="496.9932432432432" y2="383" stroke="#202124" stroke-width="2"/>
+  <line x1="571.0472972972973" y1="369" x2="571.0472972972973" y2="383" stroke="#202124" stroke-width="2"/>
+  <text x="585.0472972972973" y="383" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="700" fill="#202124" text-anchor="start">29.1%</text>
+  <text x="311" y="475" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="400" fill="#687076" text-anchor="end">BGE reranker</text>
+  <rect x="335" y="451" width="331.70045045045043" height="34" fill="#C43D3D" rx="2"/>
+  <line x1="649.7297297297298" y1="468" x2="682.1283783783783" y2="468" stroke="#202124" stroke-width="2"/>
+  <line x1="649.7297297297298" y1="461" x2="649.7297297297298" y2="475" stroke="#202124" stroke-width="2"/>
+  <line x1="682.1283783783783" y1="461" x2="682.1283783783783" y2="475" stroke="#202124" stroke-width="2"/>
+  <text x="696.1283783783783" y="475" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="700" fill="#202124" text-anchor="start">48.4%</text>
+  <text x="677.5" y="585" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="400" fill="#202124" text-anchor="middle">Opposite-polarity evidence scored at or above expected evidence</text>
+</svg>

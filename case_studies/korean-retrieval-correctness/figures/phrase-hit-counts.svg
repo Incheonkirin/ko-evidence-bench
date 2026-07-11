@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560" role="img" aria-labelledby="title desc">
+  <title id="title">Exact phrase hit counts</title>
+  <desc id="desc">The same one-document fixture matches a bag-of-words query and a phrase query with slop one, but not a phrase query with zero slop.</desc>
+  <rect width="100%" height="100%" fill="white"/>
+  <text x="450.0" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="25" font-weight="700" fill="#202124" text-anchor="middle">Exact source phrase misses only in the zero-slop graph path</text>
+  <text x="450.0" y="82" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="400" fill="#687076" text-anchor="middle">보험계약대출이율 · one-document fixture · Elasticsearch 8.15.3</text>
+  <line x1="105" y1="455" x2="825" y2="455" stroke="#D9DEE2" stroke-width="2"/>
+  <line x1="105" y1="205" x2="825" y2="205" stroke="#D9DEE2" stroke-width="1"/>
+  <text x="90" y="461" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="400" fill="#687076" text-anchor="end">0</text>
+  <text x="90" y="211" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="16" font-weight="400" fill="#687076" text-anchor="end">1</text>
+  <rect x="147.5" y="205" width="145" height="250" fill="#557A95"/>
+  <text x="220" y="187" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="22" font-weight="700" fill="#202124" text-anchor="middle">1</text>
+  <text x="220" y="489" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="18" font-weight="400" fill="#687076" text-anchor="middle">match</text>
+  <line x1="377.5" y1="453" x2="522.5" y2="453" stroke="#C43D3D" stroke-width="5"/>
+  <text x="450" y="437" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="22" font-weight="700" fill="#202124" text-anchor="middle">0</text>
+  <text x="450" y="489" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="18" font-weight="400" fill="#687076" text-anchor="middle">phrase</text>
+  <text x="450" y="513" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="18" font-weight="400" fill="#687076" text-anchor="middle">slop=0</text>
+  <rect x="607.5" y="205" width="145" height="250" fill="#167D5A"/>
+  <text x="680" y="187" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="22" font-weight="700" fill="#202124" text-anchor="middle">1</text>
+  <text x="680" y="489" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="18" font-weight="400" fill="#687076" text-anchor="middle">phrase</text>
+  <text x="680" y="513" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="18" font-weight="400" fill="#687076" text-anchor="middle">slop=1</text>
+</svg>

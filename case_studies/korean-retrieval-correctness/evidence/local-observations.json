@@ -1,0 +1,77 @@
+{
+  "schema_version": "ko-evidence-bench.upstream-correctness.v1",
+  "runtime": {
+    "elasticsearch": "8.15.3",
+    "lucene": "9.11.1",
+    "analyzer": "korean",
+    "private_policy_passages": 36983,
+    "phrase_fixture_documents": 1
+  },
+  "analyzer_cases": [
+    {
+      "case_id": "xpn_non_covered",
+      "input_label": "비급여",
+      "input": "비급여",
+      "tokens": ["급여"]
+    },
+    {
+      "case_id": "covered",
+      "input_label": "급여",
+      "input": "급여",
+      "tokens": ["급여"]
+    },
+    {
+      "case_id": "xpn_excluded_coverage",
+      "input_label": "부담보",
+      "input": "부담보",
+      "tokens": ["담보"]
+    },
+    {
+      "case_id": "coverage",
+      "input_label": "담보",
+      "input": "담보",
+      "tokens": ["담보"]
+    },
+    {
+      "case_id": "hangul_nfc",
+      "input_label": "NFC source",
+      "input": "보험계약대출이율",
+      "tokens": ["보험계약", "보험", "계약", "대출", "율"],
+      "positions": [0, 0, 1, 2, 4],
+      "position_lengths": [2, 1, 1, 1, 1]
+    },
+    {
+      "case_id": "hangul_nfd",
+      "input_label": "NFD source",
+      "input": "보험계약대출이율",
+      "tokens": ["보험계약대출이율"],
+      "positions": [0],
+      "position_lengths": [1]
+    }
+  ],
+  "phrase_cases": [
+    {
+      "query_type": "match",
+      "slop": null,
+      "hits": 1
+    },
+    {
+      "query_type": "match_phrase",
+      "slop": 0,
+      "hits": 0
+    },
+    {
+      "query_type": "match_phrase",
+      "slop": 1,
+      "hits": 1
+    }
+  ],
+  "zero_slop_query_explanation": "spanNear([spanOr([text:보험계약, spanNear([text:보험, text:계약], 0, true)]), text:대출, text:율], 0, true)",
+  "scope": {
+    "raw_text_exported": false,
+    "analyzer_inputs_are_synthetic": true,
+    "phrase_fixture_is_synthetic": true,
+    "patched_query_runtime_measured_here": false,
+    "post_fix_evidence": "merged upstream regression tests"
+  }
+}

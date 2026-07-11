@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="570" viewBox="0 0 1100 570" role="img" aria-labelledby="title desc">
+  <title id="title">Observed Korean analyzer outputs</title>
+  <desc id="desc">Nori collapses two contrastive prefix pairs, and NFC and NFD forms receive different analysis.</desc>
+  <rect width="100%" height="100%" fill="white"/>
+  <text x="45" y="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="28" font-weight="700" fill="#202124" text-anchor="start">Observed analyzer outputs</text>
+  <text x="45" y="84" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="400" fill="#687076" text-anchor="start">Elasticsearch 8.15.3 · Lucene 9.11.1 · korean analyzer</text>
+  <text x="60" y="145" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="19" font-weight="700" fill="#202124" text-anchor="start">비급여</text>
+  <text x="275" y="145" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="21" font-weight="400" fill="#687076" text-anchor="middle">→</text>
+  <text x="320" y="145" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="18" font-weight="600" fill="#C43D3D" text-anchor="start">급여</text>
+  <line x1="55" y1="169" x2="1045" y2="169" stroke="#D9DEE2" stroke-width="1"/>
+  <text x="60" y="212" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="19" font-weight="700" fill="#202124" text-anchor="start">급여</text>
+  <text x="275" y="212" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="21" font-weight="400" fill="#687076" text-anchor="middle">→</text>
+  <text x="320" y="212" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="18" font-weight="600" fill="#167D5A" text-anchor="start">급여</text>
+  <line x1="55" y1="236" x2="1045" y2="236" stroke="#D9DEE2" stroke-width="1"/>
+  <text x="60" y="279" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="19" font-weight="700" fill="#202124" text-anchor="start">부담보</text>
+  <text x="275" y="279" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="21" font-weight="400" fill="#687076" text-anchor="middle">→</text>
+  <text x="320" y="279" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="18" font-weight="600" fill="#C43D3D" text-anchor="start">담보</text>
+  <line x1="55" y1="303" x2="1045" y2="303" stroke="#D9DEE2" stroke-width="1"/>
+  <text x="60" y="346" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="19" font-weight="700" fill="#202124" text-anchor="start">담보</text>
+  <text x="275" y="346" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="21" font-weight="400" fill="#687076" text-anchor="middle">→</text>
+  <text x="320" y="346" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="18" font-weight="600" fill="#167D5A" text-anchor="start">담보</text>
+  <line x1="55" y1="370" x2="1045" y2="370" stroke="#D9DEE2" stroke-width="1"/>
+  <text x="60" y="413" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="19" font-weight="700" fill="#202124" text-anchor="start">NFC source</text>
+  <text x="275" y="413" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="21" font-weight="400" fill="#687076" text-anchor="middle">→</text>
+  <text x="320" y="413" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="18" font-weight="600" fill="#167D5A" text-anchor="start">보험계약 / 보험 / 계약 / 대출 / 율</text>
+  <line x1="55" y1="437" x2="1045" y2="437" stroke="#D9DEE2" stroke-width="1"/>
+  <text x="60" y="480" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="19" font-weight="700" fill="#202124" text-anchor="start">NFD source</text>
+  <text x="275" y="480" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="21" font-weight="400" fill="#687076" text-anchor="middle">→</text>
+  <text x="320" y="480" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', sans-serif" font-size="18" font-weight="600" fill="#C43D3D" text-anchor="start">one NFD jamo-sequence token</text>
+  <line x1="55" y1="504" x2="1045" y2="504" stroke="#D9DEE2" stroke-width="1"/>
+</svg>

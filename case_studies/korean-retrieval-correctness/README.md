@@ -17,6 +17,14 @@ All three investigations resulted in merged upstream contributions. The local
 observations and insurance stress measurements below establish bounded failure
 cases, not a claim that every Korean search system has the same defects.
 
+## Deep Dives
+
+- [When an Exact Phrase Returns Zero Results](exact-phrase-zero-results.md):
+  token graphs, position holes, query-tree compilation, and Elasticsearch
+  `#152931`.
+- [When a Korean Analyzer Reverses Meaning](analyzer-reverses-meaning.md):
+  `XPN` prefix removal, polarity-aware evaluation, and Elasticsearch `#151157`.
+
 ![Three representation boundaries before ranking](figures/representation-boundaries.svg)
 
 ## Results At A Glance

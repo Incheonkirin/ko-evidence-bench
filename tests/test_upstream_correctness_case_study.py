@@ -91,14 +91,18 @@ class UpstreamCorrectnessCaseStudyTest(unittest.TestCase):
         self.assertFalse(self.polarity["input"]["raw_text_exported"])
 
     def test_case_study_local_links_resolve(self) -> None:
-        article_path = CASE_DIR / "README.md"
-        article = article_path.read_text(encoding="utf-8")
-        targets = re.findall(r"\]\((?!https?://)([^)#]+)(?:#[^)]+)?\)", article)
-
-        self.assertGreater(len(targets), 0)
-        for target in targets:
-            with self.subTest(target=target):
-                self.assertTrue((article_path.parent / target).resolve().exists())
+        article_paths = [
+            CASE_DIR / "README.md",
+            CASE_DIR / "exact-phrase-zero-results.md",
+            CASE_DIR / "analyzer-reverses-meaning.md",
+        ]
+        for article_path in article_paths:
+            article = article_path.read_text(encoding="utf-8")
+            targets = re.findall(r"\]\((?!https?://)([^)#]+)(?:#[^)]+)?\)", article)
+            self.assertGreater(len(targets), 0)
+            for target in targets:
+                with self.subTest(article=article_path.name, target=target):
+                    self.assertTrue((article_path.parent / target).resolve().exists())
 
 
 if __name__ == "__main__":

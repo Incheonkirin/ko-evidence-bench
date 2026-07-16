@@ -37,5 +37,40 @@ class PublicSafetyTest(unittest.TestCase):
         self.assertEqual(findings, [])
 
 
+    def test_scanner_detects_token_with_suffix(self):
+        # e.g. Name + "ed" suffix; built from hex so this file stays clean
+        leaked = bytes.fromhex("426c696e64").decode("utf-8") + "ed review"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "leak.txt").write_text(leaked + "\n", encoding="utf-8")
+            findings = scanner.scan_file(root / "leak.txt", scanner.rules())
+        self.assertTrue(any(rule_id == "source_name_en_4" for rule_id, _ in findings))
+
+    def test_scanner_detects_url_host_token(self):
+        host = bytes.fromhex("4b616b616f").decode("utf-8").lower()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "leak.txt").write_text(f"https://open.{host}.com/o/abc\n", encoding="utf-8")
+            findings = scanner.scan_file(root / "leak.txt", scanner.rules())
+        self.assertTrue(any(rule_id == "source_name_en_1" for rule_id, _ in findings))
+
+    def test_scanner_detects_qid_prefix_token(self):
+        qid = bytes.fromhex("626c696e645f").decode("utf-8") + "00123"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "leak.txt").write_text(f"qid={qid}\n", encoding="utf-8")
+            findings = scanner.scan_file(root / "leak.txt", scanner.rules())
+        self.assertTrue(any(rule_id == "source_qid_prefix_1" for rule_id, _ in findings))
+
+    def test_scanner_detects_korean_name_inside_longer_token(self):
+        leaked = bytes.fromhex("ec82bcec84b1").decode("utf-8") + "전자"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "leak.txt").write_text(leaked + "\n", encoding="utf-8")
+            findings = scanner.scan_file(root / "leak.txt", scanner.rules())
+        self.assertTrue(any(rule_id == "source_name_ko_3" for rule_id, _ in findings))
+
+
+
 if __name__ == "__main__":
     unittest.main()

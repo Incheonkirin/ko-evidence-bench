@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT))
 
 from ko_evidence_bench.schemas import ROUTE_LABELS, validate_qrel  # noqa: E402
 from scripts.check_public_safety import rules as public_safety_rules  # noqa: E402
+from scripts.check_public_safety import text_hits as public_safety_hits  # noqa: E402
 
 PROVENANCE = "synthetic_public_fixture"
 NGRAM_SIZE = 24
@@ -103,9 +104,8 @@ def pii_failures(label: str, text: str) -> list[str]:
     for name, pattern in checks.items():
         if pattern.search(text):
             failures.append(f"{label} contains {name}")
-    for rule in public_safety_rules():
-        if rule.pattern.search(text):
-            failures.append(f"{label} contains private-source indicator {rule.rule_id}")
+    for rule_id in public_safety_hits(text, public_safety_rules()):
+        failures.append(f"{label} contains private-source indicator {rule_id}")
     return failures
 
 

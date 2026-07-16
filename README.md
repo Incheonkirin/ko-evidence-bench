@@ -1,17 +1,34 @@
-# ko-evidence-bench
+# Korean Search Correctness
 
-**Do Korean retrieval systems find citable evidence, or only plausible text?**
+**Reproducible Korean search correctness cases and retrieval diagnostics,
+from Unicode normalization and morphology to phrase queries and polarity.**
 
-Real insurance questions are written in consumer language, while answerable
-evidence lives in clause language, official guidance, and product-specific
-documents. `ko-evidence-bench` measures the gap: clause recovery, semantic
-polarity preservation, surface-form robustness, evidence sufficiency, source
-routing, and abstention.
+This repository provides minimal reproductions, invariants, regression tests,
+and privacy-screened aggregate evaluations for failure modes in Korean search
+stacks: canonically equivalent Hangul that analyzes differently, a negation
+prefix removed by a default stop tag, a phrase query that drops a token
+position and stops matching its own source text. Two of those failures are
+fixed upstream in Apache Lucene and Elasticsearch; one is documented upstream.
 
-The project is a public measurement companion to a private retrieval lab. The
-lab holds raw crawls and copyrighted documents; this repository publishes the
-evaluation code, synthetic probes, qid-only run contracts, and aggregate-only
-results.
+It is the correctness layer of a private Korean evidence-search lab. The lab
+holds the source corpus and full retrieval experiments; this repository
+publishes the reproducible cases, evaluation code, synthetic probes, run
+contracts, and aggregate results.
+
+## Merged Upstream Contributions
+
+| Boundary | Failure made observable | Contribution | Type |
+|---|---|---|---|
+| Unicode -> tokenizer | Canonically equivalent NFD/NFC Hangul received different Korean analysis. | [Lucene #16242](https://github.com/apache/lucene/pull/16242) | Code fix |
+| Morphology -> filtered tokens | The default `XPN` stop tag could collapse `비급여` into `급여`. | [Elasticsearch #151157](https://github.com/elastic/elasticsearch/pull/151157) | Documentation |
+| Token graph -> phrase query | An exact Korean source phrase returned zero hits at `slop=0`. | [Elasticsearch #152931](https://github.com/elastic/elasticsearch/pull/152931) | Code fix |
+
+Each case reduces an observed failure to a minimal reproduction, an
+invariant, and regression tests. The
+[case study collection](case_studies/korean-retrieval-correctness/README.md)
+connects the three boundaries to the system-level polarity measurement below;
+its summary, PR manifest, observations, and figures are generated from
+checked-in synthetic or aggregate evidence.
 
 <!-- BEGIN: current-verified-signals -->
 ## Measured v0.1 Signals
@@ -25,22 +42,6 @@ results.
 The result reports state exactly what each number measures and retain the
 public/private boundary; they do not release user text or copyrighted evidence.
 <!-- END: current-verified-signals -->
-
-## Upstream Correctness: Where Retrieval Fails Before Ranking
-
-Three merged Apache Lucene and Elasticsearch contributions trace Korean search
-failures across the full lexical representation path:
-
-| Boundary | Merged contribution | Failure made observable |
-|---|---|---|
-| Unicode -> tokenizer | [Lucene #16242](https://github.com/apache/lucene/pull/16242) | Canonically equivalent NFD/NFC Hangul received different Korean analysis. |
-| Morphology -> filtered tokens | [Elasticsearch #151157](https://github.com/elastic/elasticsearch/pull/151157) | The default `XPN` stop tag could collapse `비급여` into `급여`. |
-| Token graph -> phrase query | [Elasticsearch #152931](https://github.com/elastic/elasticsearch/pull/152931) | An exact Korean source phrase returned zero hits at `slop=0`. |
-
-The [full correctness case study](case_studies/korean-retrieval-correctness/README.md)
-connects each upstream invariant and regression to the 444-triple system-level
-polarity stress measurement. Its summary, PR manifest, observations, and SVGs are
-generated from checked-in synthetic or aggregate evidence.
 
 ## Results
 
@@ -89,6 +90,16 @@ separate live-query stress condition: short, fragmented, and often dependent on
 missing context. The [substrate profile](reports/private_query_substrate_profile.md)
 keeps those roles distinct rather than treating every text record as a search
 query.
+
+## Status And Gaps
+
+The analyzer/dense/hybrid/reranker retrieval comparison is not finished. The
+[system matrix](reports/system_matrix.md) records those runs as `not_run`
+rather than estimating them, and the matrix stays labeled INCOMPLETE until the
+runs exist. Dense and reranker models are already measured in one dimension:
+the polarity study above scores `BAAI/bge-m3` and `BAAI/bge-reranker-v2-m3` on
+444 triples. Their retrieval runs on the 544-qrel set are the next milestone,
+entering through the run-bundle contract below.
 
 ## What The Scorecard Measures
 
@@ -156,14 +167,22 @@ mistaken for a model run.
 ## Repository Map
 
 ```text
+case_studies/        upstream correctness cases: reproductions, invariants, PR manifest
 ko_evidence_bench/   reference metrics, schemas, surface and run-bundle validation
-scripts/             result reproduction, aggregate export, and safety checks
 probes/              synthetic public probe set and BEIR-style export
+scripts/             result reproduction, aggregate export, and safety checks
 fixtures/            executable public examples
 reports/             aggregate study results and reproducible diagnostic reports
-case_studies/        upstream investigations connected to system-level evaluation
 docs/                metric, schema, privacy, and data-boundary notes
 ```
+
+The correctness core is the case studies, the retrieval and polarity metrics,
+the probe set, and the run contracts. The source-routing and answer-audit
+workflows inside `ko_evidence_bench/` and `scripts/` are an extension
+workstream with their own labeling contracts and review tooling; they are
+reported separately and are not part of the correctness claims above. The
+package name `ko_evidence_bench` predates the repository's current name and
+will change in a later restructuring.
 
 The core public artifact is [the v0 measurement study](reports/measurement_study_v0.md).
 The [data statement](docs/data_statement.md) describes the public/private

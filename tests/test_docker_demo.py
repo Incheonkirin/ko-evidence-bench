@@ -18,7 +18,7 @@ class DockerDemoTest(unittest.TestCase):
     def test_makefile_has_containerized_reviewer_demo(self):
         makefile = (ROOT / "Makefile").read_text(encoding="utf-8")
 
-        self.assertIn("DOCKER_IMAGE ?= ko-evidence-bench:local", makefile)
+        self.assertIn("DOCKER_IMAGE ?= korean-search-correctness:local", makefile)
         self.assertIn("docker-build:", makefile)
         self.assertIn("docker-demo:", makefile)
         self.assertIn("docker run --rm $(DOCKER_IMAGE)", makefile)

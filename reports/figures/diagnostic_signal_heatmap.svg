@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520" role="img" aria-label="Diagnostic signal heatmap">
 <rect width="980" height="520" fill="#f7f8fb"/>
-<text x="36" y="54" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#172033">ko-evidence-bench diagnostic signals</text>
+<text x="36" y="54" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#172033">korean-search-correctness diagnostic signals</text>
 <text x="36" y="86" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="400" fill="#4a5568">Aggregate diagnostics only; human-gold headline claims are blocked.</text>
 <rect x="36" y="124" width="430" height="140" rx="8" fill="#68a357"/>
 <text x="54" y="158" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Clause recovery</text>

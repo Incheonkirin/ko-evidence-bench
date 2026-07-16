@@ -1,6 +1,6 @@
 # Contributing
 
-`ko-evidence-bench` accepts contributions that make Korean evidence retrieval
+`korean-search-correctness` accepts contributions that make Korean evidence retrieval
 easier to measure and reproduce.
 
 Good contribution surfaces:

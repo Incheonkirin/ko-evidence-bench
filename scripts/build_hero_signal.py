@@ -192,7 +192,7 @@ def render_svg(signals: HeroSignals) -> str:
     rows: list[str] = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-label="Diagnostic signal heatmap">',
         '<rect width="980" height="520" fill="#f7f8fb"/>',
-        svg_text(36, 54, "ko-evidence-bench diagnostic signals", size=28, weight="800"),
+        svg_text(36, 54, "korean-search-correctness diagnostic signals", size=28, weight="800"),
         svg_text(
             36,
             86,

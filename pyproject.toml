@@ -1,7 +1,7 @@
 [project]
-name = "ko-evidence-bench"
+name = "korean-search-correctness"
 version = "0.1.0"
-description = "Evidence-sufficiency and abstention evaluation for Korean retrieval."
+description = "Reproducible Korean search correctness cases and system-level retrieval evaluation."
 requires-python = ">=3.10"
 dependencies = []
 
